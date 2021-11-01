@@ -10,18 +10,19 @@ import {
 } from "../constants/userConstants";
 
 export const register =
-  ({ email, password, name, passworVerify }) =>
+  ({ email, password, name, passwordVerify }) =>
   async (dispatch) => {
     try {
       dispatch({ type: REGISTER_REQUEST });
-      const { data } = await axios.post(`http://localhost:5000/register`, {
+      const response = await axios.post(`http://localhost:5000/register`, {
         email,
         password,
-        passworVerify,
+        passwordVerify,
         name,
       });
-      dispatch({ type: REGISTER_SUCCESS, payload: data });
-      localStorage.setItem("auth", JSON.stringify(data));
+      console.log(response);
+      dispatch({ type: REGISTER_SUCCESS, payload: response.data });
+      localStorage.setItem("auth", JSON.stringify(response.data));
     } catch (error) {
       dispatch({
         type: REGISTER_FAIL,
