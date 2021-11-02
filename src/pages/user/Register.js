@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { register } from "../../actions/userActions";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const validationSchema = yup.object({
   name: yup.string().required("Please enter your name."),
@@ -43,6 +43,7 @@ const Register = ({ history }) => {
                 value={props.values.email}
                 onChange={props.handleChange("email")}
                 onBlur={props.handleBlur("email")}
+                placeholder="Email"
               />
               {props.touched && <p>{props.errors.email}</p>}
               <input
@@ -50,6 +51,7 @@ const Register = ({ history }) => {
                 value={props.values.name}
                 onChange={props.handleChange("name")}
                 onBlur={props.handleBlur("name")}
+                placeholder="Name"
               />
               {props.touched && <p>{props.errors.name}</p>}
               <input
@@ -57,6 +59,7 @@ const Register = ({ history }) => {
                 value={props.values.password}
                 onChange={props.handleChange("password")}
                 onBlur={props.handleBlur("password")}
+                placeholder="Password"
               />
               {props.touched && <p>{props.errors.password}</p>}
               <input
@@ -64,6 +67,7 @@ const Register = ({ history }) => {
                 value={props.values.passwordVerify}
                 onChange={props.handleChange("passwordVerify")}
                 onBlur={props.handleBlur("passwordVerify")}
+                placeholder="Verify password"
               />
               {props.touched && <p>{props.errors.password}</p>}
               <button type="button" onClick={props.handleSubmit}>
