@@ -11,16 +11,18 @@ const validationSchema = yup.object({
 });
 
 const Login = () => {
+  const { user, error, loading } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-  const auth = JSON.parse(localStorage.getItem("auth"));
   useEffect(() => {
-    if (auth) {
+    if (user) {
       navigate("/");
     }
-  }, [auth, navigate]);
+  }, [user, navigate]);
   const dispatch = useDispatch();
   return (
     <div>
+      {loading && <p>Loading...</p>}
+      {error && <p>{error}</p>}
       <Formik
         validationSchema={validationSchema}
         initialValues={{ email: "", password: "" }}

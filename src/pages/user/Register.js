@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { register } from "../../actions/userActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const validationSchema = yup.object({
@@ -13,10 +13,10 @@ const validationSchema = yup.object({
   passwordVerify: yup.string().required("Please re-enter your password."),
 });
 
-const Register = ({ navigation }) => {
+const Register = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = JSON.parse(localStorage.getItem("auth"));
+  const { loading, user, error } = useSelector((state) => state.auth);
   useEffect(() => {
     if (user) {
       navigate("/");
@@ -24,6 +24,8 @@ const Register = ({ navigation }) => {
   }, [navigate, user]);
   return (
     <div>
+      {loading && <p>Loading...</p>}
+      {error && <p>{error}</p>}
       <Formik
         initialValues={{
           name: "",
@@ -34,8 +36,6 @@ const Register = ({ navigation }) => {
         }}
         onSubmit={(values) => {
           dispatch(register(values));
-          //   history.push("/");
-          console.log(values);
         }}
         validationSchema={validationSchema}
       >
