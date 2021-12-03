@@ -3,27 +3,31 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { register } from "../../actions/userActions";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = yup.object({
   name: yup.string().required("Please enter your name."),
+  household: yup.string().required("Please enter a name for your household."),
   email: yup.string().required("Please enter your email."),
   password: yup.string().required("Please enter your password."),
   passwordVerify: yup.string().required("Please re-enter your password."),
 });
 
-const Register = ({ history }) => {
+const Register = ({ navigation }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("auth"));
   useEffect(() => {
     if (user) {
-      history.push("/");
+      navigate("/");
     }
-  }, [history, user]);
+  }, [navigate, user]);
   return (
     <div>
       <Formik
         initialValues={{
           name: "",
+          household: "",
           email: "",
           password: "",
           passwordVerify: "",
@@ -54,6 +58,14 @@ const Register = ({ history }) => {
                 placeholder="Name"
               />
               {props.touched && <p>{props.errors.name}</p>}
+              <input
+                type="text"
+                value={props.values.household}
+                onChange={props.handleChange("household")}
+                onBlur={props.handleBlur("household")}
+                placeholder="household"
+              />
+              {props.touched && <p>{props.errors.household}</p>}
               <input
                 type="password"
                 value={props.values.password}

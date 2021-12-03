@@ -10,7 +10,7 @@ import {
 } from "../constants/userConstants";
 
 export const register =
-  ({ email, password, name, passwordVerify }) =>
+  ({ email, password, household, name, passwordVerify }) =>
   async (dispatch) => {
     try {
       dispatch({ type: REGISTER_REQUEST });
@@ -19,6 +19,7 @@ export const register =
         password,
         passwordVerify,
         name,
+        household,
       });
       console.log(response);
       dispatch({ type: REGISTER_SUCCESS, payload: response.data });

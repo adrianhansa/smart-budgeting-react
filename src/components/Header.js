@@ -1,11 +1,11 @@
 import React from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../actions/userActions";
 import { useDispatch } from "react-redux";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   return (
     <nav>
       <h3>eBudgeting - A smarter way to handle your money.</h3>
@@ -14,7 +14,7 @@ const Header = () => {
       <button
         onClick={() => {
           dispatch(logout());
-          history.push("/login");
+          navigate("/login");
         }}
       >
         Logout

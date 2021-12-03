@@ -3,19 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../actions/userActions";
 import * as yup from "yup";
 import { Formik } from "formik";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = yup.object({
   email: yup.string().required("Please enter your email address."),
   password: yup.string().required("Please enter your password"),
 });
 
-const Login = ({ history }) => {
+const Login = () => {
+  const navigate = useNavigate();
   const auth = JSON.parse(localStorage.getItem("auth"));
   useEffect(() => {
     if (auth) {
-      history.push("/");
+      navigate("/");
     }
-  }, [auth, history]);
+  }, [auth, navigate]);
   const dispatch = useDispatch();
   return (
     <div>
