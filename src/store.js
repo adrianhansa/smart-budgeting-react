@@ -3,6 +3,7 @@ import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 import { authReducer } from "./reducers/userReducers";
+import { accountReducer, accountsReducer } from "./reducers/accountReducers";
 
 const authFromLocalStorage = localStorage.getItem("auth")
   ? JSON.parse(localStorage.getItem("auth"))
@@ -12,6 +13,8 @@ const initialState = { auth: authFromLocalStorage };
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  accountDetails: accountReducer,
+  accountList: accountsReducer,
 });
 
 const store = createStore(
