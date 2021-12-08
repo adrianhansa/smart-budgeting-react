@@ -33,14 +33,73 @@ export const getAccounts = () => async (dispatch) => {
   }
 };
 
-export const getAccounts = () => async (dispatch) => {
+export const getAccount = (slug) => async (dispatch) => {
   try {
-    dispatch({ type: GET_ACCOUNTS_REQUEST });
-    const { data } = await axios.get("http://localhost:5000/accounts");
-    dispatch({ type: GET_ACCOUNTS_SUCCESS, payload: data });
+    dispatch({ type: GET_ACCOUNT_REQUEST });
+    const { data } = await axios.get(`http://localhost:5000/accounts/${slug}`);
+    dispatch({ type: GET_ACCOUNT_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
-      type: GET_ACCOUNTS_FAIL,
+      type: GET_ACCOUNT_FAIL,
+      payload:
+        error.response.data.message && error.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const addAccount =
+  ({ name }) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ADD_ACCOUNT_REQUEST });
+      const { data } = await axios.post(`http://localhost:5000/accounts/`, {
+        name,
+      });
+      dispatch({ type: ADD_ACCOUNT_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: ADD_ACCOUNT_FAIL,
+        payload:
+          error.response.data.message && error.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const updateAccount =
+  (slug, { name }) =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: UPDATE_ACCOUNT_REQUEST });
+      const { data } = await axios.put(
+        `http://localhost:5000/accounts/${slug}`,
+        { name }
+      );
+      dispatch({ type: UPDATE_ACCOUNT_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_ACCOUNT_FAIL,
+        payload:
+          error.response.data.message && error.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const deleteAccount = (slug) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_ACCOUNT_REQUEST });
+    const { data } = await axios.delete(
+      `http://localhost:5000/accounts/${slug}`
+    );
+    dispatch({ type: DELETE_ACCOUNT_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: DELETE_ACCOUNT_FAIL,
       payload:
         error.response.data.message && error.message
           ? error.response.data.message

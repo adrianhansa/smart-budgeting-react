@@ -16,10 +16,7 @@ import {
   UPDATE_ACCOUNT_SUCCESS,
 } from "../constants/accountContants";
 
-export const accountsReducer = (
-  state = { ...state, accountList: [] },
-  action
-) => {
+export const accountsReducer = (state = { accountList: [] }, action) => {
   switch (action.type) {
     case GET_ACCOUNTS_REQUEST:
       return { loading: true };
@@ -32,10 +29,7 @@ export const accountsReducer = (
   }
 };
 
-export const accountReducer = (
-  state = { ...state, accountDetails: {} },
-  action
-) => {
+export const accountReducer = (state = { accountDetails: {} }, action) => {
   switch (action.type) {
     case GET_ACCOUNT_REQUEST:
       return { loading: true };
