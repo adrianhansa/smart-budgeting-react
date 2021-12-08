@@ -58,6 +58,8 @@ export const addAccount =
         name,
       });
       dispatch({ type: ADD_ACCOUNT_SUCCESS, payload: data });
+      const result = await axios.get("http://localhost:5000/accounts");
+      dispatch({ type: GET_ACCOUNTS_SUCCESS, payload: result.data });
     } catch (error) {
       dispatch({
         type: ADD_ACCOUNT_FAIL,
@@ -79,6 +81,8 @@ export const updateAccount =
         { name }
       );
       dispatch({ type: UPDATE_ACCOUNT_SUCCESS, payload: data });
+      const result = await axios.get("http://localhost:5000/accounts");
+      dispatch({ type: GET_ACCOUNTS_SUCCESS, payload: result.data });
     } catch (error) {
       dispatch({
         type: UPDATE_ACCOUNT_FAIL,

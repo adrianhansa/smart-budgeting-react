@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row, Container } from "react-bootstrap";
 import { getAccounts } from "../../actions/accountActions";
 import { useSelector, useDispatch } from "react-redux";
 import AccountPreview from "./AccountPreview";
+import { GrAddCircle } from "react-icons/gr";
+import AddAccount from "./AddAccount";
 
 const AccountList = () => {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
   const dispatch = useDispatch();
   const { accounts, loading, error } = useSelector(
     (state) => state.accountList
@@ -16,7 +20,15 @@ const AccountList = () => {
     <Container fluid>
       <Row>
         <Col>
-          <h2 className="text-center">Account List</h2>
+          <h2 className="text-center">
+            Account List{" "}
+            <GrAddCircle
+              size="32"
+              type="button"
+              onClick={() => setShow(true)}
+            />
+          </h2>
+          <AddAccount show={show} handleClose={handleClose} />
           <Row>
             {loading && <p>Loading...</p>}
             {accounts && accounts.length > 0 ? (
