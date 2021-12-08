@@ -29,12 +29,12 @@ const AccountList = () => {
             />
           </h2>
           <AddAccount show={show} handleClose={handleClose} />
-          <Row>
+          <Row className="mt-3">
             {loading && <p>Loading...</p>}
             {accounts && accounts.length > 0 ? (
               accounts.map((account) => {
                 return (
-                  <Col xs={12} sm={8} md={6} lg={4} xl={3} key={account._id}>
+                  <Col xs={12} sm={6} md={4} lg={2} xl={2} key={account._id}>
                     <AccountPreview account={account} />
                   </Col>
                 );
