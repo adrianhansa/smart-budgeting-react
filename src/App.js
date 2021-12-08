@@ -9,7 +9,10 @@ import { Provider } from "react-redux";
 import store from "./store";
 import Expenses from "./pages/expenses/Expenses";
 import Report from "./pages/reports/Report";
-import { Col, Row } from "react-bootstrap";
+import AccountList from "./pages/accounts/AccountList";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 const App = () => {
   return (
@@ -23,6 +26,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/expenses" element={<Expenses />} />
             <Route path="/reports" element={<Report />} />
+            <Route path="/accounts" element={<AccountList />} />
           </Routes>
           <Footer />
         </div>

@@ -58,5 +58,6 @@ export const login =
 
 export const logout = () => async (dispatch) => {
   dispatch({ type: LOGOUT });
+  await axios.get("http://localhost:5000/logout");
   localStorage.removeItem("auth");
 };

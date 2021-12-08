@@ -97,6 +97,8 @@ export const deleteAccount = (slug) => async (dispatch) => {
       `http://localhost:5000/accounts/${slug}`
     );
     dispatch({ type: DELETE_ACCOUNT_SUCCESS, payload: data });
+    const result = await axios.get("http://localhost:5000/accounts");
+    dispatch({ type: GET_ACCOUNTS_SUCCESS, payload: result.data });
   } catch (error) {
     dispatch({
       type: DELETE_ACCOUNT_FAIL,

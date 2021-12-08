@@ -24,6 +24,9 @@ const Header = () => {
               <LinkContainer to="/reports">
                 <Nav.Link>Reports</Nav.Link>
               </LinkContainer>
+              <LinkContainer to="/accounts">
+                <Nav.Link>Accounts</Nav.Link>
+              </LinkContainer>
             </Nav>
           )}
           <Nav className="mr-auto">
