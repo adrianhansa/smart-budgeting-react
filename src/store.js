@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-import { authReducer } from "./reducers/userReducers";
+import { authReducer, addUserReducer } from "./reducers/userReducers";
 import { accountReducer, accountsReducer } from "./reducers/accountReducers";
 
 const authFromLocalStorage = localStorage.getItem("auth")
@@ -13,6 +13,7 @@ const initialState = { auth: authFromLocalStorage };
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  addedUser: addUserReducer,
   accountDetails: accountReducer,
   accountList: accountsReducer,
 });

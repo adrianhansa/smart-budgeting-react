@@ -27,6 +27,13 @@ const Header = () => {
               <LinkContainer to="/accounts">
                 <Nav.Link>Accounts</Nav.Link>
               </LinkContainer>
+              {user.isAdmin && (
+                <>
+                  <LinkContainer to="/add-user">
+                    <Nav.Link>Add User</Nav.Link>
+                  </LinkContainer>
+                </>
+              )}
             </Nav>
           )}
           <Nav className="mr-auto">

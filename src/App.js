@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Register from "./pages/user/Register";
+import AddUser from "./pages/user/AddUser";
 import Login from "./pages/user/Login";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="/" element={<Home />} exact />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/add-user" element={<AddUser />} />
             <Route path="/expenses" element={<Expenses />} />
             <Route path="/reports" element={<Report />} />
             <Route path="/accounts" element={<AccountList />} />

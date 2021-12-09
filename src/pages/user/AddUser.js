@@ -1,27 +1,23 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { register } from "../../actions/userActions";
+import { addUser } from "../../actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const validationSchema = yup.object({
-  name: yup.string().required("Please enter your name."),
-  household: yup.string().required("Please enter a name for your household."),
-  email: yup.string().required("Please enter your email."),
-  password: yup.string().required("Please enter your password."),
-  passwordVerify: yup.string().required("Please re-enter your password."),
+  name: yup.string().required("Please enter the new user name."),
+  email: yup.string().required("Please enter the new user email address."),
+  password: yup.string().required("Please enter the new user password."),
+  passwordVerify: yup
+    .string()
+    .required("Please re-enter the new user password."),
 });
 
 const AddUser = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading, user, error } = useSelector((state) => state.auth);
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, [navigate, user]);
+  const { loading, error } = useSelector((state) => state.addedUser);
   return (
     <div>
       {loading && <p>Loading...</p>}
@@ -29,13 +25,13 @@ const AddUser = () => {
       <Formik
         initialValues={{
           name: "",
-          household: "",
           email: "",
           password: "",
           passwordVerify: "",
         }}
         onSubmit={(values) => {
-          dispatch(register(values));
+          dispatch(addUser(values));
+          navigate("/");
         }}
         validationSchema={validationSchema}
       >
@@ -59,14 +55,6 @@ const AddUser = () => {
               />
               {props.touched && <p>{props.errors.name}</p>}
               <input
-                type="text"
-                value={props.values.household}
-                onChange={props.handleChange("household")}
-                onBlur={props.handleBlur("household")}
-                placeholder="household"
-              />
-              {props.touched && <p>{props.errors.household}</p>}
-              <input
                 type="password"
                 value={props.values.password}
                 onChange={props.handleChange("password")}
@@ -83,7 +71,7 @@ const AddUser = () => {
               />
               {props.touched && <p>{props.errors.password}</p>}
               <button type="button" onClick={props.handleSubmit}>
-                Register
+                Add User
               </button>
             </>
           );
