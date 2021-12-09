@@ -35,6 +35,9 @@ const Header = () => {
                   <LinkContainer to="/users">
                     <Nav.Link>Users</Nav.Link>
                   </LinkContainer>
+                  <LinkContainer to="/budget">
+                    <Nav.Link>Budget Limits</Nav.Link>
+                  </LinkContainer>
                 </>
               )}
             </Nav>
