@@ -32,6 +32,9 @@ const Header = () => {
                   <LinkContainer to="/add-user">
                     <Nav.Link>Add User</Nav.Link>
                   </LinkContainer>
+                  <LinkContainer to="/users">
+                    <Nav.Link>Users</Nav.Link>
+                  </LinkContainer>
                 </>
               )}
             </Nav>

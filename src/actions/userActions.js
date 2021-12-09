@@ -6,6 +6,9 @@ import {
   DELETE_USER_FAIL,
   DELETE_USER_REQUEST,
   DELETE_USER_SUCCESS,
+  GET_USERS_FAIL,
+  GET_USERS_REQUEST,
+  GET_USERS_SUCCESS,
   LOGIN_FAIL,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -80,6 +83,8 @@ export const addUser =
         passwordVerify,
       });
       dispatch({ type: ADD_USER_SUCCESS, payload: data });
+      const result = await axios.get("http://localhost:5000/users");
+      dispatch({ type: GET_USERS_SUCCESS, payload: result.data.users });
     } catch (error) {
       dispatch({
         type: ADD_USER_FAIL,
@@ -98,10 +103,28 @@ export const deleteUser = (id) => async (dispatch) => {
       `http://localhost:5000/delete-user/${id}`
     );
     dispatch({ type: DELETE_USER_SUCCESS, payload: data });
+    const result = await axios.get("http://localhost:5000/users");
+    dispatch({ type: GET_USERS_SUCCESS, payload: result.data.users });
   } catch (error) {
     dispatch({
       type: DELETE_USER_FAIL,
       error:
+        error.response.data.message && error.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const getUsers = () => async (dispatch) => {
+  try {
+    dispatch({ type: GET_USERS_REQUEST });
+    const { data } = await axios.get("http://localhost:5000/users");
+    dispatch({ type: GET_USERS_SUCCESS, payload: data.users });
+  } catch (error) {
+    dispatch({
+      type: GET_USERS_FAIL,
+      payload:
         error.response.data.message && error.message
           ? error.response.data.message
           : error.message,

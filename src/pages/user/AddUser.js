@@ -31,7 +31,7 @@ const AddUser = () => {
         }}
         onSubmit={(values) => {
           dispatch(addUser(values));
-          navigate("/");
+          navigate("/users");
         }}
         validationSchema={validationSchema}
       >
