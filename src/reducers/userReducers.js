@@ -6,6 +6,12 @@ import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   LOGOUT,
+  ADD_USER_REQUEST,
+  ADD_USER_SUCCESS,
+  ADD_USER_FAIL,
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_FAIL,
 } from "../constants/userConstants";
 
 export const authReducer = (state = { user: {} }, action) => {
@@ -24,6 +30,25 @@ export const authReducer = (state = { user: {} }, action) => {
       return { loading: false, error: action.payload };
     case LOGOUT:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const addUserReducer = (state = { addedUser: {} }, action) => {
+  switch (action.type) {
+    case ADD_USER_REQUEST:
+      return { loading: true };
+    case ADD_USER_SUCCESS:
+      return { loading: false, user: action.payload };
+    case ADD_USER_FAIL:
+      return { loading: false, error: action.payload };
+    case DELETE_USER_REQUEST:
+      return { loading: true };
+    case DELETE_USER_SUCCESS:
+      return { loading: false, user: action.payload };
+    case DELETE_USER_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }
