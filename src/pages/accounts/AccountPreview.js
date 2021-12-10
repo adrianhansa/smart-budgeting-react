@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Card } from "react-bootstrap";
+import { BiEditAlt } from "react-icons/bi";
+import { FcMoneyTransfer } from "react-icons/fc";
+import { RiDeleteBin5Line } from "react-icons/ri";
 import { deleteAccount } from "../../actions/accountActions";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
@@ -38,24 +40,21 @@ const AccountPreview = ({ account }) => {
   const dispatch = useDispatch();
   return (
     <>
-      <Card style={{ width: "18rem" }} className="mb-2">
-        <Card.Body>
-          <Card.Title>{account.name}</Card.Title>
-          <Card.Text>{account.household.name}</Card.Text>
-          <Card.Link type="button" onClick={handleDelete}>
-            Delete
-          </Card.Link>
-          <Card.Link type="button" onClick={() => setShowEditModal(true)}>
-            Edit
-          </Card.Link>
-          <Card.Link
+      <tr>
+        <td>{account.name}</td>
+        <td>
+          <BiEditAlt type="button" onClick={() => setShowEditModal(true)} />
+        </td>
+        <td>
+          <FcMoneyTransfer
             type="button"
             onClick={() => setShowAddBudgetLimitModal(true)}
-          >
-            Set limits
-          </Card.Link>
-        </Card.Body>
-      </Card>
+          />
+        </td>
+        <td>
+          <RiDeleteBin5Line type="button" onClick={handleDelete} />
+        </td>
+      </tr>
       <EditAccount
         show={showEditModal}
         handleClose={handleCloseEditModal}
