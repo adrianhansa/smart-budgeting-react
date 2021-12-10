@@ -35,10 +35,12 @@ export const getBudgetLimit = (id) => async (dispatch) => {
   }
 };
 
-export const getBudgetLimits = () => async (dispatch) => {
+export const getBudgetLimits = (month, year) => async (dispatch) => {
   try {
     dispatch({ type: GET_BUDGET_LIMITS_REQUEST });
-    const result = await axios.get(`http://localhost:5000/budget-limits/`);
+    const result = await axios.get(
+      `http://localhost:5000/budget-limits/${month}/${year}`
+    );
     dispatch({ type: GET_BUDGET_LIMITS_SUCCESS, payload: result.data });
   } catch (error) {
     dispatch({
@@ -52,10 +54,12 @@ export const getBudgetLimits = () => async (dispatch) => {
 };
 
 export const addBudgetLimit =
-  (account, { limit, month, year }) =>
+  (account, { limit, date }) =>
   async (dispatch) => {
     try {
       dispatch({ type: ADD_BUDGET_LIMIT_REQUEST });
+      const month = Number(date.split("-")[1]);
+      const year = Number(date.split("-")[0]);
       const { data } = await axios.post(
         `http://localhost:5000/budget-limits/`,
         { account, limit, month, year }

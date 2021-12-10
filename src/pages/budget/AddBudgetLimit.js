@@ -6,13 +6,15 @@ import { Formik } from "formik";
 import * as yup from "yup";
 
 const AddBudgetLimit = ({ show, handleClose, account }) => {
+  const currentMonthAndYear = `${new Date().getFullYear()}-${
+    new Date().getMonth() + 1
+  }}`;
   const dispatch = useDispatch();
   const validationSchema = yup.object({
     limit: yup
       .number()
       .required(`Please enter spending limit for ${account.name}.`),
-    month: yup.string().required(`Please select a month.`),
-    year: yup.string().required(`Please select a year.`),
+    date: yup.string().required(`Please select a month and a year.`),
   });
   return (
     <Modal show={show} onHide={handleClose}>
@@ -20,7 +22,7 @@ const AddBudgetLimit = ({ show, handleClose, account }) => {
         <Modal.Title>Set the spending limit for {account.name}</Modal.Title>
       </Modal.Header>
       <Formik
-        initialValues={{ limit: "", month: "", year: "" }}
+        initialValues={{ limit: "", date: currentMonthAndYear }}
         onSubmit={(values) => {
           dispatch(addBudgetLimit(account._id, values));
           handleClose();
@@ -47,25 +49,13 @@ const AddBudgetLimit = ({ show, handleClose, account }) => {
                   <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Month:</Form.Label>
                     <Form.Control
-                      type="text"
-                      value={props.values.month}
-                      onChange={props.handleChange("month")}
-                      onBlur={() => props.handleBlur("month")}
+                      type="month"
+                      value={props.values.date}
+                      onChange={props.handleChange("date")}
+                      onBlur={() => props.handleBlur("date")}
                     />
                     {props.touched && (
-                      <p className="text-danger">{props.errors.month}</p>
-                    )}
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Year:</Form.Label>
-                    <Form.Control
-                      type="text"
-                      value={props.values.year}
-                      onChange={props.handleChange("year")}
-                      onBlur={() => props.handleBlur("year")}
-                    />
-                    {props.touched && (
-                      <p className="text-danger">{props.errors.year}</p>
+                      <p className="text-danger">{props.errors.date}</p>
                     )}
                   </Form.Group>
                 </Form>
