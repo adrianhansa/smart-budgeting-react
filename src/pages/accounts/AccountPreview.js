@@ -4,10 +4,15 @@ import { deleteAccount } from "../../actions/accountActions";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import EditAccount from "./EditAccount";
+import AddBudgetLimit from "../budget/AddBudgetLimit";
 
 const AccountPreview = ({ account }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const handleCloseEditModal = () => setShowEditModal(false);
+
+  const [showAddBudgetLimitModal, setShowAddBudgetLimitModal] = useState(false);
+  const handleCloseBudgetLimitModal = () => setShowAddBudgetLimitModal(false);
+
   const handleDelete = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -43,12 +48,23 @@ const AccountPreview = ({ account }) => {
           <Card.Link type="button" onClick={() => setShowEditModal(true)}>
             Edit
           </Card.Link>
+          <Card.Link
+            type="button"
+            onClick={() => setShowAddBudgetLimitModal(true)}
+          >
+            Set limits
+          </Card.Link>
         </Card.Body>
       </Card>
       <EditAccount
         show={showEditModal}
         handleClose={handleCloseEditModal}
         account={account}
+      />
+      <AddBudgetLimit
+        account={account}
+        show={showAddBudgetLimitModal}
+        handleClose={handleCloseBudgetLimitModal}
       />
     </>
   );

@@ -52,7 +52,7 @@ export const getBudgetLimits = () => async (dispatch) => {
 };
 
 export const addBudgetLimit =
-  ({ account, limit, month, year }) =>
+  (account, { limit, month, year }) =>
   async (dispatch) => {
     try {
       dispatch({ type: ADD_BUDGET_LIMIT_REQUEST });

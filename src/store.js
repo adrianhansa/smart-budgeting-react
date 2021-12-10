@@ -26,7 +26,7 @@ const rootReducer = combineReducers({
   accountDetails: accountReducer,
   accountList: accountsReducer,
   budgetLimit: budgetLimitReducer,
-  budgetLimitsReducer: budgetLimitsReducer,
+  budgetLimits: budgetLimitsReducer,
 });
 
 const store = createStore(
