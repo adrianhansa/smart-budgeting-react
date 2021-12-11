@@ -37,6 +37,7 @@ const AccountPreview = ({ account }) => {
     <>
       <tr>
         <td>{account.name}</td>
+        <td>{account.budget}</td>
         {user.isAdmin && (
           <>
             <td>

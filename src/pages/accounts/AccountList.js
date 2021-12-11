@@ -43,7 +43,8 @@ const AccountList = () => {
               <Table striped bordered hover>
                 <thead>
                   <tr>
-                    <th width="80%">Account Name</th>
+                    <th width="65%">Account Name</th>
+                    <th width="15%">Budget</th>
                     {user.isAdmin && (
                       <>
                         <th width="10%">Edit</th>

@@ -50,13 +50,13 @@ export const getAccount = (id) => async (dispatch) => {
 };
 
 export const addAccount =
-  ({ name, limit }) =>
+  ({ name, budget }) =>
   async (dispatch) => {
     try {
       dispatch({ type: ADD_ACCOUNT_REQUEST });
       const { data } = await axios.post(`http://localhost:5000/accounts/`, {
         name,
-        limit,
+        budget,
       });
       dispatch({ type: ADD_ACCOUNT_SUCCESS, payload: data });
       const result = await axios.get("http://localhost:5000/accounts");
@@ -73,13 +73,13 @@ export const addAccount =
   };
 
 export const updateAccount =
-  (id, { name, limit }) =>
+  (id, { name, budget }) =>
   async (dispatch) => {
     try {
       dispatch({ type: UPDATE_ACCOUNT_REQUEST });
       const { data } = await axios.put(`http://localhost:5000/accounts/${id}`, {
         name,
-        limit,
+        budget,
       });
       dispatch({ type: UPDATE_ACCOUNT_SUCCESS, payload: data });
       const result = await axios.get("http://localhost:5000/accounts");

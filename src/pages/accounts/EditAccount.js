@@ -9,7 +9,7 @@ const EditAccount = ({ show, handleClose, account }) => {
   const dispatch = useDispatch();
   const validationSchema = yup.object({
     name: yup.string().required("Please enter a name for your account."),
-    limit: yup.number(),
+    budget: yup.number(),
   });
   return (
     <Modal show={show} onHide={handleClose}>
@@ -17,7 +17,7 @@ const EditAccount = ({ show, handleClose, account }) => {
         <Modal.Title>Edit Account</Modal.Title>
       </Modal.Header>
       <Formik
-        initialValues={{ name: account.name, limit: account.limit }}
+        initialValues={{ name: account.name, budget: account.budget }}
         onSubmit={(values) => {
           dispatch(updateAccount(account._id, values));
           handleClose();
@@ -40,12 +40,12 @@ const EditAccount = ({ show, handleClose, account }) => {
                     {props.touched && (
                       <p className="text-danger">{props.errors.name}</p>
                     )}
-                    <Form.Label>Set a budget limit</Form.Label>
+                    <Form.Label>Change the budget limit</Form.Label>
                     <Form.Control
                       type="number"
-                      value={props.values.limit}
-                      onChange={props.handleChange("limit")}
-                      onBlur={() => props.handleBlur("limit")}
+                      value={props.values.budget}
+                      onChange={props.handleChange("budget")}
+                      onBlur={() => props.handleBlur("budget")}
                     />
                     {props.touched && (
                       <p className="text-danger">{props.errors.limit}</p>
