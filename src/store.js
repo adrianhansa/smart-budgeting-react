@@ -8,10 +8,6 @@ import {
   usersReducer,
 } from "./reducers/userReducers";
 import { accountReducer, accountsReducer } from "./reducers/accountReducers";
-import {
-  budgetLimitReducer,
-  budgetLimitsReducer,
-} from "./reducers/budgetReducers";
 
 const authFromLocalStorage = localStorage.getItem("auth")
   ? JSON.parse(localStorage.getItem("auth"))
@@ -25,8 +21,6 @@ const rootReducer = combineReducers({
   addedUser: addUserReducer,
   accountDetails: accountReducer,
   accountList: accountsReducer,
-  budgetLimit: budgetLimitReducer,
-  budgetLimits: budgetLimitsReducer,
 });
 
 const store = createStore(

@@ -12,7 +12,6 @@ import store from "./store";
 import Expenses from "./pages/expenses/Expenses";
 import Report from "./pages/reports/Report";
 import AccountList from "./pages/accounts/AccountList";
-import BudgetLimits from "./pages/budget/BudgetLimits";
 import axios from "axios";
 
 axios.defaults.withCredentials = true;
@@ -32,7 +31,6 @@ const App = () => {
             <Route path="/reports" element={<Report />} />
             <Route path="/accounts" element={<AccountList />} />
             <Route path="/users" element={<Users />} />
-            <Route path="/budget" element={<BudgetLimits />} />
           </Routes>
           <Footer />
         </div>
