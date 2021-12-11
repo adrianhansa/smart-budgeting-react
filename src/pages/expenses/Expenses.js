@@ -38,7 +38,7 @@ const Expenses = () => {
           <AddExpense show={show} handleClose={handleClose} />
 
           <Row className="mt-3">
-            <Col xs={12} sm={10} md={8} lg={6} xl={4} className="mx-auto">
+            <Col xs={12} sm={10} md={8} lg={6} xl={6} className="mx-auto">
               {loading && <p>Loading...</p>}
               {error && <p>{error}</p>}
               <Table striped bordered hover>

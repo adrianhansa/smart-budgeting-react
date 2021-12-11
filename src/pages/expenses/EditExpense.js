@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateExpense } from "../../actions/expenseActions";
+import { getAccounts } from "../../actions/accountActions";
 import { Formik } from "formik";
 import * as yup from "yup";
 
 const EditExpense = ({ show, handleClose, expense }) => {
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAccounts());
+  }, [dispatch]);
+  const accountList = useSelector((state) => state.accountList);
   const validationSchema = yup.object({
     date: yup
       .string()
@@ -61,7 +66,8 @@ const EditExpense = ({ show, handleClose, expense }) => {
                     )}
                     <Form.Label>Description</Form.Label>
                     <Form.Control
-                      type="text"
+                      as="textarea"
+                      rows="3"
                       value={props.values.description}
                       onChange={props.handleChange("description")}
                       onBlur={() => props.handleBlur("description")}
@@ -70,12 +76,29 @@ const EditExpense = ({ show, handleClose, expense }) => {
                       <p className="text-danger">{props.errors.description}</p>
                     )}
                     <Form.Label>Select the account</Form.Label>
-                    <Form.Control
-                      type="text"
+                    <Form.Select
+                      aria-label="Select the account"
                       value={props.values.account}
                       onChange={props.handleChange("account")}
                       onBlur={() => props.handleBlur("account")}
-                    />
+                    >
+                      <option
+                        value={props.values.account._id}
+                        key={props.values.account._id}
+                      >
+                        {props.values.account.name}
+                      </option>
+                      {accountList.accounts &&
+                        accountList.accounts.map((account) => {
+                          return (
+                            account._id !== props.values.account._id && (
+                              <option value={account._id} key={account._id}>
+                                {account.name}
+                              </option>
+                            )
+                          );
+                        })}
+                    </Form.Select>
                     {props.touched && (
                       <p className="text-danger">{props.errors.account}</p>
                     )}

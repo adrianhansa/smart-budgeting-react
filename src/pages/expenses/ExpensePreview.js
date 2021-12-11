@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin5Line } from "react-icons/ri";
-import { deleteAccount } from "../../actions/accountActions";
+import { deleteExpense } from "../../actions/expenseActions";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import EditExpense from "./EditExpense";
@@ -20,7 +20,7 @@ const AccountPreview = ({ expense }) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(deleteAccount(expense._id));
+        dispatch(deleteExpense(expense._id));
         Swal.fire({
           position: "bottom-right",
           icon: "success",
