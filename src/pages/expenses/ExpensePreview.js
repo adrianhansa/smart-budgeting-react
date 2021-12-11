@@ -21,6 +21,7 @@ const AccountPreview = ({ expense }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(deleteExpense(expense._id));
+        document.location.reload();
         Swal.fire({
           position: "bottom-right",
           icon: "success",

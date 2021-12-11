@@ -32,8 +32,8 @@ export const addExpense =
         account,
       });
       dispatch({ type: ADD_EXPENSE_SUCCESS, payload: data });
-      const result = await axios.get(`http://localhost:5000/expenses`);
-      dispatch({ type: GET_EXPENSES_SUCCESS, payload: result.data });
+      // const result = await axios.get(`http://localhost:5000/expenses`);
+      // dispatch({ type: GET_EXPENSES_SUCCESS, payload: result.data });
     } catch (error) {
       dispatch({
         type: ADD_EXPENSE_FAIL,
@@ -57,8 +57,8 @@ export const updateExpense =
         account,
       });
       dispatch({ type: UPDATE_EXPENSE_SUCCESS, payload: data });
-      const result = await axios.get(`http://localhost:5000/expenses`);
-      dispatch({ type: GET_EXPENSES_SUCCESS, payload: result.data });
+      // const result = await axios.get(`http://localhost:5000/expenses`);
+      // dispatch({ type: GET_EXPENSES_SUCCESS, payload: result.data });
     } catch (error) {
       dispatch({
         type: UPDATE_EXPENSE_FAIL,
@@ -91,8 +91,8 @@ export const deleteExpense = (id) => async (dispatch) => {
     dispatch({ type: DELETE_EXPENSE_REQUEST });
     const { data } = await axios.delete(`http://localhost:5000/expenses/${id}`);
     dispatch({ type: DELETE_EXPENSE_SUCCESS, payload: data });
-    const result = await axios.get(`http://localhost:5000/expenses`);
-    dispatch({ type: GET_EXPENSES_SUCCESS, payload: result.data });
+    // const result = await axios.get(`http://localhost:5000/expenses`);
+    // dispatch({ type: GET_EXPENSES_SUCCESS, payload: result.data });
   } catch (error) {
     dispatch({
       type: DELETE_EXPENSE_FAIL,

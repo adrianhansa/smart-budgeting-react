@@ -18,7 +18,7 @@ const EditExpense = ({ show, handleClose, expense }) => {
       .required("Please select the date when the expense took place."),
     amount: yup.number().required("Please enter the amount you spent."),
     description: yup.string().required("What have you purchased ?"),
-    account: yup.string().required("Please select the account"),
+    account: yup.object().required("Please select the account"),
   });
   return (
     <Modal show={show} onHide={handleClose}>
@@ -34,6 +34,7 @@ const EditExpense = ({ show, handleClose, expense }) => {
         }}
         onSubmit={(values) => {
           dispatch(updateExpense(expense._id, values));
+          document.location.reload();
           handleClose();
         }}
         validationSchema={validationSchema}
@@ -78,7 +79,7 @@ const EditExpense = ({ show, handleClose, expense }) => {
                     <Form.Label>Select the account</Form.Label>
                     <Form.Select
                       aria-label="Select the account"
-                      value={props.values.account}
+                      value={props.values.account._id}
                       onChange={props.handleChange("account")}
                       onBlur={() => props.handleBlur("account")}
                     >

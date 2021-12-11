@@ -36,6 +36,7 @@ const AddExpense = ({ show, handleClose }) => {
         onSubmit={(values) => {
           dispatch(addExpense(values));
           handleClose();
+          document.location.reload();
         }}
         validationSchema={validationSchema}
       >
