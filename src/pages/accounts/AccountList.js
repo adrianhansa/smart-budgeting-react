@@ -17,6 +17,8 @@ const AccountList = () => {
     (state) => state.accountList
   );
 
+  const accountDetails = useSelector((state) => state.accountDetails);
+
   useEffect(() => {
     dispatch(getAccounts());
   }, [dispatch]);
@@ -34,6 +36,9 @@ const AccountList = () => {
               />
             )}
           </h2>
+          {accountDetails.error && (
+            <p className="text-danger text-center">{accountDetails.error}</p>
+          )}
           <AddAccount show={show} handleClose={handleClose} />
 
           <Row className="mt-3">

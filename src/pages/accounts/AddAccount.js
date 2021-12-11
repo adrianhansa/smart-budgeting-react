@@ -4,8 +4,10 @@ import { useDispatch } from "react-redux";
 import { addAccount } from "../../actions/accountActions";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { useSelector } from "react-redux";
 
 const AddAccount = ({ show, handleClose }) => {
+  const { loading, error } = useSelector((state) => state.accountDetails);
   const dispatch = useDispatch();
   const validationSchema = yup.object({
     name: yup.string().required("Please enter a name for your account."),
@@ -28,6 +30,8 @@ const AddAccount = ({ show, handleClose }) => {
           return (
             <>
               <Modal.Body>
+                {loading && <p>Loading...</p>}
+                {error && <p className="text-danger">{error}</p>}
                 <Form>
                   <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Account name</Form.Label>
