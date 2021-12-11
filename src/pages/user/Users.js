@@ -1,12 +1,18 @@
-import React, { useEffect } from "react";
-import { Row, Col, Container } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Row, Col, Container, Table } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { getUsers } from "../../actions/userActions";
+import { GrAddCircle } from "react-icons/gr";
+import AddUser from "./AddUser";
 import UserPreview from "./UserPreview";
 
 const Users = () => {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+
   const dispatch = useDispatch();
   const { users, loading, error } = useSelector((state) => state.userList);
+  const { user } = useSelector((state) => state.auth);
   useEffect(() => {
     dispatch(getUsers());
   }, [dispatch]);
@@ -14,19 +20,40 @@ const Users = () => {
     <Container fluid>
       <Row>
         <Col>
-          {loading && <p className="info">Loading...</p>}
-          {error && <p className="danger">{error}</p>}
-          {users && users.length > 0 ? (
-            users.map((user) => {
-              return (
-                <Col xs={12} sm={6} md={4} lg={3} xl={2} key={user._id}>
-                  <UserPreview user={user} />
-                </Col>
-              );
-            })
-          ) : (
-            <p>No users</p>
-          )}
+          <h2 className="text-center">
+            Users
+            {user.isAdmin && (
+              <GrAddCircle
+                size="32"
+                type="button"
+                onClick={() => setShow(true)}
+              />
+            )}
+          </h2>
+          <AddUser show={show} handleClose={handleClose} />
+
+          <Row className="mt-3">
+            <Col xs={12} sm={10} md={8} lg={6} xl={6} className="mx-auto">
+              {loading && <p>Loading...</p>}
+              {error && <p>{error}</p>}
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th width="40%">Name</th>
+                    <th width="40%">Email address</th>
+                    <th width="10%">Edit</th>
+                    <th width="10%">Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users &&
+                    users.map((item) => {
+                      return <UserPreview user={item} key={item._id} />;
+                    })}
+                </tbody>
+              </Table>
+            </Col>
+          </Row>
         </Col>
       </Row>
     </Container>

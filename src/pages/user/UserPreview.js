@@ -1,5 +1,6 @@
 import React from "react";
-import { Card } from "react-bootstrap";
+import { BiEditAlt } from "react-icons/bi";
+import { RiDeleteBin5Line } from "react-icons/ri";
 import { deleteUser } from "../../actions/userActions";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
@@ -29,18 +30,16 @@ const UserPreview = ({ user }) => {
   };
   const dispatch = useDispatch();
   return (
-    <>
-      <Card style={{ width: "18rem" }} className="mb-2">
-        <Card.Body>
-          <Card.Title>User {user.name}</Card.Title>
-          <Card.Text>{user.household.name}</Card.Text>
-          <Card.Text>{user.email}</Card.Text>
-          <Card.Link type="button" onClick={handleDelete}>
-            Delete User
-          </Card.Link>
-        </Card.Body>
-      </Card>
-    </>
+    <tr>
+      <td>{user.name}</td>
+      <td>{user.email}</td>
+      <td>
+        <BiEditAlt type="button" onClick={() => console.log("Edit user")} />
+      </td>
+      <td>
+        <RiDeleteBin5Line type="button" onClick={handleDelete} />
+      </td>
+    </tr>
   );
 };
 

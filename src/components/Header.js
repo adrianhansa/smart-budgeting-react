@@ -31,11 +31,8 @@ const Header = () => {
               </LinkContainer>
               {user.isAdmin && (
                 <>
-                  <LinkContainer to="/add-user">
-                    <Nav.Link>Add User</Nav.Link>
-                  </LinkContainer>
                   <LinkContainer to="/users">
-                    <Nav.Link>Users</Nav.Link>
+                    <Nav.Link>Manage Users</Nav.Link>
                   </LinkContainer>
                 </>
               )}
