@@ -8,7 +8,10 @@ import ExpensePreview from "./ExpensePreview";
 
 const Expenses = () => {
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    dispatch(getExpensesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
+  };
 
   const [date, setDate] = useState(
     `${new Date().getFullYear()}-${new Date().getMonth() + 1}`
@@ -78,7 +81,11 @@ const Expenses = () => {
                   {expenses &&
                     expenses.map((expense) => {
                       return (
-                        <ExpensePreview expense={expense} key={expense._id} />
+                        <ExpensePreview
+                          expense={expense}
+                          key={expense._id}
+                          handleClose={handleClose}
+                        />
                       );
                     })}
                 </tbody>

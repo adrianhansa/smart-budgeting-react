@@ -6,9 +6,8 @@ import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import EditExpense from "./EditExpense";
 
-const AccountPreview = ({ expense }) => {
+const AccountPreview = ({ expense, handleClose }) => {
   const [showEditModal, setShowEditModal] = useState(false);
-  const handleCloseEditModal = () => setShowEditModal(false);
   const handleDelete = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -21,7 +20,7 @@ const AccountPreview = ({ expense }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(deleteExpense(expense._id));
-        document.location.reload();
+        handleClose();
         Swal.fire({
           position: "bottom-right",
           icon: "success",
@@ -49,7 +48,7 @@ const AccountPreview = ({ expense }) => {
       </tr>
       <EditExpense
         show={showEditModal}
-        handleClose={handleCloseEditModal}
+        handleClose={handleClose}
         expense={expense}
       />
     </>

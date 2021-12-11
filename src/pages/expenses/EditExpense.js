@@ -34,7 +34,6 @@ const EditExpense = ({ show, handleClose, expense }) => {
         }}
         onSubmit={(values) => {
           dispatch(updateExpense(expense._id, values));
-          document.location.reload();
           handleClose();
         }}
         validationSchema={validationSchema}
