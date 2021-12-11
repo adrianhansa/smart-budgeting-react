@@ -9,6 +9,7 @@ import {
 } from "./reducers/userReducers";
 import { accountReducer, accountsReducer } from "./reducers/accountReducers";
 
+import { expenseReducer, expensesReducer } from "./reducers/expenseReducers";
 const authFromLocalStorage = localStorage.getItem("auth")
   ? JSON.parse(localStorage.getItem("auth"))
   : {};
@@ -21,6 +22,8 @@ const rootReducer = combineReducers({
   addedUser: addUserReducer,
   accountDetails: accountReducer,
   accountList: accountsReducer,
+  expenseDetails: expenseReducer,
+  expenseList: expensesReducer,
 });
 
 const store = createStore(
