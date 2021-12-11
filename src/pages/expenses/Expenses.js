@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { GrAddCircle } from "react-icons/gr";
 import AddExpense from "./AddExpense";
 import ExpensePreview from "./ExpensePreview";
+import TotalExpensesByAccounts from "../reports/TotalExpensesByAccounts";
 
 const Expenses = () => {
   const [show, setShow] = useState(false);
@@ -41,29 +42,36 @@ const Expenses = () => {
     <Container fluid>
       <Row>
         <Col>
-          <h2 className="text-center">
-            Expenses for {date}
-            <GrAddCircle
-              size="32"
-              type="button"
-              onClick={() => setShow(true)}
-            />
-          </h2>
-          <Row>
-            <Col sm={2} className="mx-auto">
-              <Form.Group>
-                <Form.Label>Select a month & year</Form.Label>
-                <Form.Control value={date} type="month" onChange={handleDate} />
-              </Form.Group>
-            </Col>
-          </Row>
-          {expenseDetails.error && (
-            <p className="text-danger text-center">{expenseDetails.error}</p>
-          )}
           <AddExpense show={show} handleClose={handleClose} />
 
-          <Row className="mt-3">
-            <Col xs={12} sm={12} md={10} lg={8} xl={8} className="mx-auto">
+          <Row className="mt-3 px-5">
+            <Col className="mx-auto">
+              <Row>
+                <Col sm={8}>
+                  <h2 className="text-center">
+                    Expenses
+                    <GrAddCircle
+                      size="32"
+                      type="button"
+                      onClick={() => setShow(true)}
+                    />
+                  </h2>
+                </Col>
+                <Col sm={4}>
+                  <Form.Group>
+                    <Form.Control
+                      value={date}
+                      type="month"
+                      onChange={handleDate}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              {expenseDetails.error && (
+                <p className="text-danger text-center">
+                  {expenseDetails.error}
+                </p>
+              )}
               {loading && <p>Loading...</p>}
               {error && <p>{error}</p>}
               <Table striped bordered hover>
@@ -90,6 +98,9 @@ const Expenses = () => {
                     })}
                 </tbody>
               </Table>
+            </Col>
+            <Col>
+              <TotalExpensesByAccounts expenses={expenses} />
             </Col>
           </Row>
         </Col>
