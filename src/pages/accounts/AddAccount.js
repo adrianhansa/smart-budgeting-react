@@ -33,7 +33,7 @@ const AddAccount = ({ show, handleClose }) => {
                 {loading && <p>Loading...</p>}
                 {error && <p className="text-danger">{error}</p>}
                 <Form>
-                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Group className="mb-3">
                     <Form.Label>Account name</Form.Label>
                     <Form.Control
                       type="text"
