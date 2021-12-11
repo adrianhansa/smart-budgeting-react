@@ -1,20 +1,15 @@
 import React, { useState } from "react";
 import { BiEditAlt } from "react-icons/bi";
-import { FcMoneyTransfer } from "react-icons/fc";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { deleteAccount } from "../../actions/accountActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import EditAccount from "./EditAccount";
-import AddBudgetLimit from "../budget/AddBudgetLimit";
 
 const AccountPreview = ({ account }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const handleCloseEditModal = () => setShowEditModal(false);
-
-  const [showAddBudgetLimitModal, setShowAddBudgetLimitModal] = useState(false);
-  const handleCloseBudgetLimitModal = () => setShowAddBudgetLimitModal(false);
-
+  const { user } = useSelector((state) => state.auth);
   const handleDelete = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -26,7 +21,7 @@ const AccountPreview = ({ account }) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch(deleteAccount(account.slug));
+        dispatch(deleteAccount(account._id));
         Swal.fire({
           position: "bottom-right",
           icon: "success",
@@ -42,28 +37,21 @@ const AccountPreview = ({ account }) => {
     <>
       <tr>
         <td>{account.name}</td>
-        <td>
-          <BiEditAlt type="button" onClick={() => setShowEditModal(true)} />
-        </td>
-        <td>
-          <FcMoneyTransfer
-            type="button"
-            onClick={() => setShowAddBudgetLimitModal(true)}
-          />
-        </td>
-        <td>
-          <RiDeleteBin5Line type="button" onClick={handleDelete} />
-        </td>
+        {user.isAdmin && (
+          <>
+            <td>
+              <BiEditAlt type="button" onClick={() => setShowEditModal(true)} />
+            </td>
+            <td>
+              <RiDeleteBin5Line type="button" onClick={handleDelete} />
+            </td>
+          </>
+        )}
       </tr>
       <EditAccount
         show={showEditModal}
         handleClose={handleCloseEditModal}
         account={account}
-      />
-      <AddBudgetLimit
-        account={account}
-        show={showAddBudgetLimitModal}
-        handleClose={handleCloseBudgetLimitModal}
       />
     </>
   );

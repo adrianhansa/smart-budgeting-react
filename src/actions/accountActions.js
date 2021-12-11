@@ -33,10 +33,10 @@ export const getAccounts = () => async (dispatch) => {
   }
 };
 
-export const getAccount = (slug) => async (dispatch) => {
+export const getAccount = (id) => async (dispatch) => {
   try {
     dispatch({ type: GET_ACCOUNT_REQUEST });
-    const { data } = await axios.get(`http://localhost:5000/accounts/${slug}`);
+    const { data } = await axios.get(`http://localhost:5000/accounts/${id}`);
     dispatch({ type: GET_ACCOUNT_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -50,12 +50,13 @@ export const getAccount = (slug) => async (dispatch) => {
 };
 
 export const addAccount =
-  ({ name }) =>
+  ({ name, limit }) =>
   async (dispatch) => {
     try {
       dispatch({ type: ADD_ACCOUNT_REQUEST });
       const { data } = await axios.post(`http://localhost:5000/accounts/`, {
         name,
+        limit,
       });
       dispatch({ type: ADD_ACCOUNT_SUCCESS, payload: data });
       const result = await axios.get("http://localhost:5000/accounts");
@@ -72,14 +73,14 @@ export const addAccount =
   };
 
 export const updateAccount =
-  (slug, { name }) =>
+  (id, { name, limit }) =>
   async (dispatch) => {
     try {
       dispatch({ type: UPDATE_ACCOUNT_REQUEST });
-      const { data } = await axios.put(
-        `http://localhost:5000/accounts/${slug}`,
-        { name }
-      );
+      const { data } = await axios.put(`http://localhost:5000/accounts/${id}`, {
+        name,
+        limit,
+      });
       dispatch({ type: UPDATE_ACCOUNT_SUCCESS, payload: data });
       const result = await axios.get("http://localhost:5000/accounts");
       dispatch({ type: GET_ACCOUNTS_SUCCESS, payload: result.data });
@@ -94,12 +95,10 @@ export const updateAccount =
     }
   };
 
-export const deleteAccount = (slug) => async (dispatch) => {
+export const deleteAccount = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_ACCOUNT_REQUEST });
-    const { data } = await axios.delete(
-      `http://localhost:5000/accounts/${slug}`
-    );
+    const { data } = await axios.delete(`http://localhost:5000/accounts/${id}`);
     dispatch({ type: DELETE_ACCOUNT_SUCCESS, payload: data });
     const result = await axios.get("http://localhost:5000/accounts");
     dispatch({ type: GET_ACCOUNTS_SUCCESS, payload: result.data });

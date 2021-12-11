@@ -25,7 +25,9 @@ const Header = () => {
                 <Nav.Link>Reports</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/accounts">
-                <Nav.Link>Accounts</Nav.Link>
+                <Nav.Link>
+                  {user.isAdmin ? "Manage Accounts" : "Accounts"}
+                </Nav.Link>
               </LinkContainer>
               {user.isAdmin && (
                 <>
@@ -34,9 +36,6 @@ const Header = () => {
                   </LinkContainer>
                   <LinkContainer to="/users">
                     <Nav.Link>Users</Nav.Link>
-                  </LinkContainer>
-                  <LinkContainer to="/budget">
-                    <Nav.Link>Budget Limits</Nav.Link>
                   </LinkContainer>
                 </>
               )}

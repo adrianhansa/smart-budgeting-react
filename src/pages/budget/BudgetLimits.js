@@ -15,8 +15,8 @@ const BudgetLimits = () => {
   const { budgetLimits, loading, error } = useSelector(
     (state) => state.budgetLimits
   );
-  const [month, setMonth] = useState(new Date().getMonth() + 1);
-  const [year, setYear] = useState(new Date().getFullYear());
+  const [month, setMonth] = useState();
+  const [year, setYear] = useState();
   const [date, setDate] = useState(
     `${new Date().getFullYear()}-${new Date().getMonth() + 1}`
   );
@@ -25,15 +25,12 @@ const BudgetLimits = () => {
     setDate(e.target.value);
     setYear(date.split("-")[0]);
     setMonth(date.split("-")[1]);
-    console.log(month, year);
-    dispatch(getBudgetLimits(month, year));
+    if (month && year) dispatch(getBudgetLimits(month, year));
   };
 
-  useEffect(() => {
-    if (month && year) {
-      dispatch(getBudgetLimits(month, year));
-    }
-  }, [dispatch, month, year]);
+  // useEffect(() => {
+  //   if (month && year) dispatch(getBudgetLimits(month, year));
+  // }, [dispatch, month, year]);
   return (
     <Container fluid>
       <Row>
@@ -64,7 +61,7 @@ const BudgetLimits = () => {
                     budgetLimits.map((limit) => {
                       console.log(limit);
                       return (
-                        <tr>
+                        <tr key={limit._id}>
                           <td>1</td>
                           <td>Mark</td>
                           <td>Otto</td>

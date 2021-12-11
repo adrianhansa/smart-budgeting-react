@@ -7,6 +7,8 @@ import AddAccount from "./AddAccount";
 import AccountPreview from "./AccountPreview";
 
 const AccountList = () => {
+  const { user } = useSelector((state) => state.auth);
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
 
@@ -23,12 +25,14 @@ const AccountList = () => {
       <Row>
         <Col>
           <h2 className="text-center">
-            Account List{" "}
-            <GrAddCircle
-              size="32"
-              type="button"
-              onClick={() => setShow(true)}
-            />
+            Account List
+            {user.isAdmin && (
+              <GrAddCircle
+                size="32"
+                type="button"
+                onClick={() => setShow(true)}
+              />
+            )}
           </h2>
           <AddAccount show={show} handleClose={handleClose} />
 
@@ -39,10 +43,13 @@ const AccountList = () => {
               <Table striped bordered hover>
                 <thead>
                   <tr>
-                    <th width="70%">Account Name</th>
-                    <th width="10%">Edit</th>
-                    <th width="10%">Set Limits</th>
-                    <th width="10%">Delete</th>
+                    <th width="80%">Account Name</th>
+                    {user.isAdmin && (
+                      <>
+                        <th width="10%">Edit</th>
+                        <th width="10%">Delete</th>
+                      </>
+                    )}
                   </tr>
                 </thead>
                 <tbody>
