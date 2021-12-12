@@ -36,6 +36,7 @@ const AccountPreview = ({ expense, handleClose }) => {
     <>
       <tr>
         <td>{expense.date}</td>
+        <td>{expense.user.name}</td>
         <td>£ {expense.amount.toFixed(2)}</td>
         <td>{expense.description}</td>
         <td>{expense.account.name}</td>

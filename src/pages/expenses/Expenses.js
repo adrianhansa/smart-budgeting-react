@@ -77,10 +77,11 @@ const Expenses = () => {
               <Table striped bordered hover>
                 <thead>
                   <tr>
-                    <th width="20%">Date</th>
+                    <th width="15%">Date</th>
+                    <th width="15%">Who spent</th>
                     <th width="10%">Amount</th>
-                    <th width="30%">Description</th>
-                    <th width="20%">Account</th>
+                    <th width="25%">Description</th>
+                    <th width="15%">Account</th>
                     <th width="10%">Edit</th>
                     <th width="10%">Delete</th>
                   </tr>

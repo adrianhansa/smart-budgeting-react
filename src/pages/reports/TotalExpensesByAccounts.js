@@ -60,7 +60,16 @@ const TotalExpensesByAccounts = ({ expenses }) => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th width="40%">Account</th>
+                <th width="40%">
+                  Account
+                  <br />
+                  <GoGraph
+                    type="button"
+                    color="blue"
+                    title={toggleGraphs ? "Hide graphics" : "Display graphics"}
+                    onClick={() => setToggleGraphs(!toggleGraphs)}
+                  />
+                </th>
                 <th width="20%">
                   Amount Spent <br />£ {expenses && totalExpenses(expenses)}
                 </th>
@@ -80,13 +89,7 @@ const TotalExpensesByAccounts = ({ expenses }) => {
                   return (
                     <>
                       <tr>
-                        <td>
-                          <span className="mr-3">{account.name}</span>
-                          <GoGraph
-                            type="button"
-                            onClick={() => setToggleGraphs(!toggleGraphs)}
-                          />
-                        </td>
+                        <td>{account.name}</td>
                         <td>
                           £{" "}
                           {expenses &&
