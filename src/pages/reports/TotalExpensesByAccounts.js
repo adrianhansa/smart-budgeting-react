@@ -10,13 +10,18 @@ const TotalExpensesByAccounts = ({ expenses }) => {
     dispatch(getAccounts());
   }, [dispatch]);
 
-  const totalExpenses = (expenseList, selectedAccount) => {
+  const totalExpensesByBudget = (expenseList, selectedAccount) => {
     return expenseList
       .filter((expense) => {
         return expense.account._id === selectedAccount._id;
       })
       .reduce((acc, expense) => acc + expense.amount, 0);
   };
+
+  const totalExpenses = (items) =>
+    items && items.reduce((acc, item) => acc + item.amount, 0).toFixed(2);
+  const totalBudgets = (items) =>
+    items && items.reduce((acc, item) => acc + item.budget, 0).toFixed(2);
 
   return (
     <Container fluid>
@@ -29,9 +34,16 @@ const TotalExpensesByAccounts = ({ expenses }) => {
             <thead>
               <tr>
                 <th width="40%">Account</th>
-                <th width="20%">Amount Spent</th>
-                <th width="20%">Monthly Budget</th>
-                <th width="20%">Remaining Budget</th>
+                <th width="20%">
+                  Amount Spent <br />£ {totalExpenses(expenses)}
+                </th>
+                <th width="20%">
+                  Monthly Budget <br />£ {totalBudgets(accounts)}
+                </th>
+                <th width="20%">
+                  Remaining Budget <br />£{" "}
+                  {totalBudgets(accounts) - totalExpenses(expenses)}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -43,14 +55,15 @@ const TotalExpensesByAccounts = ({ expenses }) => {
                       <td>
                         £{" "}
                         {expenses &&
-                          totalExpenses(expenses, account).toFixed(2)}
+                          totalExpensesByBudget(expenses, account).toFixed(2)}
                       </td>
                       <td>£ {account.budget.toFixed(2)}</td>
                       <td>
                         £
                         {expenses &&
                           (
-                            account.budget - totalExpenses(expenses, account)
+                            account.budget -
+                            totalExpensesByBudget(expenses, account)
                           ).toFixed(2)}
                       </td>
                     </tr>
