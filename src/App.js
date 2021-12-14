@@ -9,6 +9,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
 import Expenses from "./pages/expenses/Expenses";
+import Incomes from "./pages/incomes/Incomes";
 import Report from "./pages/reports/Report";
 import AccountList from "./pages/accounts/AccountList";
 import axios from "axios";
@@ -26,6 +27,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/expenses" element={<Expenses />} />
+            <Route path="/incomes" element={<Incomes />} />
             <Route path="/reports" element={<Report />} />
             <Route path="/accounts" element={<AccountList />} />
             <Route path="/users" element={<Users />} />

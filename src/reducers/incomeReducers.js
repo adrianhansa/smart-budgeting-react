@@ -17,7 +17,7 @@ import {
   UPDATE_INCOME_FAIL,
   UPDATE_INCOME_REQUEST,
   UPDATE_INCOME_SUCCESS,
-} from "../constants/incomesConstants";
+} from "../constants/incomeConstants";
 
 export const incomeReducer = (state = { income: {} }, action) => {
   switch (action.type) {

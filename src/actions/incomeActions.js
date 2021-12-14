@@ -18,7 +18,7 @@ import {
   UPDATE_INCOME_FAIL,
   UPDATE_INCOME_REQUEST,
   UPDATE_INCOME_SUCCESS,
-} from "../constants/imcomeConstants";
+} from "../constants/incomeConstants";
 
 export const addIncome =
   ({ amount, date, description }) =>

@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row, Container, Table, Form } from "react-bootstrap";
-import { getExpensesByMonthAndYear } from "../../actions/expenseActions";
+import { getIncomesByMonthAndYear } from "../../actions/incomeActions";
 import { useSelector, useDispatch } from "react-redux";
 import { GrAddCircle } from "react-icons/gr";
-import AddExpense from "./AddExpense";
-import ExpensePreview from "./ExpensePreview";
-import TotalExpensesByAccounts from "../reports/TotalExpensesByAccounts";
+import AddIncome from "./AddIncome";
+import IncomePreview from "./IncomePreview";
 
-const Expenses = () => {
+const Incomes = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => {
     setShow(false);
-    dispatch(getExpensesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
+    dispatch(getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
   };
 
   const [date, setDate] = useState(
@@ -21,7 +20,7 @@ const Expenses = () => {
   const handleDate = (e) => {
     setDate(e.target.value);
     dispatch(
-      getExpensesByMonthAndYear(
+      getIncomesByMonthAndYear(
         e.target.value.split("-")[1],
         e.target.value.split("-")[0]
       )
@@ -29,27 +28,22 @@ const Expenses = () => {
   };
 
   const dispatch = useDispatch();
-  const { expenses, loading, error } = useSelector(
-    (state) => state.expenseList
-  );
-
-  const expenseDetails = useSelector((state) => state.expenseDetails);
+  const { incomes, loading, error } = useSelector((state) => state.expenseList);
 
   useEffect(() => {
-    dispatch(getExpensesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
+    dispatch(getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
   }, [dispatch, date]);
   return (
     <Container fluid>
       <Row>
         <Col>
-          <AddExpense show={show} handleClose={handleClose} />
-
+          <AddIncome show={show} handleClose={handleClose} />
           <Row className="mt-3 px-5">
             <Col className="mx-auto">
               <Row>
-                <Col sm={8}>
+                <Col md={6} className="mx-auto">
                   <h2 className="text-center">
-                    Expenses
+                    Incomes
                     <GrAddCircle
                       size="32"
                       type="button"
@@ -57,7 +51,7 @@ const Expenses = () => {
                     />
                   </h2>
                 </Col>
-                <Col sm={4}>
+                <Col md={2} className="mr-auto">
                   <Form.Group>
                     <Form.Control
                       value={date}
@@ -67,41 +61,32 @@ const Expenses = () => {
                   </Form.Group>
                 </Col>
               </Row>
-              {expenseDetails.error && (
-                <p className="text-danger text-center">
-                  {expenseDetails.error}
-                </p>
-              )}
               {loading && <p>Loading...</p>}
               {error && <p>{error}</p>}
               <Table striped bordered hover>
                 <thead>
                   <tr>
                     <th width="15%">Date</th>
-                    <th width="15%">Who spent</th>
+                    <th width="15%">Who's got the income</th>
                     <th width="10%">Amount</th>
                     <th width="25%">Description</th>
-                    <th width="15%">Account</th>
                     <th width="10%">Edit</th>
                     <th width="10%">Delete</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {expenses &&
-                    expenses.map((expense) => {
+                  {incomes &&
+                    incomes.map((income) => {
                       return (
-                        <ExpensePreview
-                          expense={expense}
-                          key={expense._id}
+                        <IncomePreview
+                          expense={income}
+                          key={income._id}
                           handleClose={handleClose}
                         />
                       );
                     })}
                 </tbody>
               </Table>
-            </Col>
-            <Col>
-              <TotalExpensesByAccounts expenses={expenses} />
             </Col>
           </Row>
         </Col>
@@ -110,4 +95,4 @@ const Expenses = () => {
   );
 };
 
-export default Expenses;
+export default Incomes;

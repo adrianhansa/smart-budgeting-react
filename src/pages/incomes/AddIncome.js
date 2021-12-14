@@ -1,30 +1,24 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { addExpense } from "../../actions/expenseActions";
-import { getAccounts } from "../../actions/accountActions";
+import { addIncome } from "../../actions/incomeActions";
 import { Formik } from "formik";
 import * as yup from "yup";
 
-const AddExpense = ({ show, handleClose }) => {
-  const { loading, error } = useSelector((state) => state.expenseDetails);
+const AddIncome = ({ show, handleClose }) => {
+  const { loading, error } = useSelector((state) => state.incomeDetails);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getAccounts());
-  }, [dispatch]);
-  const accountList = useSelector((state) => state.accountList);
   const validationSchema = yup.object({
     date: yup
       .string()
-      .required("Please select the date when the expense took place."),
-    amount: yup.number().required("Please enter the amount you spent."),
-    description: yup.string().required("What have you purchased ?"),
-    account: yup.string().required("Please select the account"),
+      .required("Please select the date when you've been paid."),
+    amount: yup.number().required("Please enter the amount you earned."),
+    description: yup.string().required("Source of the income ?"),
   });
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Add a New Expense</Modal.Title>
+        <Modal.Title>Record a New Income</Modal.Title>
       </Modal.Header>
       <Formik
         initialValues={{
@@ -34,7 +28,7 @@ const AddExpense = ({ show, handleClose }) => {
           account: "",
         }}
         onSubmit={(values) => {
-          dispatch(addExpense(values));
+          dispatch(addIncome(values));
           handleClose();
         }}
         validationSchema={validationSchema}
@@ -57,7 +51,7 @@ const AddExpense = ({ show, handleClose }) => {
                     {props.touched && (
                       <p className="text-danger">{props.errors.date}</p>
                     )}
-                    <Form.Label>Amount spent</Form.Label>
+                    <Form.Label>Amount earned</Form.Label>
                     <Form.Control
                       type="number"
                       value={props.values.amount}
@@ -70,33 +64,13 @@ const AddExpense = ({ show, handleClose }) => {
                     <Form.Label>Description</Form.Label>
                     <Form.Control
                       as="textarea"
-                      rows="3"
+                      rows="2"
                       value={props.values.description}
                       onChange={props.handleChange("description")}
                       onBlur={() => props.handleBlur("description")}
                     />
                     {props.touched && (
                       <p className="text-danger">{props.errors.description}</p>
-                    )}
-                    <Form.Label>Select the account</Form.Label>
-                    <Form.Select
-                      aria-label="Select the account"
-                      value={props.values.account}
-                      onChange={props.handleChange("account")}
-                      onBlur={() => props.handleBlur("account")}
-                    >
-                      <option></option>
-                      {accountList.accounts &&
-                        accountList.accounts.map((account) => {
-                          return (
-                            <option value={account._id} key={account._id}>
-                              {account.name}
-                            </option>
-                          );
-                        })}
-                    </Form.Select>
-                    {props.touched && (
-                      <p className="text-danger">{props.errors.account}</p>
                     )}
                   </Form.Group>
                 </Form>
@@ -121,4 +95,4 @@ const AddExpense = ({ show, handleClose }) => {
   );
 };
 
-export default AddExpense;
+export default AddIncome;
