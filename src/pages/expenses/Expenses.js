@@ -1,19 +1,42 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row, Container, Table, Form } from "react-bootstrap";
 import { getExpensesByMonthAndYear } from "../../actions/expenseActions";
+import { getIncomesByMonthAndYear } from "../../actions/incomeActions";
 import { useSelector, useDispatch } from "react-redux";
 import { GrAddCircle } from "react-icons/gr";
 import AddExpense from "./AddExpense";
+import AddIncome from "../incomes/AddIncome";
 import ExpensePreview from "./ExpensePreview";
+// import IncomePreview from "../incomes/IncomePreview";
 import TotalExpensesByAccounts from "../reports/TotalExpensesByAccounts";
 
 const Expenses = () => {
-  const [show, setShow] = useState(false);
-  const handleClose = () => {
-    setShow(false);
+  const [showExpense, setShowExpense] = useState(false);
+  const [showIncome, setShowIncome] = useState(false);
+
+  const dispatch = useDispatch();
+  const { expenses, loading, error } = useSelector(
+    (state) => state.expenseList
+  );
+  const incomeList = useSelector((state) => state.incomeList);
+
+  useEffect(() => {
+    const incomeExpenses = [];
+    //merge incomes and expenses into a single array
+    expenses && incomeExpenses.push(expenses);
+    incomeList.incomes && incomeExpenses.push(incomeList.incomes);
+    console.log(incomeExpenses);
+  }, [incomeList, expenses]);
+
+  const handleCloseExpense = () => {
+    setShowExpense(false);
     dispatch(getExpensesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
   };
 
+  const handleCloseIncome = () => {
+    setShowIncome(false);
+    dispatch(getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
+  };
   const [date, setDate] = useState(
     `${new Date().getFullYear()}-${new Date().getMonth() + 1}`
   );
@@ -28,34 +51,33 @@ const Expenses = () => {
     );
   };
 
-  const dispatch = useDispatch();
-  const { expenses, loading, error } = useSelector(
-    (state) => state.expenseList
-  );
-
   const expenseDetails = useSelector((state) => state.expenseDetails);
 
   useEffect(() => {
     dispatch(getExpensesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
+    dispatch(getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
   }, [dispatch, date]);
   return (
     <Container fluid>
       <Row>
         <Col>
-          <AddExpense show={show} handleClose={handleClose} />
-
+          <AddExpense show={showExpense} handleClose={handleCloseExpense} />
+          <AddIncome show={showIncome} handleClose={handleCloseIncome} />
           <Row className="mt-3 px-5">
             <Col className="mx-auto">
               <Row>
                 <Col sm={8}>
-                  <h2 className="text-center">
-                    Expenses
-                    <GrAddCircle
-                      size="32"
-                      type="button"
-                      onClick={() => setShow(true)}
-                    />
-                  </h2>
+                  <h2 className="text-center">Expenses</h2>
+                  <GrAddCircle
+                    size="32"
+                    type="button"
+                    onClick={() => setShowExpense(true)}
+                  />
+                  <GrAddCircle
+                    size="32"
+                    type="button"
+                    onClick={() => setShowIncome(true)}
+                  />
                 </Col>
                 <Col sm={4}>
                   <Form.Group>
@@ -93,7 +115,7 @@ const Expenses = () => {
                         <ExpensePreview
                           expense={expense}
                           key={expense._id}
-                          handleClose={handleClose}
+                          handleClose={handleCloseExpense}
                         />
                       );
                     })}

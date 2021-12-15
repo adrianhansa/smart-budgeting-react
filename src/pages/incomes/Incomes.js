@@ -28,7 +28,7 @@ const Incomes = () => {
   };
 
   const dispatch = useDispatch();
-  const { incomes, loading, error } = useSelector((state) => state.expenseList);
+  const { incomes, loading, error } = useSelector((state) => state.incomeList);
 
   useEffect(() => {
     dispatch(getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
@@ -79,7 +79,7 @@ const Incomes = () => {
                     incomes.map((income) => {
                       return (
                         <IncomePreview
-                          expense={income}
+                          income={income}
                           key={income._id}
                           handleClose={handleClose}
                         />
