@@ -7,36 +7,23 @@ import { GrAddCircle } from "react-icons/gr";
 import AddExpense from "./AddExpense";
 import AddIncome from "../incomes/AddIncome";
 import ExpensePreview from "./ExpensePreview";
-// import IncomePreview from "../incomes/IncomePreview";
+import IncomePreview from "../incomes/IncomePreview";
 import TotalExpensesByAccounts from "../reports/TotalExpensesByAccounts";
+import TotalIncomesByMonth from "../reports/TotalIncomesByMonth";
 
 const Expenses = () => {
   const [showExpense, setShowExpense] = useState(false);
-  const [showIncome, setShowIncome] = useState(false);
 
   const dispatch = useDispatch();
   const { expenses, loading, error } = useSelector(
     (state) => state.expenseList
   );
-  const incomeList = useSelector((state) => state.incomeList);
-
-  useEffect(() => {
-    const incomeExpenses = [];
-    //merge incomes and expenses into a single array
-    expenses && incomeExpenses.push(expenses);
-    incomeList.incomes && incomeExpenses.push(incomeList.incomes);
-    console.log(incomeExpenses);
-  }, [incomeList, expenses]);
 
   const handleCloseExpense = () => {
     setShowExpense(false);
     dispatch(getExpensesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
   };
 
-  const handleCloseIncome = () => {
-    setShowIncome(false);
-    dispatch(getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
-  };
   const [date, setDate] = useState(
     `${new Date().getFullYear()}-${new Date().getMonth() + 1}`
   );
@@ -62,7 +49,7 @@ const Expenses = () => {
       <Row>
         <Col>
           <AddExpense show={showExpense} handleClose={handleCloseExpense} />
-          <AddIncome show={showIncome} handleClose={handleCloseIncome} />
+
           <Row className="mt-3 px-5">
             <Col className="mx-auto">
               <Row>
@@ -72,11 +59,6 @@ const Expenses = () => {
                     size="32"
                     type="button"
                     onClick={() => setShowExpense(true)}
-                  />
-                  <GrAddCircle
-                    size="32"
-                    type="button"
-                    onClick={() => setShowIncome(true)}
                   />
                 </Col>
                 <Col sm={4}>
@@ -96,6 +78,7 @@ const Expenses = () => {
               )}
               {loading && <p>Loading...</p>}
               {error && <p>{error}</p>}
+              <TotalIncomesByMonth date={date} />
               <Table striped bordered hover>
                 <thead>
                   <tr>
