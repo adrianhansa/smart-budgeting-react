@@ -10,13 +10,17 @@ import { Provider } from "react-redux";
 import store from "./store";
 import Expenses from "./pages/expenses/Expenses";
 import Incomes from "./pages/incomes/Incomes";
-import Report from "./pages/reports/Report";
 import AccountList from "./pages/accounts/AccountList";
 import axios from "axios";
-
+import { io } from "socket.io-client";
 axios.defaults.withCredentials = true;
 
 const App = () => {
+  const socket = io("http://localhost:5000");
+  socket.on("connect", () => {
+    console.log(socket.id);
+  });
+
   return (
     <Provider store={store}>
       <BrowserRouter>
@@ -28,7 +32,6 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/expenses" element={<Expenses />} />
             <Route path="/incomes" element={<Incomes />} />
-            <Route path="/reports" element={<Report />} />
             <Route path="/accounts" element={<AccountList />} />
             <Route path="/users" element={<Users />} />
           </Routes>

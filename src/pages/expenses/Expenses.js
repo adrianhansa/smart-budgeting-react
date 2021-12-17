@@ -5,9 +5,7 @@ import { getIncomesByMonthAndYear } from "../../actions/incomeActions";
 import { useSelector, useDispatch } from "react-redux";
 import { GrAddCircle } from "react-icons/gr";
 import AddExpense from "./AddExpense";
-import AddIncome from "../incomes/AddIncome";
 import ExpensePreview from "./ExpensePreview";
-import IncomePreview from "../incomes/IncomePreview";
 import TotalExpensesByAccounts from "../reports/TotalExpensesByAccounts";
 import TotalIncomesByMonth from "../reports/TotalIncomesByMonth";
 
@@ -52,14 +50,18 @@ const Expenses = () => {
 
           <Row className="mt-3 px-5">
             <Col className="mx-auto">
+              <TotalIncomesByMonth date={date} />
+
               <Row>
                 <Col sm={8}>
-                  <h2 className="text-center">Expenses</h2>
-                  <GrAddCircle
-                    size="32"
-                    type="button"
-                    onClick={() => setShowExpense(true)}
-                  />
+                  <h3>
+                    Expenses
+                    <GrAddCircle
+                      size="32"
+                      type="button"
+                      onClick={() => setShowExpense(true)}
+                    />
+                  </h3>
                 </Col>
                 <Col sm={4}>
                   <Form.Group>
@@ -78,7 +80,7 @@ const Expenses = () => {
               )}
               {loading && <p>Loading...</p>}
               {error && <p>{error}</p>}
-              <TotalIncomesByMonth date={date} />
+
               <Table striped bordered hover>
                 <thead>
                   <tr>

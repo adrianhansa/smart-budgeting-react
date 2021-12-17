@@ -24,9 +24,6 @@ const Header = () => {
               <LinkContainer to="/incomes">
                 <Nav.Link>Incomes</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/reports">
-                <Nav.Link>Reports</Nav.Link>
-              </LinkContainer>
               <LinkContainer to="/accounts">
                 <Nav.Link>
                   {user.isAdmin ? "Manage Accounts" : "Accounts"}
