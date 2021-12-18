@@ -1,12 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { addExpense } from "../../actions/expenseActions";
 import { getAccounts } from "../../actions/accountActions";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { io } from "socket.io-client";
 
 const AddExpense = ({ show, handleClose }) => {
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    setSocket(io("http://localhost:5000"));
+  }, []);
+
+  useEffect(() => {
+    socket &&
+      socket.on("Welcome", (message) => {
+        console.log(message);
+      });
+  }, [socket]);
+
   const { loading, error } = useSelector((state) => state.expenseDetails);
   const dispatch = useDispatch();
   useEffect(() => {
