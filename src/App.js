@@ -11,8 +11,11 @@ import store from "./store";
 import Expenses from "./pages/expenses/Expenses";
 import Incomes from "./pages/incomes/Incomes";
 import AccountList from "./pages/accounts/AccountList";
+// import io from "socket.io-client";
 import axios from "axios";
 axios.defaults.withCredentials = true;
+
+// const socket = io.connect("http://localhost:5000");
 
 const App = () => {
   return (

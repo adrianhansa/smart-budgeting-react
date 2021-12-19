@@ -7,20 +7,9 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { io } from "socket.io-client";
 
+const socket = io.connect("http://localhost:5000");
+
 const AddExpense = ({ show, handleClose }) => {
-  const [socket, setSocket] = useState(null);
-
-  useEffect(() => {
-    setSocket(io("http://localhost:5000"));
-  }, []);
-
-  useEffect(() => {
-    socket &&
-      socket.on("Welcome", (message) => {
-        console.log(message);
-      });
-  }, [socket]);
-
   const { loading, error } = useSelector((state) => state.expenseDetails);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -49,6 +38,9 @@ const AddExpense = ({ show, handleClose }) => {
         }}
         onSubmit={(values) => {
           dispatch(addExpense(values));
+          socket.emit("expense-created", (values) => {
+            console.log(values);
+          });
           handleClose();
         }}
         validationSchema={validationSchema}
