@@ -5,7 +5,7 @@ import { addIncome } from "../../actions/incomeActions";
 import { Formik } from "formik";
 import * as yup from "yup";
 
-const AddIncome = ({ show, handleClose }) => {
+const AddIncome = ({ show, handleClose, socket }) => {
   const { loading, error } = useSelector((state) => state.incomeDetails);
   const dispatch = useDispatch();
   const validationSchema = yup.object({
@@ -29,6 +29,7 @@ const AddIncome = ({ show, handleClose }) => {
         }}
         onSubmit={(values) => {
           dispatch(addIncome(values));
+          socket.emit("income-created", values.amount);
           handleClose();
         }}
         validationSchema={validationSchema}

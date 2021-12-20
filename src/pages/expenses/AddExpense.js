@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { addExpense } from "../../actions/expenseActions";
 import { getAccounts } from "../../actions/accountActions";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { io } from "socket.io-client";
 
-const socket = io.connect("http://localhost:5000");
-
-const AddExpense = ({ show, handleClose }) => {
+const AddExpense = ({ show, handleClose, socket }) => {
   const { loading, error } = useSelector((state) => state.expenseDetails);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -38,9 +35,7 @@ const AddExpense = ({ show, handleClose }) => {
         }}
         onSubmit={(values) => {
           dispatch(addExpense(values));
-          socket.emit("expense-created", (values) => {
-            console.log(values);
-          });
+          socket.emit("expense-created", values.date);
           handleClose();
         }}
         validationSchema={validationSchema}

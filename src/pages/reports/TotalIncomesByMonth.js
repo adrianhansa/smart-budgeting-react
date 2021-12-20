@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import AddIncome from "../incomes/AddIncome";
 import IncomePreview from "../incomes/IncomePreview";
 
-const TotalIncomesByMonth = ({ date }) => {
+const TotalIncomesByMonth = ({ date, socket }) => {
   const [showAddIncome, setShowAddIncome] = useState(false);
   const [showIncomeTable, setShowIncomeTable] = useState(false);
   const dispatch = useDispatch();
@@ -19,6 +19,15 @@ const TotalIncomesByMonth = ({ date }) => {
   useEffect(() => {
     dispatch(getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
   }, [dispatch, date]);
+
+  useEffect(() => {
+    socket.on("income-created", (data) => {
+      console.log(`a new expense was created ${data}`);
+      dispatch(
+        getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0])
+      );
+    });
+  }, [date, dispatch, socket]);
 
   return (
     <div>
@@ -52,7 +61,11 @@ const TotalIncomesByMonth = ({ date }) => {
           {showIncomeTable ? "Hide Income Table" : "Show Income Table"}
         </Button>
       </div>
-      <AddIncome show={showAddIncome} handleClose={handleCloseIncome} />
+      <AddIncome
+        show={showAddIncome}
+        handleClose={handleCloseIncome}
+        socket={socket}
+      />
       <Row className="mb-2 mt-3">
         <Col>
           {showIncomeTable && (

@@ -6,7 +6,9 @@ import { GrAddCircle } from "react-icons/gr";
 import AddIncome from "./AddIncome";
 import IncomePreview from "./IncomePreview";
 
-const Incomes = () => {
+const Incomes = ({ socket }) => {
+  const dispatch = useDispatch();
+  const { incomes, loading, error } = useSelector((state) => state.incomeList);
   const [show, setShow] = useState(false);
   const handleClose = () => {
     setShow(false);
@@ -16,6 +18,15 @@ const Incomes = () => {
   const [date, setDate] = useState(
     `${new Date().getFullYear()}-${new Date().getMonth() + 1}`
   );
+
+  useEffect(() => {
+    socket.on("income-created", (data) => {
+      console.log(`a new expense was created ${data}`);
+      dispatch(
+        getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0])
+      );
+    });
+  }, [date, dispatch, socket]);
 
   const handleDate = (e) => {
     setDate(e.target.value);
@@ -27,9 +38,6 @@ const Incomes = () => {
     );
   };
 
-  const dispatch = useDispatch();
-  const { incomes, loading, error } = useSelector((state) => state.incomeList);
-
   useEffect(() => {
     dispatch(getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
   }, [dispatch, date]);
@@ -37,7 +45,7 @@ const Incomes = () => {
     <Container fluid>
       <Row>
         <Col>
-          <AddIncome show={show} handleClose={handleClose} />
+          <AddIncome show={show} handleClose={handleClose} socket={socket} />
           <Row className="mt-3 px-5">
             <Col className="mx-auto">
               <Row>

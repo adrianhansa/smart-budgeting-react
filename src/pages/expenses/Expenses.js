@@ -9,7 +9,7 @@ import ExpensePreview from "./ExpensePreview";
 import TotalExpensesByAccounts from "../reports/TotalExpensesByAccounts";
 import TotalIncomesByMonth from "../reports/TotalIncomesByMonth";
 
-const Expenses = () => {
+const Expenses = ({ socket }) => {
   const [showExpense, setShowExpense] = useState(false);
 
   const dispatch = useDispatch();
@@ -25,6 +25,15 @@ const Expenses = () => {
   const [date, setDate] = useState(
     `${new Date().getFullYear()}-${new Date().getMonth() + 1}`
   );
+
+  useEffect(() => {
+    socket.on("expense-created", (data) => {
+      console.log(`a new expense was recorded on ${data}`);
+      dispatch(
+        getExpensesByMonthAndYear(date.split("-")[1], date.split("-")[0])
+      );
+    });
+  }, [socket, date, dispatch]);
 
   const handleDate = (e) => {
     setDate(e.target.value);
@@ -46,11 +55,15 @@ const Expenses = () => {
     <Container fluid>
       <Row>
         <Col>
-          <AddExpense show={showExpense} handleClose={handleCloseExpense} />
+          <AddExpense
+            show={showExpense}
+            handleClose={handleCloseExpense}
+            socket={socket}
+          />
 
           <Row className="mt-3 px-5">
             <Col className="mx-auto">
-              <TotalIncomesByMonth date={date} />
+              <TotalIncomesByMonth date={date} socket={socket} />
 
               <Row>
                 <Col sm={8}>
@@ -108,7 +121,7 @@ const Expenses = () => {
               </Table>
             </Col>
             <Col>
-              <TotalExpensesByAccounts expenses={expenses} />
+              <TotalExpensesByAccounts expenses={expenses} socket={socket} />
             </Col>
           </Row>
         </Col>

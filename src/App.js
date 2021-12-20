@@ -11,11 +11,11 @@ import store from "./store";
 import Expenses from "./pages/expenses/Expenses";
 import Incomes from "./pages/incomes/Incomes";
 import AccountList from "./pages/accounts/AccountList";
-// import io from "socket.io-client";
+import io from "socket.io-client";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
-// const socket = io.connect("http://localhost:5000");
+const socket = io.connect("http://localhost:5000");
 
 const App = () => {
   return (
@@ -27,8 +27,8 @@ const App = () => {
             <Route path="/" element={<Home />} exact />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/expenses" element={<Expenses />} />
-            <Route path="/incomes" element={<Incomes />} />
+            <Route path="/expenses" element={<Expenses socket={socket} />} />
+            <Route path="/incomes" element={<Incomes socket={socket} />} />
             <Route path="/accounts" element={<AccountList />} />
             <Route path="/users" element={<Users />} />
           </Routes>
