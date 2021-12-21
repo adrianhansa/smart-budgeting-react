@@ -10,6 +10,7 @@ import {
 import { accountReducer, accountsReducer } from "./reducers/accountReducers";
 import { incomeReducer, incomesReducer } from "./reducers/incomeReducers";
 import { expenseReducer, expensesReducer } from "./reducers/expenseReducers";
+import { eventsReducer, eventReducer } from "./reducers/eventReducers";
 const authFromLocalStorage = localStorage.getItem("auth")
   ? JSON.parse(localStorage.getItem("auth"))
   : {};
@@ -26,6 +27,8 @@ const rootReducer = combineReducers({
   expenseList: expensesReducer,
   incomeDetails: incomeReducer,
   incomeList: incomesReducer,
+  eventList: eventsReducer,
+  eventDetails: eventReducer,
 });
 
 const store = createStore(

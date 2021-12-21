@@ -11,6 +11,7 @@ import store from "./store";
 import Expenses from "./pages/expenses/Expenses";
 import Incomes from "./pages/incomes/Incomes";
 import AccountList from "./pages/accounts/AccountList";
+import EventLogs from "./pages/reports/EventLogs";
 import io from "socket.io-client";
 import axios from "axios";
 axios.defaults.withCredentials = true;
@@ -31,6 +32,7 @@ const App = () => {
             <Route path="/incomes" element={<Incomes socket={socket} />} />
             <Route path="/accounts" element={<AccountList />} />
             <Route path="/users" element={<Users />} />
+            <Route path="/events" element={<EventLogs />} />
           </Routes>
           <Footer />
         </div>

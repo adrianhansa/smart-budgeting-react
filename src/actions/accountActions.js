@@ -15,7 +15,7 @@ import {
   UPDATE_ACCOUNT_FAIL,
   UPDATE_ACCOUNT_REQUEST,
   UPDATE_ACCOUNT_SUCCESS,
-} from "../constants/accountContants";
+} from "../constants/accountConstants";
 
 export const getAccounts = () => async (dispatch) => {
   try {
