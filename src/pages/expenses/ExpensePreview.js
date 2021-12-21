@@ -22,10 +22,10 @@ const AccountPreview = ({ expense, handleClose, socket }) => {
       if (result.isConfirmed) {
         dispatch(deleteExpense(expense._id));
         socket.emit("expense-deleted", {
-          user: user.name,
+          user: user,
           expense: expense.description,
           amount: expense.amount,
-          account: expense.account.name,
+          date: expense.date,
         });
         handleClose();
         Swal.fire({

@@ -27,7 +27,8 @@ const EditIncome = ({ show, handleClose, income, socket }) => {
         onSubmit={(values) => {
           dispatch(updateIncome(income._id, values));
           socket.emit("income-updated", {
-            user: user.name,
+            user: user,
+            amount: values.amount,
             description: values.description,
             date: values.date,
           });

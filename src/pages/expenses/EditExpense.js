@@ -36,11 +36,10 @@ const EditExpense = ({ show, handleClose, expense, socket }) => {
         onSubmit={(values) => {
           dispatch(updateExpense(expense._id, values));
           socket.emit("expense-updated", {
-            user: user.name,
+            user: user,
             amount: values.amount,
             date: values.date,
             description: values.description,
-            account: values.account.name,
           });
           handleClose();
         }}

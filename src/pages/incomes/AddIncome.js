@@ -30,8 +30,9 @@ const AddIncome = ({ show, handleClose, socket }) => {
         onSubmit={(values) => {
           dispatch(addIncome(values));
           socket.emit("income-created", {
-            user: user.name,
+            user: user,
             description: values.description,
+            amount: values.amount,
             date: values.date,
           });
 

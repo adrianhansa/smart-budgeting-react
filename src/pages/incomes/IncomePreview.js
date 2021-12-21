@@ -22,7 +22,7 @@ const IncomePreview = ({ income, handleClose, socket }) => {
       if (result.isConfirmed) {
         dispatch(deleteIncome(income._id));
         socket.emit("income-deleted", {
-          user: user.name,
+          user: user,
           amount: income.amount,
           description: income.description,
           date: income.date,
