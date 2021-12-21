@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { deleteIncome } from "../../actions/incomeActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import EditIncome from "./EditIncome";
 
-const IncomePreview = ({ income, handleClose }) => {
+const IncomePreview = ({ income, handleClose, socket }) => {
+  const { user } = useSelector((state) => state.auth);
   const [showEditModal, setShowEditModal] = useState(false);
   const handleDelete = () => {
     Swal.fire({
@@ -20,11 +21,17 @@ const IncomePreview = ({ income, handleClose }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(deleteIncome(income._id));
+        socket.emit("income-deleted", {
+          user: user.name,
+          amount: income.amount,
+          description: income.description,
+          date: income.date,
+        });
         handleClose();
         Swal.fire({
           position: "bottom-right",
           icon: "success",
-          title: "The expense has been deleted.",
+          title: "The income has been deleted.",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -50,6 +57,7 @@ const IncomePreview = ({ income, handleClose }) => {
         show={showEditModal}
         handleClose={handleClose}
         income={income}
+        socket={socket}
       />
     </>
   );

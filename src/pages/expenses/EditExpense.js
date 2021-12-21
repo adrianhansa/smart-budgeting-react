@@ -6,7 +6,8 @@ import { getAccounts } from "../../actions/accountActions";
 import { Formik } from "formik";
 import * as yup from "yup";
 
-const EditExpense = ({ show, handleClose, expense }) => {
+const EditExpense = ({ show, handleClose, expense, socket }) => {
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAccounts());
@@ -23,7 +24,7 @@ const EditExpense = ({ show, handleClose, expense }) => {
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Add a New Expense</Modal.Title>
+        <Modal.Title>Edit Expense</Modal.Title>
       </Modal.Header>
       <Formik
         initialValues={{
@@ -34,6 +35,13 @@ const EditExpense = ({ show, handleClose, expense }) => {
         }}
         onSubmit={(values) => {
           dispatch(updateExpense(expense._id, values));
+          socket.emit("expense-updated", {
+            user: user.name,
+            amount: values.amount,
+            date: values.date,
+            description: values.description,
+            account: values.account.name,
+          });
           handleClose();
         }}
         validationSchema={validationSchema}

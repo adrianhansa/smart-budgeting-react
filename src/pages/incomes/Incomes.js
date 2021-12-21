@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { GrAddCircle } from "react-icons/gr";
 import AddIncome from "./AddIncome";
 import IncomePreview from "./IncomePreview";
+import Swal from "sweetalert2";
 
 const Incomes = ({ socket }) => {
   const dispatch = useDispatch();
@@ -21,7 +22,37 @@ const Incomes = ({ socket }) => {
 
   useEffect(() => {
     socket.on("income-created", (data) => {
-      console.log(`a new expense was created ${data}`);
+      Swal.fire({
+        position: "bottom-end",
+        icon: "success",
+        title: "A new income was recorded!",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      dispatch(
+        getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0])
+      );
+    });
+    socket.on("income-updated", (data) => {
+      Swal.fire({
+        position: "bottom-end",
+        icon: "success",
+        title: "Income updated!",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      dispatch(
+        getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0])
+      );
+    });
+    socket.on("income-deleted", (data) => {
+      Swal.fire({
+        position: "bottom-end",
+        icon: "success",
+        title: "Income deleted!",
+        showConfirmButton: false,
+        timer: 2000,
+      });
       dispatch(
         getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0])
       );
@@ -90,6 +121,7 @@ const Incomes = ({ socket }) => {
                           income={income}
                           key={income._id}
                           handleClose={handleClose}
+                          socket={socket}
                         />
                       );
                     })}

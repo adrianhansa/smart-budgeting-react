@@ -7,6 +7,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 
 const AddExpense = ({ show, handleClose, socket }) => {
+  const { user } = useSelector((state) => state.auth);
   const { loading, error } = useSelector((state) => state.expenseDetails);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -35,7 +36,13 @@ const AddExpense = ({ show, handleClose, socket }) => {
         }}
         onSubmit={(values) => {
           dispatch(addExpense(values));
-          socket.emit("expense-created", values.date);
+          socket.emit("expense-created", {
+            user: user.name,
+            amount: values.amount,
+            date: values.date,
+            description: values.description,
+            account: values.account.name,
+          });
           handleClose();
         }}
         validationSchema={validationSchema}

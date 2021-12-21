@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { deleteExpense } from "../../actions/expenseActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import EditExpense from "./EditExpense";
 
-const AccountPreview = ({ expense, handleClose }) => {
+const AccountPreview = ({ expense, handleClose, socket }) => {
+  const { user } = useSelector((state) => state.auth);
   const [showEditModal, setShowEditModal] = useState(false);
   const handleDelete = () => {
     Swal.fire({
@@ -20,6 +21,12 @@ const AccountPreview = ({ expense, handleClose }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(deleteExpense(expense._id));
+        socket.emit("expense-deleted", {
+          user: user.name,
+          expense: expense.description,
+          amount: expense.amount,
+          account: expense.account.name,
+        });
         handleClose();
         Swal.fire({
           position: "bottom-right",
@@ -51,6 +58,7 @@ const AccountPreview = ({ expense, handleClose }) => {
         show={showEditModal}
         handleClose={handleClose}
         expense={expense}
+        socket={socket}
       />
     </>
   );

@@ -8,6 +8,7 @@ import AddExpense from "./AddExpense";
 import ExpensePreview from "./ExpensePreview";
 import TotalExpensesByAccounts from "../reports/TotalExpensesByAccounts";
 import TotalIncomesByMonth from "../reports/TotalIncomesByMonth";
+import Swal from "sweetalert2";
 
 const Expenses = ({ socket }) => {
   const [showExpense, setShowExpense] = useState(false);
@@ -28,12 +29,42 @@ const Expenses = ({ socket }) => {
 
   useEffect(() => {
     socket.on("expense-created", (data) => {
-      console.log(`a new expense was recorded on ${data}`);
+      Swal.fire({
+        position: "bottom-end",
+        icon: "success",
+        title: "A new expense was recorded!",
+        showConfirmButton: false,
+        timer: 2000,
+      });
       dispatch(
         getExpensesByMonthAndYear(date.split("-")[1], date.split("-")[0])
       );
     });
-  }, [socket, date, dispatch]);
+    socket.on("expense-updated", (data) => {
+      Swal.fire({
+        position: "bottom-end",
+        icon: "success",
+        title: "Expense updated!",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      dispatch(
+        getExpensesByMonthAndYear(date.split("-")[1], date.split("-")[0])
+      );
+    });
+    socket.on("expense-deleted", (data) => {
+      Swal.fire({
+        position: "bottom-end",
+        icon: "success",
+        title: "Expense deleted!",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      dispatch(
+        getExpensesByMonthAndYear(date.split("-")[1], date.split("-")[0])
+      );
+    });
+  }, [date, dispatch, socket]);
 
   const handleDate = (e) => {
     setDate(e.target.value);
@@ -114,6 +145,7 @@ const Expenses = ({ socket }) => {
                           expense={expense}
                           key={expense._id}
                           handleClose={handleCloseExpense}
+                          socket={socket}
                         />
                       );
                     })}

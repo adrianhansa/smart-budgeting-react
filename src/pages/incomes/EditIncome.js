@@ -1,11 +1,12 @@
 import React from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateIncome } from "../../actions/incomeActions";
 import { Formik } from "formik";
 import * as yup from "yup";
 
-const EditIncome = ({ show, handleClose, income }) => {
+const EditIncome = ({ show, handleClose, income, socket }) => {
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const validationSchema = yup.object({
     date: yup.string().required("Please select the date."),
@@ -25,6 +26,11 @@ const EditIncome = ({ show, handleClose, income }) => {
         }}
         onSubmit={(values) => {
           dispatch(updateIncome(income._id, values));
+          socket.emit("income-updated", {
+            user: user.name,
+            description: values.description,
+            date: values.date,
+          });
           handleClose();
         }}
         validationSchema={validationSchema}

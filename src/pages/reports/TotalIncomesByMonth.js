@@ -4,6 +4,7 @@ import { getIncomesByMonthAndYear } from "../../actions/incomeActions";
 import { useSelector, useDispatch } from "react-redux";
 import AddIncome from "../incomes/AddIncome";
 import IncomePreview from "../incomes/IncomePreview";
+import Swal from "sweetalert2";
 
 const TotalIncomesByMonth = ({ date, socket }) => {
   const [showAddIncome, setShowAddIncome] = useState(false);
@@ -22,7 +23,37 @@ const TotalIncomesByMonth = ({ date, socket }) => {
 
   useEffect(() => {
     socket.on("income-created", (data) => {
-      console.log(`a new expense was created ${data}`);
+      Swal.fire({
+        position: "bottom-end",
+        icon: "success",
+        title: "A new income was recorded!",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      dispatch(
+        getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0])
+      );
+    });
+    socket.on("income-updated", (data) => {
+      Swal.fire({
+        position: "bottom-end",
+        icon: "success",
+        title: "Income updated!",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      dispatch(
+        getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0])
+      );
+    });
+    socket.on("income-deleted", (data) => {
+      Swal.fire({
+        position: "bottom-end",
+        icon: "success",
+        title: "Income deleted!",
+        showConfirmButton: false,
+        timer: 2000,
+      });
       dispatch(
         getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0])
       );
@@ -88,6 +119,7 @@ const TotalIncomesByMonth = ({ date, socket }) => {
                         income={income}
                         key={income._id}
                         handleClose={handleCloseIncome}
+                        socket={socket}
                       />
                     );
                   })}
