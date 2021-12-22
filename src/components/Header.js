@@ -1,13 +1,17 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../actions/userActions";
-import { useDispatch } from "react-redux";
-import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { Badge, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { getEvents } from "../actions/eventActions";
 
 const Header = () => {
   const dispatch = useDispatch();
+  const { events, loading, error } = useSelector((state) => state.eventList);
+  useEffect(() => {
+    dispatch(getEvents());
+  }, [dispatch]);
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   return (
@@ -24,9 +28,7 @@ const Header = () => {
               <LinkContainer to="/incomes">
                 <Nav.Link>Incomes</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/events">
-                <Nav.Link>Events</Nav.Link>
-              </LinkContainer>
+
               <LinkContainer to="/accounts">
                 <Nav.Link>
                   {user.isAdmin ? "Manage Accounts" : "Accounts"}
@@ -36,6 +38,18 @@ const Header = () => {
                 <>
                   <LinkContainer to="/users">
                     <Nav.Link>Manage Users</Nav.Link>
+                  </LinkContainer>
+                  <LinkContainer to="/events">
+                    <Nav.Link>
+                      Events{" "}
+                      {loading ? (
+                        "..."
+                      ) : events && events.length > 0 ? (
+                        <Badge bg="info">{events.length}</Badge>
+                      ) : (
+                        <span>{error}</span>
+                      )}
+                    </Nav.Link>
                   </LinkContainer>
                 </>
               )}

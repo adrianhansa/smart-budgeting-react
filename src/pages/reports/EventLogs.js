@@ -1,9 +1,14 @@
 import React, { useEffect } from "react";
 import { Container, Col, Row, Table } from "react-bootstrap";
-import { getEvents, deleteEvent } from "../../actions/eventActions";
+import {
+  getEvents,
+  deleteEvent,
+  archiveEvent,
+} from "../../actions/eventActions";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { RiDeleteBin5Line } from "react-icons/ri";
+import { IoArchiveOutline } from "react-icons/io5";
 
 const EventLogs = () => {
   const dispatch = useDispatch();
@@ -24,7 +29,8 @@ const EventLogs = () => {
                 <tr>
                   <th width="10%">Date</th>
                   <th width="15%">User</th>
-                  <th width="70">Description</th>
+                  <th width="65">Description</th>
+                  <th width="5%">Archive</th>
                   <th width="5%">Delete</th>
                 </tr>
               </thead>
@@ -35,6 +41,12 @@ const EventLogs = () => {
                       <td>{moment(event.date).format("DD-MM-YYYY")}</td>
                       <td>{event.user.name}</td>
                       <td>{event.description}</td>
+                      <td>
+                        <IoArchiveOutline
+                          type="button"
+                          onClick={() => dispatch(archiveEvent(event._id))}
+                        />
+                      </td>
                       <td>
                         <RiDeleteBin5Line
                           type="button"

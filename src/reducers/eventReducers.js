@@ -1,4 +1,7 @@
 import {
+  ARCHIVE_EVENT_FAIL,
+  ARCHIVE_EVENT_REQUEST,
+  ARCHIVE_EVENT_SUCCESS,
   DELETE_EVENT_FAIL,
   DELETE_EVENT_REQUEST,
   DELETE_EVENT_SUCCESS,
@@ -27,6 +30,12 @@ export const eventReducer = (state = { event: {} }, action) => {
     case DELETE_EVENT_SUCCESS:
       return { loading: false, event: action.payload };
     case DELETE_EVENT_FAIL:
+      return { loading: false, error: action.payload };
+    case ARCHIVE_EVENT_REQUEST:
+      return { loading: true };
+    case ARCHIVE_EVENT_SUCCESS:
+      return { loading: false, event: action.payload };
+    case ARCHIVE_EVENT_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;
