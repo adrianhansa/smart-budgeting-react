@@ -6,12 +6,17 @@ import { Badge, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { getEvents } from "../actions/eventActions";
 
-const Header = () => {
+const Header = ({ socket }) => {
   const dispatch = useDispatch();
   const { events, loading, error } = useSelector((state) => state.eventList);
   useEffect(() => {
     dispatch(getEvents());
   }, [dispatch]);
+  useEffect(() => {
+    socket.on("event-created", () => {
+      dispatch(getEvents());
+    });
+  }, [dispatch, socket]);
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   return (

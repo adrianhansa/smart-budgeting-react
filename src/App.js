@@ -23,7 +23,7 @@ const App = () => {
     <Provider store={store}>
       <BrowserRouter>
         <div className="d-flex flex-column min-vh-100">
-          <Header />
+          <Header socket={socket} />
           <Routes>
             <Route path="/" element={<Home />} exact />
             <Route path="/register" element={<Register />} />

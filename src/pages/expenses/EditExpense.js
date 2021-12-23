@@ -19,7 +19,7 @@ const EditExpense = ({ show, handleClose, expense, socket }) => {
       .required("Please select the date when the expense took place."),
     amount: yup.number().required("Please enter the amount you spent."),
     description: yup.string().required("What have you purchased ?"),
-    account: yup.object().required("Please select the account"),
+    account: yup.string().required("Please select the account"),
   });
   return (
     <Modal show={show} onHide={handleClose}>
@@ -90,7 +90,7 @@ const EditExpense = ({ show, handleClose, expense, socket }) => {
                       onBlur={() => props.handleBlur("account")}
                     >
                       <option
-                        value={props.values.account._id}
+                        value={props.values.account}
                         key={props.values.account._id}
                       >
                         {props.values.account.name}

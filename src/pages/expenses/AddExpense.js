@@ -37,7 +37,7 @@ const AddExpense = ({ show, handleClose, socket }) => {
         onSubmit={(values) => {
           dispatch(addExpense(values));
           socket.emit("expense-created", {
-            user: { id: user.id, name: user.name },
+            user,
             amount: values.amount,
             date: values.date,
             description: values.description,
