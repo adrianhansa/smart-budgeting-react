@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Col, Row, Container, Table, Form } from "react-bootstrap";
 import { getExpensesByMonthAndYear } from "../../actions/expenseActions";
 import { getIncomesByMonthAndYear } from "../../actions/incomeActions";
+import { getAccounts } from "../../actions/accountActions";
 import { useSelector, useDispatch } from "react-redux";
 import { GrAddCircle } from "react-icons/gr";
 import AddExpense from "./AddExpense";
 import ExpensePreview from "./ExpensePreview";
 import TotalExpensesByAccounts from "../reports/TotalExpensesByAccounts";
 import TotalIncomesByMonth from "../reports/TotalIncomesByMonth";
-import Swal from "sweetalert2";
 
 const Expenses = ({ socket }) => {
   const [showExpense, setShowExpense] = useState(false);
@@ -17,7 +17,6 @@ const Expenses = ({ socket }) => {
   const { expenses, loading, error } = useSelector(
     (state) => state.expenseList
   );
-
   const handleCloseExpense = () => {
     setShowExpense(false);
     dispatch(getExpensesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
@@ -29,37 +28,16 @@ const Expenses = ({ socket }) => {
 
   useEffect(() => {
     socket.on("expense-created", (data) => {
-      Swal.fire({
-        position: "bottom-end",
-        icon: "success",
-        title: "A new expense was recorded!",
-        showConfirmButton: false,
-        timer: 2000,
-      });
       dispatch(
         getExpensesByMonthAndYear(date.split("-")[1], date.split("-")[0])
       );
     });
     socket.on("expense-updated", (data) => {
-      Swal.fire({
-        position: "bottom-end",
-        icon: "success",
-        title: "Expense updated!",
-        showConfirmButton: false,
-        timer: 2000,
-      });
       dispatch(
         getExpensesByMonthAndYear(date.split("-")[1], date.split("-")[0])
       );
     });
     socket.on("expense-deleted", (data) => {
-      Swal.fire({
-        position: "bottom-end",
-        icon: "success",
-        title: "Expense deleted!",
-        showConfirmButton: false,
-        timer: 2000,
-      });
       dispatch(
         getExpensesByMonthAndYear(date.split("-")[1], date.split("-")[0])
       );
@@ -81,7 +59,30 @@ const Expenses = ({ socket }) => {
   useEffect(() => {
     dispatch(getExpensesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
     dispatch(getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
+    dispatch(getAccounts());
   }, [dispatch, date]);
+
+  const { incomes } = useSelector((state) => state.incomeList);
+  const { accounts } = useSelector((state) => state.accountList);
+  const [savings, setSavings] = useState(0);
+  const [totalExpenses, setTotalExpenses] = useState(0);
+  const [totalIncomes, setTotalIncomes] = useState(0);
+  const [totalBudget, setTotalBudget] = useState(0);
+
+  useEffect(() => {
+    accounts &&
+      setTotalBudget(
+        accounts.reduce((acc, account) => acc + account.budget, 0)
+      );
+    incomes &&
+      setTotalIncomes(incomes.reduce((acc, income) => acc + income.amount, 0));
+    expenses &&
+      setTotalExpenses(
+        expenses.reduce((acc, expense) => acc + expense.amount, 0)
+      );
+    setSavings(totalIncomes - totalExpenses);
+  }, [accounts, expenses, incomes, totalIncomes, totalExpenses, savings]);
+
   return (
     <Container fluid>
       <Row>
@@ -91,11 +92,12 @@ const Expenses = ({ socket }) => {
             handleClose={handleCloseExpense}
             socket={socket}
           />
-
+          <p>Total Incomes: £ {totalIncomes}</p>
+          <p>Total Budget: £ {totalBudget}</p>
+          <p>Total Expenses: £ {totalExpenses}</p>
           <Row className="mt-3 px-5">
             <Col className="mx-auto">
               <TotalIncomesByMonth date={date} socket={socket} />
-
               <Row>
                 <Col sm={8}>
                   <h3>

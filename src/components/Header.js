@@ -8,17 +8,17 @@ import { getEvents } from "../actions/eventActions";
 
 const Header = ({ socket }) => {
   const dispatch = useDispatch();
-  const { events, loading, error } = useSelector((state) => state.eventList);
-  useEffect(() => {
-    dispatch(getEvents());
-  }, [dispatch]);
-  useEffect(() => {
-    socket.on("event-created", () => {
-      dispatch(getEvents());
-    });
-  }, [dispatch, socket]);
-  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
+  useEffect(() => {
+    user &&
+      socket.on("event-created", () => {
+        dispatch(getEvents());
+      });
+  }, [dispatch, socket, user]);
+
+  const { events, loading, error } = useSelector((state) => state.eventList);
+  const navigate = useNavigate();
+
   return (
     <Navbar bg="success" variant="dark" expand="lg" className="mb-2">
       <Container fluid>
