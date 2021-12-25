@@ -9,6 +9,7 @@ import AddExpense from "./AddExpense";
 import ExpensePreview from "./ExpensePreview";
 import TotalExpensesByAccounts from "../reports/TotalExpensesByAccounts";
 import TotalIncomesByMonth from "../reports/TotalIncomesByMonth";
+import Savings from "../reports/Savings";
 
 const Expenses = ({ socket }) => {
   const [showExpense, setShowExpense] = useState(false);
@@ -64,24 +65,6 @@ const Expenses = ({ socket }) => {
 
   const { incomes } = useSelector((state) => state.incomeList);
   const { accounts } = useSelector((state) => state.accountList);
-  const [savings, setSavings] = useState(0);
-  const [totalExpenses, setTotalExpenses] = useState(0);
-  const [totalIncomes, setTotalIncomes] = useState(0);
-  const [totalBudget, setTotalBudget] = useState(0);
-
-  useEffect(() => {
-    accounts &&
-      setTotalBudget(
-        accounts.reduce((acc, account) => acc + account.budget, 0)
-      );
-    incomes &&
-      setTotalIncomes(incomes.reduce((acc, income) => acc + income.amount, 0));
-    expenses &&
-      setTotalExpenses(
-        expenses.reduce((acc, expense) => acc + expense.amount, 0)
-      );
-    setSavings(totalIncomes - totalExpenses);
-  }, [accounts, expenses, incomes, totalIncomes, totalExpenses, savings]);
 
   return (
     <Container fluid>
@@ -92,9 +75,6 @@ const Expenses = ({ socket }) => {
             handleClose={handleCloseExpense}
             socket={socket}
           />
-          <p>Total Incomes: £ {totalIncomes}</p>
-          <p>Total Budget: £ {totalBudget}</p>
-          <p>Total Expenses: £ {totalExpenses}</p>
           <Row className="mt-3 px-5">
             <Col className="mx-auto">
               <TotalIncomesByMonth date={date} socket={socket} />
@@ -108,6 +88,11 @@ const Expenses = ({ socket }) => {
                       onClick={() => setShowExpense(true)}
                     />
                   </h3>
+                  <Savings
+                    incomes={incomes}
+                    expenses={expenses}
+                    accounts={accounts}
+                  />
                 </Col>
                 <Col sm={4}>
                   <Form.Group>
