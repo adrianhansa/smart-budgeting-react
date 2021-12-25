@@ -33,7 +33,9 @@ const Header = ({ socket }) => {
               <LinkContainer to="/incomes">
                 <Nav.Link>Incomes</Nav.Link>
               </LinkContainer>
-
+              <LinkContainer to="/savings">
+                <Nav.Link>Savings</Nav.Link>
+              </LinkContainer>
               <LinkContainer to="/accounts">
                 <Nav.Link>
                   {user.isAdmin ? "Manage Accounts" : "Accounts"}

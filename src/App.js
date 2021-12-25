@@ -14,6 +14,7 @@ import AccountList from "./pages/accounts/AccountList";
 import EventLogs from "./pages/reports/EventLogs";
 import io from "socket.io-client";
 import axios from "axios";
+import Savings from "./pages/savings/Savings";
 axios.defaults.withCredentials = true;
 
 const socket = io.connect("http://localhost:5000");
@@ -31,6 +32,7 @@ const App = () => {
             <Route path="/expenses" element={<Expenses socket={socket} />} />
             <Route path="/incomes" element={<Incomes socket={socket} />} />
             <Route path="/accounts" element={<AccountList />} />
+            <Route path="/savings" element={<Savings />} />
             <Route path="/users" element={<Users />} />
             <Route path="/events" element={<EventLogs />} />
           </Routes>

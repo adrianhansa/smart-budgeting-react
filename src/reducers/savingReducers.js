@@ -8,21 +8,21 @@ import {
   GET_SAVINGS_FAIL,
   GET_SAVINGS_REQUEST,
   GET_SAVINGS_SUCCESS,
-  GET_SAVING_BY_MONYTH_AND_YEAR_FAIL,
-  GET_SAVING_BY_MONYTH_AND_YEAR_REQUEST,
-  GET_SAVING_BY_MONYTH_AND_YEAR_SUCCESS,
+  GET_SAVING_BY_MONTH_AND_YEAR_FAIL,
+  GET_SAVING_BY_MONTH_AND_YEAR_REQUEST,
+  GET_SAVING_BY_MONTH_AND_YEAR_SUCCESS,
   UPDATE_SAVING_FAIL,
   UPDATE_SAVING_REQUEST,
   UPDATE_SAVING_SUCCESS,
-} from "../constants/savingContans";
+} from "../constants/savingConstans";
 
 export const getSavingReducer = (state = { saving: {} }, action) => {
   switch (action.type) {
-    case GET_SAVING_BY_MONYTH_AND_YEAR_REQUEST:
+    case GET_SAVING_BY_MONTH_AND_YEAR_REQUEST:
       return { loading: true };
-    case GET_SAVING_BY_MONYTH_AND_YEAR_SUCCESS:
+    case GET_SAVING_BY_MONTH_AND_YEAR_SUCCESS:
       return { loading: false, saving: action.payload };
-    case GET_SAVING_BY_MONYTH_AND_YEAR_FAIL:
+    case GET_SAVING_BY_MONTH_AND_YEAR_FAIL:
       return { loading: false, error: action.payload };
     case DELETE_SAVING_REQUEST:
       return { loading: true };
