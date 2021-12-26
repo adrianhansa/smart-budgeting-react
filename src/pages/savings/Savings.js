@@ -1,9 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getSavings } from "../../actions/savingActions";
+import { GrAddCircle } from "react-icons/gr";
+import AddSaving from "./AddSaving";
 
 const Savings = () => {
+  const [show, setShow] = useState(false);
+  const [date, setDate] = useState(
+    `${new Date().getFullYear()}-${new Date().getMonth() + 1}`
+  );
+  const handleClose = () => {
+    setShow(false);
+    dispatch(getSavings(date.split("-")[1], date.split("-")[0]));
+  };
   const dispatch = useDispatch();
   const { savings, loading, error } = useSelector((state) => state.savingList);
   useEffect(() => {
@@ -12,7 +22,16 @@ const Savings = () => {
   return (
     <Container fluid>
       <Row>
-        <Col className="mx-auto">
+        <Col className="mx-auto" md={6}>
+          <h2 className="text-center">
+            Savings
+            <GrAddCircle
+              size="32"
+              type="button"
+              onClick={() => setShow(true)}
+            />
+          </h2>
+          <AddSaving show={show} handleClose={handleClose} />
           {loading && <p>Loading...</p>}
           {error && <p className="text-danger">{error}</p>}
           {savings && (
@@ -25,20 +44,20 @@ const Savings = () => {
                   {/* <th width="10%">Edit</th> */}
                   {/* <th width="10%">Delete</th> */}
                 </tr>
-                <tbody>
-                  {savings.map((saving) => {
-                    return (
-                      <tr>
-                        <td>
-                          {saving.month}-{saving.year}
-                        </td>
-                        <td>{saving.user.name}</td>
-                        <td>{saving.amount}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
               </thead>
+              <tbody>
+                {savings.map((saving) => {
+                  return (
+                    <tr key={saving._id}>
+                      <td>
+                        {saving.month}-{saving.year}
+                      </td>
+                      <td>{saving.user.name}</td>
+                      <td>{saving.amount}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
             </Table>
           )}
         </Col>

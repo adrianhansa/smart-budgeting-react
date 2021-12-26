@@ -8,8 +8,7 @@ import { GrAddCircle } from "react-icons/gr";
 import AddExpense from "./AddExpense";
 import ExpensePreview from "./ExpensePreview";
 import TotalExpensesByAccounts from "../reports/TotalExpensesByAccounts";
-import TotalIncomesByMonth from "../reports/TotalIncomesByMonth";
-import Savings from "../reports/Savings";
+import SavingsCurentMonth from "../reports/SavingsCurentMonth";
 
 const Expenses = ({ socket }) => {
   const [showExpense, setShowExpense] = useState(false);
@@ -77,9 +76,13 @@ const Expenses = ({ socket }) => {
           />
           <Row className="mt-3 px-5">
             <Col className="mx-auto">
-              <TotalIncomesByMonth date={date} socket={socket} />
               <Row>
                 <Col sm={8}>
+                  <SavingsCurentMonth
+                    incomes={incomes}
+                    expenses={expenses}
+                    accounts={accounts}
+                  />
                   <h3>
                     Expenses
                     <GrAddCircle
@@ -88,11 +91,6 @@ const Expenses = ({ socket }) => {
                       onClick={() => setShowExpense(true)}
                     />
                   </h3>
-                  <Savings
-                    incomes={incomes}
-                    expenses={expenses}
-                    accounts={accounts}
-                  />
                 </Col>
                 <Col sm={4}>
                   <Form.Group>

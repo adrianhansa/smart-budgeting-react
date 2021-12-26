@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 
-const Savings = ({ accounts, expenses, incomes }) => {
+const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [totalIncomes, setTotalIncomes] = useState(0);
   const [totalBudget, setTotalBudget] = useState(0);
@@ -31,4 +31,4 @@ const Savings = ({ accounts, expenses, incomes }) => {
   );
 };
 
-export default Savings;
+export default SavingsCurrentMonth;

@@ -50,7 +50,7 @@ export const getSavingReducer = (state = { saving: {} }, action) => {
 export const getSavingsReducer = (state = { savings: [] }, action) => {
   switch (action.type) {
     case GET_SAVINGS_REQUEST:
-      return { lading: true };
+      return { loading: true };
     case GET_SAVINGS_SUCCESS:
       return { loading: false, savings: action.payload };
     case GET_SAVINGS_FAIL:
