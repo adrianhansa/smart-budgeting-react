@@ -41,19 +41,17 @@ const AccountPreview = ({ expense, handleClose, socket }) => {
   const dispatch = useDispatch();
   return (
     <>
-      <tr>
-        <td>{expense.date}</td>
-        <td>{expense.user.name}</td>
-        <td>£ {expense.amount.toFixed(2)}</td>
-        <td>{expense.description}</td>
-        <td>{expense.account.name}</td>
-        <td>
-          <BiEditAlt type="button" onClick={() => setShowEditModal(true)} />
-        </td>
-        <td>
-          <RiDeleteBin5Line type="button" onClick={handleDelete} />
-        </td>
-      </tr>
+      <td>{expense.date}</td>
+      <td>{expense.user.name}</td>
+      <td>£ {expense.amount.toFixed(2)}</td>
+      <td>{expense.description}</td>
+      <td>{expense.account.name}</td>
+      <td>
+        <BiEditAlt type="button" onClick={() => setShowEditModal(true)} />
+      </td>
+      <td>
+        <RiDeleteBin5Line type="button" onClick={handleDelete} />
+      </td>
       <EditExpense
         show={showEditModal}
         handleClose={handleClose}

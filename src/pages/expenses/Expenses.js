@@ -126,12 +126,14 @@ const Expenses = ({ socket }) => {
                   {expenses &&
                     expenses.map((expense) => {
                       return (
-                        <ExpensePreview
-                          expense={expense}
-                          key={expense._id}
-                          handleClose={handleCloseExpense}
-                          socket={socket}
-                        />
+                        <tr key={expense._id}>
+                          <ExpensePreview
+                            expense={expense}
+                            key={expense._id}
+                            handleClose={handleCloseExpense}
+                            socket={socket}
+                          />
+                        </tr>
                       );
                     })}
                 </tbody>

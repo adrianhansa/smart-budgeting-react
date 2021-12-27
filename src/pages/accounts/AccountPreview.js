@@ -35,20 +35,18 @@ const AccountPreview = ({ account }) => {
   const dispatch = useDispatch();
   return (
     <>
-      <tr>
-        <td>{account.name}</td>
-        <td>{account.budget}</td>
-        {user.isAdmin && (
-          <>
-            <td>
-              <BiEditAlt type="button" onClick={() => setShowEditModal(true)} />
-            </td>
-            <td>
-              <RiDeleteBin5Line type="button" onClick={handleDelete} />
-            </td>
-          </>
-        )}
-      </tr>
+      <td>{account.name}</td>
+      <td>{account.budget}</td>
+      {user.isAdmin && (
+        <>
+          <td>
+            <BiEditAlt type="button" onClick={() => setShowEditModal(true)} />
+          </td>
+          <td>
+            <RiDeleteBin5Line type="button" onClick={handleDelete} />
+          </td>
+        </>
+      )}
       <EditAccount
         show={showEditModal}
         handleClose={handleCloseEditModal}

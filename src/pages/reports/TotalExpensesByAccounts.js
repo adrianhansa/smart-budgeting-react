@@ -88,7 +88,7 @@ const TotalExpensesByAccounts = ({ expenses }) => {
                 accounts.map((account) => {
                   return (
                     <>
-                      <tr>
+                      <tr key={account._id}>
                         <td>{account.name}</td>
                         <td>
                           £{" "}
@@ -127,15 +127,12 @@ const TotalExpensesByAccounts = ({ expenses }) => {
                                   responsive: true,
                                   maintainAspectRatio: true,
                                 }}
-                                data={dataForChart(
-                                  //   ["Spent", "Remaining Budget"],
-                                  [
-                                    expenses &&
-                                      totalExpensesByBudget(expenses, account),
-                                    account.budget -
-                                      totalExpensesByBudget(expenses, account),
-                                  ]
-                                )}
+                                data={dataForChart([
+                                  expenses &&
+                                    totalExpensesByBudget(expenses, account),
+                                  account.budget -
+                                    totalExpensesByBudget(expenses, account),
+                                ])}
                               />
                             </div>
                           </td>

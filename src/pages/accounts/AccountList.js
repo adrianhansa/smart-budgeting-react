@@ -62,7 +62,9 @@ const AccountList = () => {
                   {accounts &&
                     accounts.map((account) => {
                       return (
-                        <AccountPreview account={account} key={account._id} />
+                        <tr key={account._id}>
+                          <AccountPreview account={account} key={account._id} />
+                        </tr>
                       );
                     })}
                 </tbody>
