@@ -117,12 +117,13 @@ const Incomes = ({ socket }) => {
                   {incomes &&
                     incomes.map((income) => {
                       return (
-                        <IncomePreview
-                          income={income}
-                          key={income._id}
-                          handleClose={handleClose}
-                          socket={socket}
-                        />
+                        <tr key={income._id}>
+                          <IncomePreview
+                            income={income}
+                            handleClose={handleClose}
+                            socket={socket}
+                          />
+                        </tr>
                       );
                     })}
                 </tbody>

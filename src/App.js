@@ -32,7 +32,7 @@ const App = () => {
             <Route path="/expenses" element={<Expenses socket={socket} />} />
             <Route path="/incomes" element={<Incomes socket={socket} />} />
             <Route path="/accounts" element={<AccountList />} />
-            <Route path="/savings" element={<Savings />} />
+            <Route path="/savings" element={<Savings socket={socket} />} />
             <Route path="/users" element={<Users />} />
             <Route path="/events" element={<EventLogs />} />
           </Routes>

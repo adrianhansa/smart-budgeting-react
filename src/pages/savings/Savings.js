@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSavings } from "../../actions/savingActions";
 import { GrAddCircle } from "react-icons/gr";
 import AddSaving from "./AddSaving";
+import SavingPreview from "./SavingPreview";
 
-const Savings = () => {
+const Savings = ({ socket }) => {
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(
     `${new Date().getFullYear()}-${new Date().getMonth() + 1}`
@@ -19,6 +20,7 @@ const Savings = () => {
   useEffect(() => {
     dispatch(getSavings());
   }, [dispatch]);
+
   return (
     <Container fluid>
       <Row>
@@ -41,19 +43,19 @@ const Savings = () => {
                   <th width="15%">Month and Year</th>
                   <th width="15%">Member of the household</th>
                   <th width="10%">Amount saved</th>
-                  {/* <th width="10%">Edit</th> */}
-                  {/* <th width="10%">Delete</th> */}
+                  <th width="10%">Edit</th>
+                  <th width="10%">Delete</th>
                 </tr>
               </thead>
               <tbody>
                 {savings.map((saving) => {
                   return (
                     <tr key={saving._id}>
-                      <td>
-                        {saving.month}-{saving.year}
-                      </td>
-                      <td>{saving.user.name}</td>
-                      <td>{saving.amount}</td>
+                      <SavingPreview
+                        socket={socket}
+                        saving={saving}
+                        handleClose={handleClose}
+                      />
                     </tr>
                   );
                 })}

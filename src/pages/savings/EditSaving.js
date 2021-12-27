@@ -1,40 +1,31 @@
 import React from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { addSaving } from "../../actions/savingActions";
+import { updateSaving } from "../../actions/savingActions";
 import { Formik } from "formik";
 import * as yup from "yup";
 
-const AddSaving = ({ show, handleClose }) => {
+const EditSaving = ({ show, handleClose, saving, socket }) => {
   const { user } = useSelector((state) => state.auth);
-  const { loading, error } = useSelector((state) => state.savingDetails);
   const dispatch = useDispatch();
-
   const validationSchema = yup.object({
-    date: yup
-      .string()
-      .required("Please select the date when you've been paid."),
-    amount: yup.number().required("Please enter the amount you earned."),
+    amount: yup.number().required("Please enter the amount."),
   });
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Record a Saving</Modal.Title>
+        <Modal.Title>Update the Income</Modal.Title>
       </Modal.Header>
       <Formik
         initialValues={{
-          date: new Date(),
-          amount: 0.0,
+          amount: saving.amount,
         }}
         onSubmit={(values) => {
-          console.log(values.date);
-          dispatch(
-            addSaving({
-              amount: values.amount,
-              month: values.date.split("-")[1],
-              year: values.date.split("-")[0],
-            })
-          );
+          dispatch(updateSaving(saving._id, { amount: values.amount }));
+          socket.emit("saving-updated", {
+            user: user,
+            amount: values.amount,
+          });
           handleClose();
         }}
         validationSchema={validationSchema}
@@ -43,20 +34,8 @@ const AddSaving = ({ show, handleClose }) => {
           return (
             <>
               <Modal.Body>
-                {loading && <p>Loading...</p>}
-                {error && <p className="text-danger">{error}</p>}
                 <Form>
                   <Form.Group className="mb-3">
-                    <Form.Label>Date</Form.Label>
-                    <Form.Control
-                      type="month"
-                      value={props.values.date}
-                      onChange={props.handleChange("date")}
-                      onBlur={() => props.handleBlur("date")}
-                    />
-                    {props.touched && (
-                      <p className="text-danger">{props.errors.date}</p>
-                    )}
                     <Form.Label>Amount saved</Form.Label>
                     <Form.Control
                       type="number"
@@ -90,4 +69,4 @@ const AddSaving = ({ show, handleClose }) => {
   );
 };
 
-export default AddSaving;
+export default EditSaving;
