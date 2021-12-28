@@ -103,6 +103,55 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
               })}
           </tbody>
         </Table>
+        <Table>
+          <thead>
+            <tr>
+              <th>Household member</th>
+              <th>Savings for the month</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users &&
+              users.map((user) => {
+                return (
+                  <tr key={user._id}>
+                    <td>{user.name}</td>
+                    <td>
+                      £{" "}
+                      {savings &&
+                        incomes &&
+                        expenses &&
+                        (
+                          Number(findTotal(incomes, user)) -
+                          Number(findTotal(expenses, user))
+                        ).toFixed(2)}
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </Table>
+        <Table>
+          <thead>
+            <tr>
+              <th>Household member</th>
+              <th>Income current month</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users &&
+              users.map((user) => {
+                return (
+                  <tr key={user._id}>
+                    <td>{user.name}</td>
+                    <td>
+                      £ {incomes && Number(findTotal(incomes, user)).toFixed(2)}
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </Table>
       </Col>
     </Row>
   );
