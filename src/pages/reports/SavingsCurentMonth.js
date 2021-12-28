@@ -19,6 +19,15 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
   const [totalSavings, setTotalSavings] = useState(0);
   const [amountAvailable, setAmountAvailable] = useState(0);
 
+  const findTotal = (list, user) => {
+    return list
+      .filter((item) => {
+        return user._id === item.user._id;
+      })
+      .reduce((acc, item) => acc + item.amount, 0)
+      .toFixed(2);
+  };
+
   useEffect(() => {
     accounts &&
       setTotalBudget(
@@ -59,14 +68,35 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
                 return (
                   <tr key={user._id}>
                     <td>{user.name}</td>
+                    <td>{expenses && findTotal(expenses, user)}</td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </Table>
+        <Table>
+          <thead>
+            <tr>
+              <th>Household member</th>
+              <th>Amount available</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users &&
+              users.map((user) => {
+                return (
+                  <tr key={user._id}>
+                    <td>{user.name}</td>
                     <td>
-                      {expenses &&
-                        expenses
-                          .filter((expense) => {
-                            return user._id === expense.user._id;
-                          })
-                          .reduce((acc, expense) => acc + expense.amount, 0)
-                          .toFixed(2)}
+                      £{" "}
+                      {savings &&
+                        incomes &&
+                        expenses &&
+                        (
+                          Number(findTotal(savings, user)) +
+                          Number(findTotal(incomes, user)) -
+                          Number(findTotal(expenses, user))
+                        ).toFixed(2)}
                     </td>
                   </tr>
                 );
