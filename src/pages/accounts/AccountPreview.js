@@ -5,6 +5,7 @@ import { deleteAccount } from "../../actions/accountActions";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import EditAccount from "./EditAccount";
+import { formatter } from "../../utils/currencyFormatter";
 
 const AccountPreview = ({ account }) => {
   const [showEditModal, setShowEditModal] = useState(false);
@@ -36,7 +37,7 @@ const AccountPreview = ({ account }) => {
   return (
     <>
       <td>{account.name}</td>
-      <td>{account.budget}</td>
+      <td>{formatter.format(account.budget)}</td>
       {user.isAdmin && (
         <>
           <td>

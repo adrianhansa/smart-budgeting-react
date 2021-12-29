@@ -5,6 +5,7 @@ import { deleteExpense } from "../../actions/expenseActions";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import EditExpense from "./EditExpense";
+import { formatter } from "../../utils/currencyFormatter";
 
 const AccountPreview = ({ expense, handleClose, socket }) => {
   const { user } = useSelector((state) => state.auth);
@@ -43,7 +44,7 @@ const AccountPreview = ({ expense, handleClose, socket }) => {
     <>
       <td>{expense.date}</td>
       <td>{expense.user.name}</td>
-      <td>£ {expense.amount.toFixed(2)}</td>
+      <td>{formatter.format(expense.amount)}</td>
       <td>{expense.description}</td>
       <td>{expense.account.name}</td>
       <td>

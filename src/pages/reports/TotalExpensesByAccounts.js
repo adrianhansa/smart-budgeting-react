@@ -7,6 +7,7 @@ import { GoGraph } from "react-icons/go";
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
+import { formatter } from "../../utils/currencyFormatter";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -30,9 +31,9 @@ const TotalExpensesByAccounts = ({ expenses }) => {
   };
 
   const totalExpenses = (items) =>
-    items.reduce((acc, item) => acc + item.amount, 0).toFixed(2);
+    items.reduce((acc, item) => acc + item.amount, 0);
   const totalBudgets = (items) =>
-    items.reduce((acc, item) => acc + item.budget, 0).toFixed(2);
+    items.reduce((acc, item) => acc + item.budget, 0);
 
   const dataForChart = ([totalSpent, totalBudget]) => {
     return {
@@ -71,15 +72,19 @@ const TotalExpensesByAccounts = ({ expenses }) => {
                   />
                 </th>
                 <th width="20%">
-                  Amount Spent <br />£ {expenses && totalExpenses(expenses)}
+                  Amount Spent <br />
+                  {expenses && formatter.format(totalExpenses(expenses))}
                 </th>
                 <th width="20%">
-                  Monthly Budget <br />£ {accounts && totalBudgets(accounts)}
+                  Monthly Budget <br />
+                  {accounts && formatter.format(totalBudgets(accounts))}
                 </th>
                 <th width="20%">
-                  Remaining Budget <br />£{" "}
-                  {(accounts && totalBudgets(accounts)) -
-                    (expenses && totalExpenses(expenses))}
+                  Remaining Budget <br />
+                  {formatter.format(
+                    (accounts && totalBudgets(accounts)) -
+                      (expenses && totalExpenses(expenses))
+                  )}
                 </th>
               </tr>
             </thead>
@@ -91,18 +96,18 @@ const TotalExpensesByAccounts = ({ expenses }) => {
                       <tr key={account._id}>
                         <td>{account.name}</td>
                         <td>
-                          £{" "}
                           {expenses &&
-                            totalExpensesByBudget(expenses, account).toFixed(2)}
-                        </td>
-                        <td>£ {account.budget.toFixed(2)}</td>
-                        <td>
-                          £
-                          {expenses &&
-                            (
-                              account.budget -
+                            formatter.format(
                               totalExpensesByBudget(expenses, account)
-                            ).toFixed(2)}
+                            )}
+                        </td>
+                        <td>{formatter.format(account.budget)}</td>
+                        <td>
+                          {expenses &&
+                            formatter.format(
+                              account.budget -
+                                totalExpensesByBudget(expenses, account)
+                            )}
                         </td>
                       </tr>
                       {toggleGraphs && (
@@ -112,10 +117,9 @@ const TotalExpensesByAccounts = ({ expenses }) => {
                               accountName={account.name}
                               expense={
                                 expenses &&
-                                totalExpensesByBudget(
-                                  expenses,
-                                  account
-                                ).toFixed(2)
+                                formatter.format(
+                                  totalExpensesByBudget(expenses, account)
+                                )
                               }
                               budget={account.budget}
                             />

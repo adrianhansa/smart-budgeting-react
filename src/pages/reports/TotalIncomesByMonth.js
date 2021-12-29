@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import AddIncome from "../incomes/AddIncome";
 import IncomePreview from "../incomes/IncomePreview";
 import Swal from "sweetalert2";
+import { formatter } from "../../utils/currencyFormatter";
 
 const TotalIncomesByMonth = ({ date, socket }) => {
   const [showAddIncome, setShowAddIncome] = useState(false);
@@ -71,9 +72,10 @@ const TotalIncomesByMonth = ({ date, socket }) => {
             color: "green",
           }}
         >
-          £{" "}
           {incomes &&
-            incomes.reduce((acc, income) => acc + income.amount, 0).toFixed(2)}
+            formatter.format(
+              incomes.reduce((acc, income) => acc + income.amount, 0)
+            )}
         </span>
       </h3>
       <div style={{ display: "flex", justifyContent: "space-between" }}>

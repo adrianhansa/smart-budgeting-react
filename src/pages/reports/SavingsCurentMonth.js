@@ -3,6 +3,7 @@ import { Row, Col, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getSavings } from "../../actions/savingActions";
 import { getUsers } from "../../actions/userActions";
+import { formatter } from "../../utils/currencyFormatter";
 
 const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
   const dispatch = useDispatch();
@@ -50,11 +51,11 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
       <Col>
         {loading && <p>{loading}</p>}
         {error && <p className="text-danger">{error}</p>}
-        <p>Total Savings: £ {totalSavings.toFixed(2)}</p>
-        <p>Total Incomes: £ {totalIncomes.toFixed(2)}</p>
-        <p>Total Budget: £ {totalBudget.toFixed(2)}</p>
-        <p>Total Expenses: £ {totalExpenses.toFixed(2)}</p>
-        <p>Amount available: £ {amountAvailable.toFixed(2)}</p>
+        <p>Total Savings: {formatter.format(totalSavings)}</p>
+        <p>Total Incomes: {formatter.format(totalIncomes)}</p>
+        <p>Total Budget: {formatter.format(totalBudget)}</p>
+        <p>Total Expenses: {formatter.format(totalExpenses)}</p>
+        <p>Amount available: {formatter.format(amountAvailable)}</p>
         <Table>
           <thead>
             <tr>
@@ -68,7 +69,9 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
                 return (
                   <tr key={user._id}>
                     <td>{user.name}</td>
-                    <td>{expenses && findTotal(expenses, user)}</td>
+                    <td>
+                      {expenses && formatter.format(findTotal(expenses, user))}
+                    </td>
                   </tr>
                 );
               })}
@@ -88,15 +91,14 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
                   <tr key={user._id}>
                     <td>{user.name}</td>
                     <td>
-                      £{" "}
                       {savings &&
                         incomes &&
                         expenses &&
-                        (
+                        formatter.format(
                           Number(findTotal(savings, user)) +
-                          Number(findTotal(incomes, user)) -
-                          Number(findTotal(expenses, user))
-                        ).toFixed(2)}
+                            Number(findTotal(incomes, user)) -
+                            Number(findTotal(expenses, user))
+                        )}
                     </td>
                   </tr>
                 );
@@ -117,14 +119,13 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
                   <tr key={user._id}>
                     <td>{user.name}</td>
                     <td>
-                      £{" "}
                       {savings &&
                         incomes &&
                         expenses &&
-                        (
+                        formatter.format(
                           Number(findTotal(incomes, user)) -
-                          Number(findTotal(expenses, user))
-                        ).toFixed(2)}
+                            Number(findTotal(expenses, user))
+                        )}
                     </td>
                   </tr>
                 );
@@ -145,7 +146,7 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
                   <tr key={user._id}>
                     <td>{user.name}</td>
                     <td>
-                      £ {incomes && Number(findTotal(incomes, user)).toFixed(2)}
+                      {incomes && formatter.format(findTotal(incomes, user))}
                     </td>
                   </tr>
                 );

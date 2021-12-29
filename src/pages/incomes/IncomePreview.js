@@ -5,6 +5,7 @@ import { deleteIncome } from "../../actions/incomeActions";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import EditIncome from "./EditIncome";
+import { formatter } from "../../utils/currencyFormatter";
 
 const IncomePreview = ({ income, handleClose, socket }) => {
   const { user } = useSelector((state) => state.auth);
@@ -43,7 +44,7 @@ const IncomePreview = ({ income, handleClose, socket }) => {
     <>
       <td>{income.date}</td>
       <td>{income.user.name}</td>
-      <td>£ {income.amount.toFixed(2)}</td>
+      <td>{formatter.format(income.amount)}</td>
       <td>{income.description}</td>
       <td>
         <BiEditAlt type="button" onClick={() => setShowEditModal(true)} />

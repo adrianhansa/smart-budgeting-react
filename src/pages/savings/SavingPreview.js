@@ -5,6 +5,7 @@ import { deleteSaving } from "../../actions/savingActions";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import EditSaving from "./EditSaving";
+import { formatter } from "../../utils/currencyFormatter";
 
 const SavingPreview = ({ saving, handleClose, socket }) => {
   const { user } = useSelector((state) => state.auth);
@@ -46,7 +47,7 @@ const SavingPreview = ({ saving, handleClose, socket }) => {
         {saving.month}-{saving.year}
       </td>
       <td>{saving.user.name}</td>
-      <td>£ {saving.amount.toFixed(2)}</td>
+      <td>{formatter.format(saving.amount)}</td>
       <td>
         <BiEditAlt type="button" onClick={() => setShowSavingModal(true)} />
       </td>
