@@ -5,6 +5,7 @@ import { addExpense } from "../../actions/expenseActions";
 import { getAccounts } from "../../actions/accountActions";
 import { Formik } from "formik";
 import * as yup from "yup";
+import Loading from "../../components/Loading";
 
 const AddExpense = ({ show, handleClose, socket }) => {
   const { user } = useSelector((state) => state.auth);
@@ -51,7 +52,7 @@ const AddExpense = ({ show, handleClose, socket }) => {
           return (
             <>
               <Modal.Body>
-                {loading && <p>Loading...</p>}
+                {loading && <Loading />}
                 {error && <p className="text-danger">{error}</p>}
                 <Form>
                   <Form.Group className="mb-3">

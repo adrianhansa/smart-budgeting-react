@@ -5,6 +5,7 @@ import { addAccount } from "../../actions/accountActions";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useSelector } from "react-redux";
+import Loading from "../../components/Loading";
 
 const AddAccount = ({ show, handleClose }) => {
   const { loading, error } = useSelector((state) => state.accountDetails);
@@ -30,7 +31,7 @@ const AddAccount = ({ show, handleClose }) => {
           return (
             <>
               <Modal.Body>
-                {loading && <p>Loading...</p>}
+                {loading && <Loading />}
                 {error && <p className="text-danger">{error}</p>}
                 <Form>
                   <Form.Group className="mb-3">

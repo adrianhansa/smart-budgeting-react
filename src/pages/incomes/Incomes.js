@@ -6,6 +6,7 @@ import { GrAddCircle } from "react-icons/gr";
 import AddIncome from "./AddIncome";
 import IncomePreview from "./IncomePreview";
 import Swal from "sweetalert2";
+import Loading from "../../components/Loading";
 
 const Incomes = ({ socket }) => {
   const dispatch = useDispatch();
@@ -100,7 +101,7 @@ const Incomes = ({ socket }) => {
                   </Form.Group>
                 </Col>
               </Row>
-              {loading && <p>Loading...</p>}
+              {loading && <Loading />}
               {error && <p>{error}</p>}
               <Table striped bordered hover>
                 <thead>

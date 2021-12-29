@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { IoArchiveOutline } from "react-icons/io5";
+import Loading from "../../components/Loading";
 
 const EventLogs = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const EventLogs = () => {
       <Row className="mt-3 px-5">
         <Col xs={12} sm={10} md={10} lg={8} xl={8} className="mx-auto">
           <h2 className="text-center">Changes log</h2>
-          {loading && <p>Loading...</p>}
+          {loading && <Loading />}
           {error && <p className="text-danger">{error}</p>}
           {events && (
             <Table striped bordered hover>

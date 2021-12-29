@@ -5,6 +5,7 @@ import { getSavings } from "../../actions/savingActions";
 import { GrAddCircle } from "react-icons/gr";
 import AddSaving from "./AddSaving";
 import SavingPreview from "./SavingPreview";
+import Loading from "../../components/Loading";
 
 const Savings = ({ socket }) => {
   const [show, setShow] = useState(false);
@@ -34,7 +35,7 @@ const Savings = ({ socket }) => {
             />
           </h2>
           <AddSaving show={show} handleClose={handleClose} />
-          {loading && <p>Loading...</p>}
+          {loading && <Loading />}
           {error && <p className="text-danger">{error}</p>}
           {savings && (
             <Table striped bordered hover>

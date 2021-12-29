@@ -9,6 +9,7 @@ import AddExpense from "./AddExpense";
 import ExpensePreview from "./ExpensePreview";
 import TotalExpensesByAccounts from "../reports/TotalExpensesByAccounts";
 import SavingsCurentMonth from "../reports/SavingsCurentMonth";
+import Loading from "../../components/Loading";
 
 const Expenses = ({ socket }) => {
   const [showExpense, setShowExpense] = useState(false);
@@ -107,7 +108,7 @@ const Expenses = ({ socket }) => {
                   {expenseDetails.error}
                 </p>
               )}
-              {loading && <p>Loading...</p>}
+              {loading && <Loading />}
               {error && <p>{error}</p>}
 
               <Table striped bordered hover>

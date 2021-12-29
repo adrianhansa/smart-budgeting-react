@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSavings } from "../../actions/savingActions";
 import { getUsers } from "../../actions/userActions";
 import { formatter } from "../../utils/currencyFormatter";
+import Loading from "../../components/Loading";
 
 const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
   return (
     <Row>
       <Col md={12} lg={12}>
-        {loading && <p>{loading}</p>}
+        {loading && <Loading />}
         {error && <p className="text-danger">{error}</p>}
         <h3>Incomes, Expenses and Savings</h3>
         <Table striped bordered hover>

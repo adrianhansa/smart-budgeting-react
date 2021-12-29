@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import AddIncome from "../incomes/AddIncome";
 import IncomePreview from "../incomes/IncomePreview";
 import Swal from "sweetalert2";
-import { formatter } from "../../utils/currencyFormatter";
+import Loading from "../../components/Loading";
 
 const TotalIncomesByMonth = ({ date, socket }) => {
   const [showAddIncome, setShowAddIncome] = useState(false);
@@ -128,7 +128,7 @@ const TotalIncomesByMonth = ({ date, socket }) => {
               </tbody>
             </Table>
           )}
-          {loading && <p>Loading...</p>}
+          {loading && <Loading />}
           {error && <p>{error}</p>}
         </Col>
       </Row>

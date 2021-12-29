@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addIncome } from "../../actions/incomeActions";
 import { Formik } from "formik";
 import * as yup from "yup";
+import Loading from "../../components/Loading";
 
 const AddIncome = ({ show, handleClose, socket }) => {
   const { user } = useSelector((state) => state.auth);
@@ -44,7 +45,7 @@ const AddIncome = ({ show, handleClose, socket }) => {
           return (
             <>
               <Modal.Body>
-                {loading && <p>Loading...</p>}
+                {loading && <Loading />}
                 {error && <p className="text-danger">{error}</p>}
                 <Form>
                   <Form.Group className="mb-3">

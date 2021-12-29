@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addSaving } from "../../actions/savingActions";
 import { Formik } from "formik";
 import * as yup from "yup";
+import Loading from "../../components/Loading";
 
 const AddSaving = ({ show, handleClose }) => {
   const { user } = useSelector((state) => state.auth);
@@ -43,7 +44,7 @@ const AddSaving = ({ show, handleClose }) => {
           return (
             <>
               <Modal.Body>
-                {loading && <p>Loading...</p>}
+                {loading && <Loading />}
                 {error && <p className="text-danger">{error}</p>}
                 <Form>
                   <Form.Group className="mb-3">
