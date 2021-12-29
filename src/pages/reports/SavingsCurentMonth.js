@@ -45,7 +45,6 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
       setTotalSavings(savings.reduce((acc, saving) => acc + saving.amount, 0));
     setAmountAvailable(totalSavings + totalIncomes - totalExpenses);
   }, [accounts, expenses, incomes, totalIncomes, totalExpenses, savings]);
-  console.log(totalBudget, totalExpenses, totalIncomes);
   return (
     <Row>
       <Col md={12} lg={12}>
@@ -94,6 +93,7 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
                     <td>
                       {incomes && formatter.format(findTotal(incomes, user))}
                     </td>
+                    <td></td>
                   </tr>
                 );
               })}
@@ -114,7 +114,7 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
                   )}
               </td>
               <td>{formatter.format(totalIncomes)}</td>
-              <td>{formatter.format(savingsForMonth)}</td>
+              <td>{formatter.format(totalIncomes - totalBudget)}</td>
             </tr>
           </tbody>
         </Table>
