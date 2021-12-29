@@ -22,7 +22,7 @@ const Header = ({ socket }) => {
   return (
     <Navbar bg="success" variant="dark" expand="lg" className="mb-2">
       <Container fluid>
-        <Navbar.Brand href="/">Smart Budgeting</Navbar.Brand>
+        <Navbar.Brand href="/welcome">Smart Budgeting</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           {user && (

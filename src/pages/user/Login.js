@@ -16,7 +16,7 @@ const Login = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (user) {
-      navigate("/");
+      navigate("/welcome");
     }
   }, [user, navigate]);
   const dispatch = useDispatch();
