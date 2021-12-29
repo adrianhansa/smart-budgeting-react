@@ -76,13 +76,13 @@ const Expenses = ({ socket }) => {
           />
           <Row className="mt-3 px-5">
             <Col className="mx-auto">
+              <SavingsCurentMonth
+                incomes={incomes}
+                expenses={expenses}
+                accounts={accounts}
+              />
               <Row>
                 <Col sm={8}>
-                  <SavingsCurentMonth
-                    incomes={incomes}
-                    expenses={expenses}
-                    accounts={accounts}
-                  />
                   <h3>
                     Expenses
                     <GrAddCircle

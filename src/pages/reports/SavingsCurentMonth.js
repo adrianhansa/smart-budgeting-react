@@ -48,19 +48,19 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
   console.log(totalBudget, totalExpenses, totalIncomes);
   return (
     <Row>
-      <Col>
+      <Col md={12} lg={12}>
         {loading && <p>{loading}</p>}
         {error && <p className="text-danger">{error}</p>}
-        <p>Total Savings: {formatter.format(totalSavings)}</p>
-        <p>Total Incomes: {formatter.format(totalIncomes)}</p>
-        <p>Total Budget: {formatter.format(totalBudget)}</p>
-        <p>Total Expenses: {formatter.format(totalExpenses)}</p>
-        <p>Amount available: {formatter.format(amountAvailable)}</p>
-        <Table>
+        <h3>Incomes, Expenses and Savings</h3>
+        <Table striped bordered hover>
           <thead>
             <tr>
               <th>Household member</th>
               <th>Total expenses</th>
+              <th>Amount available</th>
+              <th>Savings current month</th>
+              <th>Income current momth</th>
+              <th>Predicted savings</th>
             </tr>
           </thead>
           <tbody>
@@ -72,24 +72,6 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
                     <td>
                       {expenses && formatter.format(findTotal(expenses, user))}
                     </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </Table>
-        <Table>
-          <thead>
-            <tr>
-              <th>Household member</th>
-              <th>Amount available</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users &&
-              users.map((user) => {
-                return (
-                  <tr key={user._id}>
-                    <td>{user.name}</td>
                     <td>
                       {savings &&
                         incomes &&
@@ -100,24 +82,6 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
                             Number(findTotal(expenses, user))
                         )}
                     </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </Table>
-        <Table>
-          <thead>
-            <tr>
-              <th>Household member</th>
-              <th>Savings for the month</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users &&
-              users.map((user) => {
-                return (
-                  <tr key={user._id}>
-                    <td>{user.name}</td>
                     <td>
                       {savings &&
                         incomes &&
@@ -127,30 +91,31 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
                             Number(findTotal(expenses, user))
                         )}
                     </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </Table>
-        <Table>
-          <thead>
-            <tr>
-              <th>Household member</th>
-              <th>Income current month</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users &&
-              users.map((user) => {
-                return (
-                  <tr key={user._id}>
-                    <td>{user.name}</td>
                     <td>
                       {incomes && formatter.format(findTotal(incomes, user))}
                     </td>
                   </tr>
                 );
               })}
+            <tr>
+              <td>
+                <strong>Totals:</strong>
+              </td>
+              <td>{formatter.format(totalExpenses)}</td>
+              <td>{formatter.format(amountAvailable)}</td>
+              {/* <td>{formatter.format(totalSavings)}</td> */}
+              <td>
+                {incomes &&
+                  expenses &&
+                  formatter.format(
+                    // savings.reduce((acc, saving) => acc + saving.amount, 0) +
+                    incomes.reduce((acc, income) => acc + income.amount, 0) -
+                      expenses.reduce((acc, expense) => acc + expense.amount, 0)
+                  )}
+              </td>
+              <td>{formatter.format(totalIncomes)}</td>
+              <td>{formatter.format(savingsForMonth)}</td>
+            </tr>
           </tbody>
         </Table>
       </Col>
