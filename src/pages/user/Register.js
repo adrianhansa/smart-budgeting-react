@@ -20,7 +20,7 @@ const Register = () => {
   const { loading, user, error } = useSelector((state) => state.auth);
   useEffect(() => {
     if (user) {
-      navigate("/");
+      navigate("/welcome");
     }
   }, [navigate, user]);
   return (
