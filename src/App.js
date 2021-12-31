@@ -16,13 +16,13 @@ import Welcome from "./pages/Welcome";
 import io from "socket.io-client";
 import axios from "axios";
 import Savings from "./pages/savings/Savings";
-import { URL } from "./constants/url";
+// import { URL } from "./constants/url";
 axios.defaults.withCredentials = true;
 
 const socket = io.connect("http://localhost:5000");
 
 const App = () => {
-  console.log(URL);
+  // console.log(URL);
   return (
     <Provider store={store}>
       <BrowserRouter>
