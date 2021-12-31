@@ -10,8 +10,16 @@ import ExpensePreview from "./ExpensePreview";
 import TotalExpensesByAccounts from "../reports/TotalExpensesByAccounts";
 import SavingsCurentMonth from "../reports/SavingsCurentMonth";
 import Loading from "../../components/Loading";
+import Pagination from "../../components/Pagination";
 
 const Expenses = ({ socket }) => {
+  const [currentItems, setCurrentItems] = useState(null);
+  const [pageCount, setPageCount] = useState(0);
+  // Here we use item offsets; we could also use page offsets
+  // following the API or data you're working with.
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
+
   const [showExpense, setShowExpense] = useState(false);
 
   const dispatch = useDispatch();
@@ -26,6 +34,20 @@ const Expenses = ({ socket }) => {
   const [date, setDate] = useState(
     `${new Date().getFullYear()}-${new Date().getMonth() + 1}`
   );
+
+  useEffect(() => {
+    // Fetch items from another resources.
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(expenses && expenses.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(expenses && expenses.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, expenses]);
+
+  // Invoke when user click to request another page.
+  const handlePageClick = (event) => {
+    const newOffset =
+      expenses && (event.selected * itemsPerPage) % expenses.length;
+    setItemOffset(newOffset);
+  };
 
   useEffect(() => {
     socket.on("expense-created", (data) => {
@@ -124,8 +146,8 @@ const Expenses = ({ socket }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {expenses &&
-                    expenses.map((expense) => {
+                  {currentItems &&
+                    currentItems.map((expense) => {
                       return (
                         <tr key={expense._id}>
                           <ExpensePreview
@@ -139,6 +161,26 @@ const Expenses = ({ socket }) => {
                     })}
                 </tbody>
               </Table>
+              <Pagination
+                pageCount={pageCount}
+                handlePageClick={handlePageClick}
+              />
+              {/* <ReactPaginate
+                previousLabel={"<<"}
+                nextLabel={">>"}
+                pageCount={pageCount}
+                breakLabel={"..."}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={3}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination justify-content-center"}
+                pageClassName={"page-item"}
+                pageLinkClassName={"page-link"}
+                previousLinkClassName={"page-link"}
+                nextLinkClassName={"page-link"}
+                breakLinkClassName={"page-link"}
+                activeClassName={"active"}
+              /> */}
             </Col>
             <Col>
               <TotalExpensesByAccounts expenses={expenses} socket={socket} />
