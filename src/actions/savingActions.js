@@ -16,19 +16,20 @@ import {
   UPDATE_SAVING_REQUEST,
   UPDATE_SAVING_SUCCESS,
 } from "../constants/savingConstans";
+import { URL } from "../constants/url";
 
 export const addSaving =
   ({ amount, month, year }) =>
   async (dispatch) => {
     try {
       dispatch({ type: ADD_SAVING_REQUEST });
-      const { data } = await axios.post("http://localhost:5000/savings", {
+      const { data } = await axios.post(`${URL}/savings`, {
         amount,
         month,
         year,
       });
       dispatch({ type: ADD_SAVING_SUCCESS, payload: data });
-      const result = await axios.get(`http://localhost:5000/savings`);
+      const result = await axios.get(`${URL}/savings`);
       dispatch({ type: GET_SAVINGS_SUCCESS, payload: result.data });
     } catch (error) {
       dispatch({
@@ -46,9 +47,7 @@ export const getSaving =
   async (dispatch) => {
     try {
       dispatch({ type: GET_SAVING_BY_MONTH_AND_YEAR_REQUEST });
-      const { data } = await axios.get(
-        `http://localhost:5000/savings/${year}/${month}`
-      );
+      const { data } = await axios.get(`${URL}/savings/${year}/${month}`);
       dispatch({ type: GET_SAVING_BY_MONTH_AND_YEAR_SUCCESS, payload: data });
     } catch (error) {
       dispatch({
@@ -64,9 +63,9 @@ export const getSaving =
 export const deleteSaving = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_SAVING_REQUEST });
-    const { data } = await axios.delete(`http://localhost:5000/savings/${id}`);
+    const { data } = await axios.delete(`${URL}/savings/${id}`);
     dispatch({ type: DELETE_SAVING_SUCCESS, payload: data });
-    const result = await axios.get(`http://localhost:5000/savings`);
+    const result = await axios.get(`${URL}/savings`);
     dispatch({ type: GET_SAVINGS_SUCCESS, payload: result.data });
   } catch (error) {
     dispatch({
@@ -84,11 +83,11 @@ export const updateSaving =
   async (dispatch) => {
     try {
       dispatch({ type: UPDATE_SAVING_REQUEST });
-      const { data } = await axios.put(`http://localhost:5000/savings/${id}`, {
+      const { data } = await axios.put(`${URL}/savings/${id}`, {
         amount,
       });
       dispatch({ type: UPDATE_SAVING_SUCCESS, payload: data });
-      const result = await axios.get(`http://localhost:5000/savings`);
+      const result = await axios.get(`${URL}/savings`);
       dispatch({ type: GET_SAVINGS_SUCCESS, payload: result.data });
     } catch (error) {
       dispatch({
@@ -104,7 +103,7 @@ export const updateSaving =
 export const getSavings = () => async (dispatch) => {
   try {
     dispatch({ type: GET_SAVINGS_REQUEST });
-    const { data } = await axios.get(`http://localhost:5000/savings`);
+    const { data } = await axios.get(`${URL}/savings`);
     dispatch({ type: GET_SAVINGS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({

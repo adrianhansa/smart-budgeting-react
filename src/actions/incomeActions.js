@@ -19,13 +19,14 @@ import {
   UPDATE_INCOME_REQUEST,
   UPDATE_INCOME_SUCCESS,
 } from "../constants/incomeConstants";
+import { URL } from "../constants/url";
 
 export const addIncome =
   ({ amount, date, description }) =>
   async (dispatch) => {
     try {
       dispatch({ type: ADD_INCOME_REQUEST });
-      const { data } = await axios.post("http://localhost:5000/income", {
+      const { data } = await axios.post(`${URL}/income`, {
         amount,
         date,
         description,
@@ -47,7 +48,7 @@ export const updateIncome =
   async (dispatch) => {
     try {
       dispatch({ type: UPDATE_INCOME_REQUEST });
-      const { data } = await axios.put(`http://localhost:5000/income/${id}`, {
+      const { data } = await axios.put(`${URL}/income/${id}`, {
         amount,
         date,
         description,
@@ -67,7 +68,7 @@ export const updateIncome =
 export const getIncome = (id) => async (dispatch) => {
   try {
     dispatch({ type: GET_INCOME_REQUEST });
-    const { data } = await axios.get(`http://localhost:5000/income/${id}`);
+    const { data } = await axios.get(`${URL}/income/${id}`);
     dispatch({ type: GET_INCOME_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -83,7 +84,7 @@ export const getIncome = (id) => async (dispatch) => {
 export const deleteIncome = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_INCOME_REQUEST });
-    const { data } = await axios.delete(`http://localhost:5000/income/${id}`);
+    const { data } = await axios.delete(`${URL}/income/${id}`);
     dispatch({ type: DELETE_INCOME_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -99,7 +100,7 @@ export const deleteIncome = (id) => async (dispatch) => {
 export const getIncomes = () => async (dispatch) => {
   try {
     dispatch({ type: GET_INCOMES_REQUEST });
-    const result = await axios.get(`http://localhost:5000/income`);
+    const result = await axios.get(`${URL}/income`);
     dispatch({ type: GET_INCOMES_SUCCESS, payload: result.data });
   } catch (error) {
     dispatch({
@@ -115,9 +116,7 @@ export const getIncomes = () => async (dispatch) => {
 export const getIncomesByMonthAndYear = (month, year) => async (dispatch) => {
   try {
     dispatch({ type: GET_INCOMES_BY_MONTH_AND_YEAR_REQUEST });
-    const { data } = await axios.get(
-      `http://localhost:5000/income/${month}/${year}`
-    );
+    const { data } = await axios.get(`${URL}/income/${month}/${year}`);
     dispatch({ type: GET_INCOMES_BY_MONTH_AND_YEAR_SUCCESS, payload: data });
   } catch (error) {
     dispatch({

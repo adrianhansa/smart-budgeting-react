@@ -10,11 +10,12 @@ import {
   GET_EVENTS_REQUEST,
   GET_EVENTS_SUCCESS,
 } from "../constants/eventConstants";
+import { URL } from "../constants/url";
 
 export const getEvents = () => async (dispatch) => {
   try {
     dispatch({ type: GET_EVENTS_REQUEST });
-    const { data } = await axios.get("http://localhost:5000/events");
+    const { data } = await axios.get(`${URL}/events`);
     dispatch({ type: GET_EVENTS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -30,9 +31,9 @@ export const getEvents = () => async (dispatch) => {
 export const deleteEvent = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_EVENT_REQUEST });
-    const { data } = await axios.delete(`http://localhost:5000/events/${id}`);
+    const { data } = await axios.delete(`${URL}/events/${id}`);
     dispatch({ type: DELETE_EVENT_SUCCESS, payload: data });
-    const result = await axios.get("http://localhost:5000/events");
+    const result = await axios.get(`${URL}/events`);
     dispatch({ type: GET_EVENTS_SUCCESS, payload: result.data });
   } catch (error) {
     dispatch({
@@ -48,9 +49,9 @@ export const deleteEvent = (id) => async (dispatch) => {
 export const archiveEvent = (id) => async (dispatch) => {
   try {
     dispatch({ type: ARCHIVE_EVENT_REQUEST });
-    const { data } = await axios.delete(`http://localhost:5000/events/${id}`);
+    const { data } = await axios.delete(`${URL}/events/${id}`);
     dispatch({ type: ARCHIVE_EVENT_SUCCESS, payload: data });
-    const result = await axios.get("http://localhost:5000/events");
+    const result = await axios.get(`${URL}/events`);
     dispatch({ type: GET_EVENTS_SUCCESS, payload: result.data });
   } catch (error) {
     dispatch({

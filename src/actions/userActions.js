@@ -17,13 +17,14 @@ import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
 } from "../constants/userConstants";
+import { URL } from "../constants/url";
 
 export const register =
   ({ email, password, household, name, passwordVerify }) =>
   async (dispatch) => {
     try {
       dispatch({ type: REGISTER_REQUEST });
-      const { data } = await axios.post(`http://localhost:5000/register`, {
+      const { data } = await axios.post(`${URL}/register`, {
         email,
         password,
         passwordVerify,
@@ -48,7 +49,7 @@ export const login =
   async (dispatch) => {
     try {
       dispatch({ type: LOGIN_REQUEST });
-      const { data } = await axios.post("http://localhost:5000/login", {
+      const { data } = await axios.post(`${URL}/login`, {
         email,
         password,
       });
@@ -67,7 +68,7 @@ export const login =
 
 export const logout = () => async (dispatch) => {
   dispatch({ type: LOGOUT });
-  await axios.get("http://localhost:5000/logout");
+  await axios.get(`${URL}/logout`);
   localStorage.removeItem("auth");
 };
 
@@ -76,14 +77,14 @@ export const addUser =
   async (dispatch) => {
     try {
       dispatch({ type: ADD_USER_REQUEST });
-      const { data } = await axios.post("http://localhost:5000/add-user", {
+      const { data } = await axios.post(`${URL}/add-user`, {
         name,
         email,
         password,
         passwordVerify,
       });
       dispatch({ type: ADD_USER_SUCCESS, payload: data });
-      const result = await axios.get("http://localhost:5000/users");
+      const result = await axios.get(`${URL}/users`);
       dispatch({ type: GET_USERS_SUCCESS, payload: result.data.users });
     } catch (error) {
       dispatch({
@@ -103,7 +104,7 @@ export const deleteUser = (id) => async (dispatch) => {
       `http://localhost:5000/delete-user/${id}`
     );
     dispatch({ type: DELETE_USER_SUCCESS, payload: data });
-    const result = await axios.get("http://localhost:5000/users");
+    const result = await axios.get(`${URL}/users`);
     dispatch({ type: GET_USERS_SUCCESS, payload: result.data.users });
   } catch (error) {
     dispatch({
@@ -119,7 +120,7 @@ export const deleteUser = (id) => async (dispatch) => {
 export const getUsers = () => async (dispatch) => {
   try {
     dispatch({ type: GET_USERS_REQUEST });
-    const { data } = await axios.get("http://localhost:5000/users");
+    const { data } = await axios.get(`${URL}/users`);
     dispatch({ type: GET_USERS_SUCCESS, payload: data.users });
   } catch (error) {
     dispatch({

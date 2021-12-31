@@ -19,13 +19,14 @@ import {
   UPDATE_EXPENSE_REQUEST,
   UPDATE_EXPENSE_SUCCESS,
 } from "../constants/expensesConstants";
+import { URL } from "../constants/url";
 
 export const addExpense =
   ({ amount, date, description, account }) =>
   async (dispatch) => {
     try {
       dispatch({ type: ADD_EXPENSE_REQUEST });
-      const { data } = await axios.post("http://localhost:5000/expenses", {
+      const { data } = await axios.post(`${URL}/expenses`, {
         amount,
         date,
         description,
@@ -48,7 +49,7 @@ export const updateExpense =
   async (dispatch) => {
     try {
       dispatch({ type: UPDATE_EXPENSE_REQUEST });
-      const { data } = await axios.put(`http://localhost:5000/expenses/${id}`, {
+      const { data } = await axios.put(`${URL}/expenses/${id}`, {
         amount,
         date,
         description,
@@ -69,7 +70,7 @@ export const updateExpense =
 export const getExpense = (id) => async (dispatch) => {
   try {
     dispatch({ type: GET_EXPENSE_REQUEST });
-    const { data } = await axios.get(`http://localhost:5000/expenses/${id}`);
+    const { data } = await axios.get(`${URL}/expenses/${id}`);
     dispatch({ type: GET_EXPENSE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -85,7 +86,7 @@ export const getExpense = (id) => async (dispatch) => {
 export const deleteExpense = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_EXPENSE_REQUEST });
-    const { data } = await axios.delete(`http://localhost:5000/expenses/${id}`);
+    const { data } = await axios.delete(`${URL}/expenses/${id}`);
     dispatch({ type: DELETE_EXPENSE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -101,7 +102,7 @@ export const deleteExpense = (id) => async (dispatch) => {
 export const getExpenses = () => async (dispatch) => {
   try {
     dispatch({ type: GET_EXPENSES_REQUEST });
-    const result = await axios.get(`http://localhost:5000/expenses`);
+    const result = await axios.get(`${URL}/expenses`);
     dispatch({ type: GET_EXPENSES_SUCCESS, payload: result.data });
   } catch (error) {
     dispatch({
@@ -117,9 +118,7 @@ export const getExpenses = () => async (dispatch) => {
 export const getExpensesByMonthAndYear = (month, year) => async (dispatch) => {
   try {
     dispatch({ type: GET_EXPENSES_BY_MONTH_AND_YEAR_REQUEST });
-    const { data } = await axios.get(
-      `http://localhost:5000/expenses/${month}/${year}`
-    );
+    const { data } = await axios.get(`${URL}/expenses/${month}/${year}`);
     dispatch({ type: GET_EXPENSES_BY_MONTH_AND_YEAR_SUCCESS, payload: data });
   } catch (error) {
     dispatch({

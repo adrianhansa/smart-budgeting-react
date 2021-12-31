@@ -16,11 +16,12 @@ import {
   UPDATE_ACCOUNT_REQUEST,
   UPDATE_ACCOUNT_SUCCESS,
 } from "../constants/accountConstants";
+import { URL } from "../constants/url";
 
 export const getAccounts = () => async (dispatch) => {
   try {
     dispatch({ type: GET_ACCOUNTS_REQUEST });
-    const { data } = await axios.get("http://localhost:5000/accounts");
+    const { data } = await axios.get(`${URL}/accounts`);
     dispatch({ type: GET_ACCOUNTS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -36,7 +37,7 @@ export const getAccounts = () => async (dispatch) => {
 export const getAccount = (id) => async (dispatch) => {
   try {
     dispatch({ type: GET_ACCOUNT_REQUEST });
-    const { data } = await axios.get(`http://localhost:5000/accounts/${id}`);
+    const { data } = await axios.get(`${URL}/accounts/${id}`);
     dispatch({ type: GET_ACCOUNT_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -54,12 +55,12 @@ export const addAccount =
   async (dispatch) => {
     try {
       dispatch({ type: ADD_ACCOUNT_REQUEST });
-      const { data } = await axios.post(`http://localhost:5000/accounts/`, {
+      const { data } = await axios.post(`${URL}/accounts/`, {
         name,
         budget,
       });
       dispatch({ type: ADD_ACCOUNT_SUCCESS, payload: data });
-      const result = await axios.get("http://localhost:5000/accounts");
+      const result = await axios.get(`${URL}/accounts`);
       dispatch({ type: GET_ACCOUNTS_SUCCESS, payload: result.data });
     } catch (error) {
       dispatch({
@@ -77,12 +78,12 @@ export const updateAccount =
   async (dispatch) => {
     try {
       dispatch({ type: UPDATE_ACCOUNT_REQUEST });
-      const { data } = await axios.put(`http://localhost:5000/accounts/${id}`, {
+      const { data } = await axios.put(`${URL}/accounts/${id}`, {
         name,
         budget,
       });
       dispatch({ type: UPDATE_ACCOUNT_SUCCESS, payload: data });
-      const result = await axios.get("http://localhost:5000/accounts");
+      const result = await axios.get(`${URL}/accounts`);
       dispatch({ type: GET_ACCOUNTS_SUCCESS, payload: result.data });
     } catch (error) {
       dispatch({
@@ -98,9 +99,9 @@ export const updateAccount =
 export const deleteAccount = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_ACCOUNT_REQUEST });
-    const { data } = await axios.delete(`http://localhost:5000/accounts/${id}`);
+    const { data } = await axios.delete(`${URL}/accounts/${id}`);
     dispatch({ type: DELETE_ACCOUNT_SUCCESS, payload: data });
-    const result = await axios.get("http://localhost:5000/accounts");
+    const result = await axios.get(`${URL}/accounts`);
     dispatch({ type: GET_ACCOUNTS_SUCCESS, payload: result.data });
   } catch (error) {
     dispatch({
