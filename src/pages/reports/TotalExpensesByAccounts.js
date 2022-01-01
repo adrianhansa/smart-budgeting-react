@@ -117,9 +117,7 @@ const TotalExpensesByAccounts = ({ expenses }) => {
                               accountName={account.name}
                               expense={
                                 expenses &&
-                                formatter.format(
-                                  totalExpensesByBudget(expenses, account)
-                                )
+                                totalExpensesByBudget(expenses, account)
                               }
                               budget={account.budget}
                             />

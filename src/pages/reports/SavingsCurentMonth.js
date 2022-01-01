@@ -17,7 +17,7 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [totalIncomes, setTotalIncomes] = useState(0);
   const [totalBudget, setTotalBudget] = useState(0);
-  const [savingsForMonth, setSavingsForMonth] = useState(0);
+  // const [savingsForMonth, setSavingsForMonth] = useState(0);
   const [totalSavings, setTotalSavings] = useState(0);
   const [amountAvailable, setAmountAvailable] = useState(0);
 
@@ -41,11 +41,19 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
       setTotalExpenses(
         expenses.reduce((acc, expense) => acc + expense.amount, 0)
       );
-    setSavingsForMonth(totalIncomes - totalExpenses);
+    // setSavingsForMonth(totalIncomes - totalExpenses);
     savings &&
       setTotalSavings(savings.reduce((acc, saving) => acc + saving.amount, 0));
     setAmountAvailable(totalSavings + totalIncomes - totalExpenses);
-  }, [accounts, expenses, incomes, totalIncomes, totalExpenses, savings]);
+  }, [
+    accounts,
+    expenses,
+    incomes,
+    totalIncomes,
+    totalExpenses,
+    savings,
+    totalSavings,
+  ]);
   return (
     <Row>
       <Col md={12} lg={12}>
@@ -104,12 +112,10 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
               </td>
               <td>{formatter.format(totalExpenses)}</td>
               <td>{formatter.format(amountAvailable)}</td>
-              {/* <td>{formatter.format(totalSavings)}</td> */}
               <td>
                 {incomes &&
                   expenses &&
                   formatter.format(
-                    // savings.reduce((acc, saving) => acc + saving.amount, 0) +
                     incomes.reduce((acc, income) => acc + income.amount, 0) -
                       expenses.reduce((acc, expense) => acc + expense.amount, 0)
                   )}

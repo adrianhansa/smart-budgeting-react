@@ -9,9 +9,7 @@ import Loading from "../../components/Loading";
 
 const Savings = ({ socket }) => {
   const [show, setShow] = useState(false);
-  const [date, setDate] = useState(
-    `${new Date().getFullYear()}-${new Date().getMonth() + 1}`
-  );
+  const date = `${new Date().getFullYear()}-${new Date().getMonth() + 1}`;
   const handleClose = () => {
     setShow(false);
     dispatch(getSavings(date.split("-")[1], date.split("-")[0]));

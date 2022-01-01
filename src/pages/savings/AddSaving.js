@@ -7,7 +7,6 @@ import * as yup from "yup";
 import Loading from "../../components/Loading";
 
 const AddSaving = ({ show, handleClose }) => {
-  const { user } = useSelector((state) => state.auth);
   const { loading, error } = useSelector((state) => state.savingDetails);
   const dispatch = useDispatch();
 

@@ -118,8 +118,11 @@ export const getExpenses = () => async (dispatch) => {
 export const getExpensesByMonthAndYear = (month, year) => async (dispatch) => {
   try {
     dispatch({ type: GET_EXPENSES_BY_MONTH_AND_YEAR_REQUEST });
-    const { data } = await axios.get(`${URL}/expenses/${month}/${year}`);
-    dispatch({ type: GET_EXPENSES_BY_MONTH_AND_YEAR_SUCCESS, payload: data });
+    const response = await axios.get(`${URL}/expenses/${month}/${year}`);
+    dispatch({
+      type: GET_EXPENSES_BY_MONTH_AND_YEAR_SUCCESS,
+      payload: response.data,
+    });
   } catch (error) {
     dispatch({
       type: GET_EXPENSES_BY_MONTH_AND_YEAR_FAIL,
