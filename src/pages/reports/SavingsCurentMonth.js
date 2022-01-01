@@ -5,10 +5,13 @@ import { getSavings } from "../../actions/savingActions";
 import { getUsers } from "../../actions/userActions";
 import { formatter } from "../../utils/currencyFormatter";
 import Loading from "../../components/Loading";
+import { BiSave } from "react-icons/bi";
+import { addSaving } from "../../actions/savingActions";
 
-const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
+const SavingsCurrentMonth = ({ accounts, expenses, incomes, month, year }) => {
   const dispatch = useDispatch();
   const { savings, loading, error } = useSelector((state) => state.savingList);
+  const auth = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.userList);
   useEffect(() => {
     dispatch(getSavings());
@@ -17,7 +20,6 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [totalIncomes, setTotalIncomes] = useState(0);
   const [totalBudget, setTotalBudget] = useState(0);
-  // const [savingsForMonth, setSavingsForMonth] = useState(0);
   const [totalSavings, setTotalSavings] = useState(0);
   const [amountAvailable, setAmountAvailable] = useState(0);
 
@@ -41,7 +43,6 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
       setTotalExpenses(
         expenses.reduce((acc, expense) => acc + expense.amount, 0)
       );
-    // setSavingsForMonth(totalIncomes - totalExpenses);
     savings &&
       setTotalSavings(savings.reduce((acc, saving) => acc + saving.amount, 0));
     setAmountAvailable(totalSavings + totalIncomes - totalExpenses);
@@ -98,6 +99,27 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes }) => {
                           Number(findTotal(incomes, user)) -
                             Number(findTotal(expenses, user))
                         )}
+                      <span className="m-2">
+                        {user._id === auth.user.id && (
+                          <BiSave
+                            type="button"
+                            title="Record current month savings"
+                            color="green"
+                            size={18}
+                            onClick={() =>
+                              dispatch(
+                                addSaving({
+                                  amount:
+                                    Number(findTotal(incomes, user)) -
+                                    Number(findTotal(expenses, user)),
+                                  month,
+                                  year,
+                                })
+                              )
+                            }
+                          />
+                        )}
+                      </span>
                     </td>
                     <td>
                       {incomes && formatter.format(findTotal(incomes, user))}

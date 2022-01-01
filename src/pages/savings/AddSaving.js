@@ -27,7 +27,6 @@ const AddSaving = ({ show, handleClose }) => {
           amount: 0.0,
         }}
         onSubmit={(values) => {
-          console.log(values.date);
           dispatch(
             addSaving({
               amount: values.amount,

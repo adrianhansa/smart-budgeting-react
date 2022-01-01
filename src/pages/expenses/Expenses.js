@@ -100,6 +100,8 @@ const Expenses = ({ socket }) => {
                 incomes={incomes}
                 expenses={expenses}
                 accounts={accounts}
+                month={date.split("-")[1]}
+                year={date.split("-")[0]}
               />
               <Row>
                 <Col sm={8}>
