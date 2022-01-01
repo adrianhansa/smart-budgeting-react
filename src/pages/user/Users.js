@@ -39,8 +39,9 @@ const Users = () => {
               <Table striped bordered hover>
                 <thead>
                   <tr>
-                    <th width="40%">Name</th>
-                    <th width="40%">Email address</th>
+                    <th width="35%">Name</th>
+                    <th width="35%">Email address</th>
+                    <th width="10%">Is Admin</th>
                     <th width="10%">Edit</th>
                     <th width="10%">Delete</th>
                   </tr>

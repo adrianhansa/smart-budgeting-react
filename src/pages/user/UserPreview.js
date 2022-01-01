@@ -1,11 +1,13 @@
 import React from "react";
 import { BiEditAlt } from "react-icons/bi";
 import { RiDeleteBin5Line } from "react-icons/ri";
-import { deleteUser } from "../../actions/userActions";
-import { useDispatch } from "react-redux";
+import { deleteUser, toggleAdmin } from "../../actions/userActions";
+import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import { Form } from "react-bootstrap";
 
 const UserPreview = ({ user }) => {
+  const auth = useSelector((state) => state.auth);
   const handleDelete = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -33,6 +35,19 @@ const UserPreview = ({ user }) => {
     <tr>
       <td>{user.name}</td>
       <td>{user.email}</td>
+      <td>
+        {user._id !== auth.user.id && (
+          <Form>
+            <Form.Check
+              type="switch"
+              id="custom-switch"
+              label={user.isAdmin ? "is admin" : "is not admin"}
+              onChange={() => dispatch(toggleAdmin(user._id, !user.isAdmin))}
+              checked={user.isAdmin}
+            />
+          </Form>
+        )}
+      </td>
       <td>
         <BiEditAlt type="button" onClick={() => console.log("Edit user")} />
       </td>
