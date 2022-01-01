@@ -18,7 +18,9 @@ const Incomes = ({ socket }) => {
   };
 
   const [date, setDate] = useState(
-    `${new Date().getFullYear()}-${new Date().getMonth() + 1}`
+    `${new Date().getFullYear()}-${("0" + (new Date().getMonth() + 1)).slice(
+      -2
+    )}`
   );
 
   useEffect(() => {
