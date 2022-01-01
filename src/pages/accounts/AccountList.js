@@ -9,7 +9,6 @@ import Loading from "../../components/Loading";
 import { formatter } from "../../utils/currencyFormatter";
 
 const AccountList = () => {
-  const [totalBudget, setTotalBudget] = useState(0);
   const { user } = useSelector((state) => state.auth);
 
   const [show, setShow] = useState(false);
@@ -24,10 +23,7 @@ const AccountList = () => {
 
   useEffect(() => {
     dispatch(getAccounts());
-    setTotalBudget(
-      accounts && accounts.reduce((acc, account) => acc + account.budget, 0)
-    );
-  }, [dispatch, accounts]);
+  }, [dispatch]);
   return (
     <Container fluid>
       <Row>
@@ -43,7 +39,10 @@ const AccountList = () => {
             )}
           </h2>
           <h5 className="text-secondary text-center">
-            {formatter.format(totalBudget)}
+            {accounts &&
+              formatter.format(
+                accounts.reduce((acc, account) => acc + account.budget, 0)
+              )}
           </h5>
           {accountDetails.error && (
             <p className="text-danger text-center">{accountDetails.error}</p>

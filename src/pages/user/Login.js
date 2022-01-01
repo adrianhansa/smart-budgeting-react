@@ -53,7 +53,7 @@ const Login = () => {
                         {props.touched && <p>{props.errors.email}</p>}
                       </Form.Group>
                       <Form.Group className="mb-3">
-                        <Form.Label>Email address</Form.Label>
+                        <Form.Label>Password</Form.Label>
                         <Form.Control
                           type="password"
                           value={props.values.password}
