@@ -27,7 +27,7 @@ const AccountList = () => {
     setTotalBudget(
       accounts && accounts.reduce((acc, account) => acc + account.budget, 0)
     );
-  }, [dispatch]);
+  }, [dispatch, accounts]);
   return (
     <Container fluid>
       <Row>
