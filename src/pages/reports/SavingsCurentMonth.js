@@ -59,6 +59,10 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes, month, year }) => {
         {loading && <Loading />}
         {error && <p className="text-danger">{error}</p>}
         <h3>Incomes, Expenses and Savings</h3>
+        <p className="text-secondary">
+          Predicted monthly savings:{" "}
+          {formatter.format(totalIncomes - totalBudget)}
+        </p>
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -67,8 +71,6 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes, month, year }) => {
               <th>Income current month</th>
               <th>Monthly expenses</th>
               <th>Left available</th>
-
-              <th>Predicted savings</th>
             </tr>
           </thead>
           <tbody>
@@ -117,8 +119,6 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes, month, year }) => {
                         )}
                       </span>
                     </td>
-
-                    <td></td>
                   </tr>
                 );
               })}
@@ -137,8 +137,6 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes, month, year }) => {
                       expenses.reduce((acc, expense) => acc + expense.amount, 0)
                   )}
               </td>
-
-              <td>{formatter.format(totalIncomes - totalBudget)}</td>
             </tr>
           </tbody>
         </Table>

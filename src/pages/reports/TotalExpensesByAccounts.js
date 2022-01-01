@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Col, Row, Table } from "react-bootstrap";
 import { getAccounts } from "../../actions/accountActions";
 import { useDispatch, useSelector } from "react-redux";
-import MyChart from "../charts/MyChart";
+// import MyChart from "../charts/MyChart";
 import { GoGraph } from "react-icons/go";
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
@@ -113,14 +113,26 @@ const TotalExpensesByAccounts = ({ expenses }) => {
                       {toggleGraphs && (
                         <tr>
                           <td colSpan="3">
-                            <MyChart
+                            {expenses &&
+                              expenses.map((expense) => {
+                                return (
+                                  expense.account._id === account._id && (
+                                    <li>
+                                      {expense.user.name} spent on{" "}
+                                      {expense.date} for {expense.description} -{" "}
+                                      {formatter.format(expense.amount)}
+                                    </li>
+                                  )
+                                );
+                              })}
+                            {/* <MyChart
                               accountName={account.name}
                               expense={
                                 expenses &&
                                 totalExpensesByBudget(expenses, account)
                               }
                               budget={account.budget}
-                            />
+                            /> */}
                           </td>
                           <td>
                             <div style={{ width: 80 }}>
