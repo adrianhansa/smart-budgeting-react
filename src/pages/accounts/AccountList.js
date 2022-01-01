@@ -6,8 +6,10 @@ import { GrAddCircle } from "react-icons/gr";
 import AddAccount from "./AddAccount";
 import AccountPreview from "./AccountPreview";
 import Loading from "../../components/Loading";
+import { formatter } from "../../utils/currencyFormatter";
 
 const AccountList = () => {
+  const [totalBudget, setTotalBudget] = useState(0);
   const { user } = useSelector((state) => state.auth);
 
   const [show, setShow] = useState(false);
@@ -22,6 +24,9 @@ const AccountList = () => {
 
   useEffect(() => {
     dispatch(getAccounts());
+    setTotalBudget(
+      accounts && accounts.reduce((acc, account) => acc + account.budget, 0)
+    );
   }, [dispatch]);
   return (
     <Container fluid>
@@ -37,6 +42,9 @@ const AccountList = () => {
               />
             )}
           </h2>
+          <h5 className="text-secondary text-center">
+            {formatter.format(totalBudget)}
+          </h5>
           {accountDetails.error && (
             <p className="text-danger text-center">{accountDetails.error}</p>
           )}
