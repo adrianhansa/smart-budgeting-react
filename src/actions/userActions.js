@@ -16,6 +16,9 @@ import {
   REGISTER_FAIL,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
+  TOGGLE_USER_ADMIN_FAIL,
+  TOGGLE_USER_ADMIN_REQUEST,
+  TOGGLE_USER_ADMIN_SUCCESS,
 } from "../constants/userConstants";
 import { URL } from "../constants/url";
 
@@ -125,6 +128,24 @@ export const getUsers = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: GET_USERS_FAIL,
+      payload:
+        error.response.data.message && error.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const toggleAdmin = (id, isAdmin) => async (dispatch) => {
+  try {
+    dispatch({ type: TOGGLE_USER_ADMIN_REQUEST });
+    const { data } = await axios.put(`${URL}/toggle-admin/${id}`, { isAdmin });
+    dispatch({ type: TOGGLE_USER_ADMIN_SUCCESS, payload: data });
+    const response = await axios.get(`${URL}/users`);
+    dispatch({ type: GET_USERS_SUCCESS, payload: response.data.users });
+  } catch (error) {
+    dispatch({
+      type: TOGGLE_USER_ADMIN_FAIL,
       payload:
         error.response.data.message && error.message
           ? error.response.data.message

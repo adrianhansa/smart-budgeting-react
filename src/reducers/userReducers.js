@@ -15,6 +15,9 @@ import {
   GET_USERS_REQUEST,
   GET_USERS_SUCCESS,
   GET_USERS_FAIL,
+  TOGGLE_USER_ADMIN_REQUEST,
+  TOGGLE_USER_ADMIN_SUCCESS,
+  TOGGLE_USER_ADMIN_FAIL,
 } from "../constants/userConstants";
 
 export const authReducer = (state = { user: {} }, action) => {
@@ -51,6 +54,12 @@ export const addUserReducer = (state = { addedUser: {} }, action) => {
     case DELETE_USER_SUCCESS:
       return { loading: false, user: action.payload };
     case DELETE_USER_FAIL:
+      return { loading: false, error: action.payload };
+    case TOGGLE_USER_ADMIN_REQUEST:
+      return { loading: true };
+    case TOGGLE_USER_ADMIN_SUCCESS:
+      return { loading: false, user: action.payload };
+    case TOGGLE_USER_ADMIN_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;
