@@ -21,6 +21,7 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes, month, year }) => {
   const [totalIncomes, setTotalIncomes] = useState(0);
   const [totalBudget, setTotalBudget] = useState(0);
   const [totalSavings, setTotalSavings] = useState(0);
+  const [currentBalance, setCurrentBalance] = useState(0);
 
   const findTotal = (list, user) => {
     return list
@@ -44,6 +45,14 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes, month, year }) => {
       );
     savings &&
       setTotalSavings(savings.reduce((acc, saving) => acc + saving.amount, 0));
+    setCurrentBalance(
+      savings &&
+        incomes &&
+        expenses &&
+        Number(savings.reduce((acc, saving) => acc + saving.amount, 0)) +
+          Number(incomes.reduce((acc, income) => acc + income.amount, 0)) -
+          Number(expenses.reduce((acc, expense) => acc + expense.amount, 0))
+    );
   }, [
     accounts,
     expenses,
@@ -59,9 +68,15 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes, month, year }) => {
         {loading && <Loading />}
         {error && <p className="text-danger">{error}</p>}
         <h3>Incomes, Expenses and Savings</h3>
-        <p className="text-secondary">
+        <p>
           Predicted monthly savings:{" "}
-          {formatter.format(totalIncomes - totalBudget)}
+          <span
+            className={
+              totalIncomes - totalBudget >= 0 ? "text-success" : "text-danger"
+            }
+          >
+            {formatter.format(totalIncomes - totalBudget)}
+          </span>
         </p>
         <Table striped bordered hover>
           <thead>
@@ -70,7 +85,8 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes, month, year }) => {
               <th>Total savings</th>
               <th>Income current month</th>
               <th>Monthly expenses</th>
-              <th>Left available</th>
+              <th>Savings current month</th>
+              <th>Current balance</th>
             </tr>
           </thead>
           <tbody>
@@ -119,6 +135,16 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes, month, year }) => {
                         )}
                       </span>
                     </td>
+                    <td>
+                      {savings &&
+                        incomes &&
+                        expenses &&
+                        formatter.format(
+                          Number(findTotal(savings, user)) +
+                            Number(findTotal(incomes, user)) -
+                            Number(findTotal(expenses, user))
+                        )}
+                    </td>
                   </tr>
                 );
               })}
@@ -137,6 +163,7 @@ const SavingsCurrentMonth = ({ accounts, expenses, incomes, month, year }) => {
                       expenses.reduce((acc, expense) => acc + expense.amount, 0)
                   )}
               </td>
+              <td>{formatter.format(currentBalance)}</td>
             </tr>
           </tbody>
         </Table>
