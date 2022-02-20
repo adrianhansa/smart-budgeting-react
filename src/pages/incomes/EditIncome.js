@@ -5,7 +5,7 @@ import { updateIncome } from "../../actions/incomeActions";
 import { Formik } from "formik";
 import * as yup from "yup";
 
-const EditIncome = ({ show, handleClose, income, socket }) => {
+const EditIncome = ({ show, handleClose, income }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const validationSchema = yup.object({
@@ -26,12 +26,6 @@ const EditIncome = ({ show, handleClose, income, socket }) => {
         }}
         onSubmit={(values) => {
           dispatch(updateIncome(income._id, values));
-          socket.emit("income-updated", {
-            user: user,
-            amount: values.amount,
-            description: values.description,
-            date: values.date,
-          });
           handleClose();
         }}
         validationSchema={validationSchema}

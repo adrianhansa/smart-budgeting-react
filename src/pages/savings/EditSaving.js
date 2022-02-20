@@ -5,7 +5,7 @@ import { updateSaving } from "../../actions/savingActions";
 import { Formik } from "formik";
 import * as yup from "yup";
 
-const EditSaving = ({ show, handleClose, saving, socket }) => {
+const EditSaving = ({ show, handleClose, saving }) => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const validationSchema = yup.object({
@@ -22,10 +22,6 @@ const EditSaving = ({ show, handleClose, saving, socket }) => {
         }}
         onSubmit={(values) => {
           dispatch(updateSaving(saving._id, { amount: values.amount }));
-          socket.emit("saving-updated", {
-            user: user,
-            amount: values.amount,
-          });
           handleClose();
         }}
         validationSchema={validationSchema}

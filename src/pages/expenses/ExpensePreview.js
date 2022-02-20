@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import EditExpense from "./EditExpense";
 import { formatter } from "../../utils/currencyFormatter";
 
-const AccountPreview = ({ expense, handleClose, socket }) => {
+const AccountPreview = ({ expense, handleClose }) => {
   const { user } = useSelector((state) => state.auth);
   const [showEditModal, setShowEditModal] = useState(false);
   const handleDelete = () => {
@@ -22,12 +22,6 @@ const AccountPreview = ({ expense, handleClose, socket }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(deleteExpense(expense._id));
-        socket.emit("expense-deleted", {
-          user: user,
-          expense: expense.description,
-          amount: expense.amount,
-          date: expense.date,
-        });
         handleClose();
         Swal.fire({
           position: "bottom-right",
@@ -57,7 +51,6 @@ const AccountPreview = ({ expense, handleClose, socket }) => {
         show={showEditModal}
         handleClose={handleClose}
         expense={expense}
-        socket={socket}
       />
     </>
   );

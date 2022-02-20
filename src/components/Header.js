@@ -4,19 +4,10 @@ import { logout } from "../actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import { Badge, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { getEvents } from "../actions/eventActions";
 
-const Header = ({ socket }) => {
+const Header = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  useEffect(() => {
-    user &&
-      socket.on("event-created", () => {
-        dispatch(getEvents());
-      });
-  }, [dispatch, socket, user]);
-
-  const { events, loading, error } = useSelector((state) => state.eventList);
   const navigate = useNavigate();
 
   return (
@@ -45,18 +36,6 @@ const Header = ({ socket }) => {
                 <>
                   <LinkContainer to="/users">
                     <Nav.Link>Manage Users</Nav.Link>
-                  </LinkContainer>
-                  <LinkContainer to="/events">
-                    <Nav.Link>
-                      Events{" "}
-                      {loading ? (
-                        "..."
-                      ) : events && events.length > 0 ? (
-                        <Badge bg="info">{events.length}</Badge>
-                      ) : (
-                        <span>{error}</span>
-                      )}
-                    </Nav.Link>
                   </LinkContainer>
                 </>
               )}

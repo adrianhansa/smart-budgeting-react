@@ -12,7 +12,7 @@ import SavingsCurentMonth from "../reports/SavingsCurentMonth";
 import Loading from "../../components/Loading";
 import Pagination from "../../components/Pagination";
 
-const Expenses = ({ socket }) => {
+const Expenses = () => {
   const [currentItems, setCurrentItems] = useState(null);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
@@ -47,24 +47,6 @@ const Expenses = ({ socket }) => {
     setItemOffset(newOffset);
   };
 
-  useEffect(() => {
-    socket.on("expense-created", (data) => {
-      dispatch(
-        getExpensesByMonthAndYear(date.split("-")[1], date.split("-")[0])
-      );
-    });
-    socket.on("expense-updated", (data) => {
-      dispatch(
-        getExpensesByMonthAndYear(date.split("-")[1], date.split("-")[0])
-      );
-    });
-    socket.on("expense-deleted", (data) => {
-      dispatch(
-        getExpensesByMonthAndYear(date.split("-")[1], date.split("-")[0])
-      );
-    });
-  }, [date, dispatch, socket]);
-
   const handleDate = (e) => {
     setDate(e.target.value);
     dispatch(
@@ -89,11 +71,7 @@ const Expenses = ({ socket }) => {
     <Container fluid>
       <Row>
         <Col>
-          <AddExpense
-            show={showExpense}
-            handleClose={handleCloseExpense}
-            socket={socket}
-          />
+          <AddExpense show={showExpense} handleClose={handleCloseExpense} />
           <Row className="mt-3 px-5">
             <Col className="mx-auto">
               <SavingsCurentMonth
@@ -152,7 +130,6 @@ const Expenses = ({ socket }) => {
                             expense={expense}
                             key={expense._id}
                             handleClose={handleCloseExpense}
-                            socket={socket}
                           />
                         </tr>
                       );
@@ -165,7 +142,7 @@ const Expenses = ({ socket }) => {
               />
             </Col>
             <Col>
-              <TotalExpensesByAccounts expenses={expenses} socket={socket} />
+              <TotalExpensesByAccounts expenses={expenses} />
             </Col>
           </Row>
         </Col>

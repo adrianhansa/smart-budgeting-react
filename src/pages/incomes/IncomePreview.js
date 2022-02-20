@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import EditIncome from "./EditIncome";
 import { formatter } from "../../utils/currencyFormatter";
 
-const IncomePreview = ({ income, handleClose, socket }) => {
+const IncomePreview = ({ income, handleClose }) => {
   const { user } = useSelector((state) => state.auth);
   const [showEditModal, setShowEditModal] = useState(false);
   const handleDelete = () => {
@@ -22,12 +22,6 @@ const IncomePreview = ({ income, handleClose, socket }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(deleteIncome(income._id));
-        socket.emit("income-deleted", {
-          user: user,
-          amount: income.amount,
-          description: income.description,
-          date: income.date,
-        });
         handleClose();
         Swal.fire({
           position: "bottom-right",
@@ -56,7 +50,6 @@ const IncomePreview = ({ income, handleClose, socket }) => {
         show={showEditModal}
         handleClose={handleClose}
         income={income}
-        socket={socket}
       />
     </>
   );

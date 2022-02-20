@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import EditSaving from "./EditSaving";
 import { formatter } from "../../utils/currencyFormatter";
 
-const SavingPreview = ({ saving, handleClose, socket }) => {
+const SavingPreview = ({ saving, handleClose }) => {
   const { user } = useSelector((state) => state.auth);
   const [showEditModal, setShowSavingModal] = useState(false);
   const handleDelete = () => {
@@ -22,13 +22,6 @@ const SavingPreview = ({ saving, handleClose, socket }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(deleteSaving(saving._id));
-        socket.emit("saving-deleted", {
-          user: user,
-          expense: saving.description,
-          amount: saving.amount,
-          month: saving.month,
-          year: saving.year,
-        });
         handleClose();
         Swal.fire({
           position: "bottom-right",
@@ -58,7 +51,6 @@ const SavingPreview = ({ saving, handleClose, socket }) => {
         show={showEditModal}
         handleClose={handleClose}
         saving={saving}
-        socket={socket}
       />
     </>
   );

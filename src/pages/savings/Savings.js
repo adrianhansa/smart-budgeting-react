@@ -7,7 +7,7 @@ import AddSaving from "./AddSaving";
 import SavingPreview from "./SavingPreview";
 import Loading from "../../components/Loading";
 
-const Savings = ({ socket }) => {
+const Savings = () => {
   const [show, setShow] = useState(false);
   const date = `${new Date().getFullYear()}-${(
     "0" +
@@ -54,7 +54,6 @@ const Savings = ({ socket }) => {
                   return (
                     <tr key={saving._id}>
                       <SavingPreview
-                        socket={socket}
                         saving={saving}
                         handleClose={handleClose}
                       />

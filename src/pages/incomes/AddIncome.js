@@ -6,7 +6,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import Loading from "../../components/Loading";
 
-const AddIncome = ({ show, handleClose, socket }) => {
+const AddIncome = ({ show, handleClose }) => {
   const { user } = useSelector((state) => state.auth);
   const { loading, error } = useSelector((state) => state.incomeDetails);
   const dispatch = useDispatch();
@@ -30,13 +30,6 @@ const AddIncome = ({ show, handleClose, socket }) => {
         }}
         onSubmit={(values) => {
           dispatch(addIncome(values));
-          socket.emit("income-created", {
-            user: user,
-            description: values.description,
-            amount: values.amount,
-            date: values.date,
-          });
-
           handleClose();
         }}
         validationSchema={validationSchema}

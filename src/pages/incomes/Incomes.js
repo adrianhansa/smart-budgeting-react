@@ -8,7 +8,7 @@ import IncomePreview from "./IncomePreview";
 import Swal from "sweetalert2";
 import Loading from "../../components/Loading";
 
-const Incomes = ({ socket }) => {
+const Incomes = () => {
   const dispatch = useDispatch();
   const { incomes, loading, error } = useSelector((state) => state.incomeList);
   const [show, setShow] = useState(false);
@@ -24,43 +24,12 @@ const Incomes = ({ socket }) => {
   );
 
   useEffect(() => {
-    socket.on("income-created", (data) => {
-      Swal.fire({
-        position: "bottom-end",
-        icon: "success",
-        title: "A new income was recorded!",
-        showConfirmButton: false,
-        timer: 2000,
-      });
-      dispatch(
-        getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0])
-      );
-    });
-    socket.on("income-updated", (data) => {
-      Swal.fire({
-        position: "bottom-end",
-        icon: "success",
-        title: "Income updated!",
-        showConfirmButton: false,
-        timer: 2000,
-      });
-      dispatch(
-        getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0])
-      );
-    });
-    socket.on("income-deleted", (data) => {
-      Swal.fire({
-        position: "bottom-end",
-        icon: "success",
-        title: "Income deleted!",
-        showConfirmButton: false,
-        timer: 2000,
-      });
-      dispatch(
-        getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0])
-      );
-    });
-  }, [date, dispatch, socket]);
+    dispatch(getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
+
+    dispatch(getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
+
+    dispatch(getIncomesByMonthAndYear(date.split("-")[1], date.split("-")[0]));
+  }, [date, dispatch]);
 
   const handleDate = (e) => {
     setDate(e.target.value);
@@ -79,7 +48,7 @@ const Incomes = ({ socket }) => {
     <Container fluid>
       <Row>
         <Col>
-          <AddIncome show={show} handleClose={handleClose} socket={socket} />
+          <AddIncome show={show} handleClose={handleClose} />
           <Row className="mt-3 px-5">
             <Col className="mx-auto">
               <Row>
@@ -124,7 +93,6 @@ const Incomes = ({ socket }) => {
                           <IncomePreview
                             income={income}
                             handleClose={handleClose}
-                            socket={socket}
                           />
                         </tr>
                       );
